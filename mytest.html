@@ -1,0 +1,38 @@
+---
+layout: page
+description: "纪念历史, 勿忘历史, 真实记录"
+---
+
+<div class="description">
+    <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr 文件夹下图片的网站。</p>
+</div>
+
+<div class="image-container">
+    <img src="{{ site.baseurl }}/qsewr/dasf/erwq/reeqr/rwer/ewqr/{{ page.current_image }}" alt="Image">
+</div>
+
+<div class="pager">
+    {% if page.current_image_index > 1 %}
+    <a href="{{ site.baseurl }}/?image={{ page.current_image_index | minus: 1 }}">上一页</a>
+    {% endif %}
+    {% if page.current_image_index < page.total_images %}
+    <a href="{{ site.baseurl }}/?image={{ page.current_image_index | plus: 1 }}">下一页</a>
+    {% endif %}
+</div>
+
+{% assign image_folder = "qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
+{% assign image_files = site.static_files | where: "path", image_folder %}
+{% assign page.total_images = image_files | size %}
+
+{% if page.total_images > 0 %}
+    {% assign current_image_index = site.data.page_variables.current_image | default: 1 | plus: 0 %}
+    {% assign current_image_index = current_image_index | modulo: page.total_images %}
+    {% if current_image_index == 0 %}
+        {% assign current_image_index = page.total_images %}
+    {% endif %}
+    {% assign page.current_image_index = current_image_index %}
+    {% assign page.current_image = current_image_index | append: ".png" %}
+{% else %}
+    {% assign page.current_image_index = 0 %}
+    {% assign page.current_image = "not_found.png" %}
+{% endif %}
