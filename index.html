@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 我的测试网站
-description: "纪念历史, 勿忘历史, 真实记录"
+description: "aaa"
 permalink: /
 ---
 
@@ -18,7 +18,7 @@ permalink: /
     <div class="image-gallery">
         {% for image in sorted_images %}
             <div class="image-item">
-                <img src="{{ site.baseurl }}/{{ image.path | relative_url }}" alt="{{ image.basename | remove: '.png' }}">
+                <img src="{{ image.path | relative_url }}" alt="{{ image.basename | remove: '.png' }}">
                 <p>{{ image.basename | remove: '.png' }}</p>
             </div>
         {% endfor %}
@@ -33,7 +33,7 @@ permalink: /
         {% for file in site.static_files %}
             {% if file.path contains image_folder and file.extname == '.png' %}
                 <div class="image-item">
-                    <img src="{{ site.baseurl }}/{{ file.path | relative_url }}" alt="{{ file.basename | remove: '.png' }}">
+                    <img src="{{ file.path | relative_url }}" alt="{{ file.basename | remove: '.png' }}">
                     <p>{{ file.basename | remove: '.png' }}</p>
                 </div>
             {% endif %}
