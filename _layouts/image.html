@@ -1,0 +1,50 @@
+<!-- _layouts/image.html -->
+---
+layout: page
+---
+
+<div class="container">
+    <div class="row">
+        <!-- 主内容区域 -->
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 main-content">
+            <div class="description">
+                <p>这是一个展示啊啊啊的网站。</p>
+            </div>
+
+            <div class="image-gallery">
+                <div class="image-item">
+                    <img src="{{ page.image_path | relative_url }}" alt="{{ page.title }}">
+                    <p>{{ page.title }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧图片链接 -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            {% include image_list.html %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .description {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .image-gallery {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .image-item img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+    }
+    .image-item p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+    .main-content {
+        padding: 20px;
+    }
+</style>
