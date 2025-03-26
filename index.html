@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 我的测试网站
-description: "www"
+description: "纪念历史, 勿忘历史, 真实记录"
 permalink: /
 ---
 
@@ -9,7 +9,7 @@ permalink: /
     <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr 文件夹下图片的网站。</p>
 </div>
 
-{% assign image_folder = "qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
+{% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
 {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
 {% assign sorted_images = image_files | sort: "basename" %}
 {% assign page.total_images = sorted_images | size %}
@@ -25,10 +25,15 @@ permalink: /
     </div>
 {% else %}
     <p>抱歉，暂无图片可显示。</p>
-    <!-- 调试信息 -->
     <p>调试：找到 {{ page.total_images }} 张图片</p>
     <p>静态文件总数：{{ site.static_files | size }}</p>
     <p>筛选路径：{{ image_folder }}</p>
+    <!-- 列出所有静态文件路径以进一步调试 -->
+    <ul>
+        {% for file in site.static_files %}
+            <li>{{ file.path }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 <style>
