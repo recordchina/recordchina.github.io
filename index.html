@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 我的网站
-description: "aaa"
+title: 我的测试网站
+description: "描述啊啊啊啊"
 permalink: /:num/
 pagination:
   enabled: true
@@ -14,10 +14,10 @@ pagination:
 ---
 
 <div class="description">
-    <p>这是一个展示水水水水水的网站。
-    这是第二行
-    这是第三行
-    这是第四行
+    <p>这是一个展示的网站。
+    第二行
+    第三行
+    第四行
     </p>
 </div>
 
@@ -44,7 +44,7 @@ pagination:
 
 <!-- 图片展示 -->
 <div class="image-gallery">
-    {% assign current_image = sorted_images | slice: paginator.page | first %}
+    {% assign current_image = sorted_images | slice: paginator.page, 1 | first %}
     {% if current_image %}
         <div class="image-item">
             <img src="{{ current_image.path | relative_url }}" alt="{{ current_image.basename | remove: '.png' }}">
