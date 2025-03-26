@@ -1,23 +1,17 @@
 ---
 layout: page
 title: 我的测试网站
-description: "描述啊啊啊啊"
-permalink: /:num/
-pagination:
-  enabled: true
-  per_page: 1
-  sort_field: basename
-  sort_reverse: false
-  trail:
-    before: 1
-    after: 1
+description: "aaaaa"
 ---
 
 <div class="description">
-    <p>这是一个展示的网站。
+    <p>这是一个展示 文件夹下图片的网站。
     第二行
     第三行
-    第四行
+    </p>
+   <p>这是第二行展示 文件夹下图片的网站。
+    第二行
+    第三行
     </p>
 </div>
 
@@ -29,13 +23,17 @@ pagination:
 {% if paginator.previous_page or paginator.next_page %}
     <div class="pagination top-pagination">
         {% if paginator.previous_page %}
-            <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">上一页</a>
+            {% if paginator.previous_page == 1 %}
+                <a href="/" class="previous">上一页</a>
+            {% else %}
+                <a href="/page{{ paginator.previous_page }}/" class="previous">上一页</a>
+            {% endif %}
         {% else %}
             <span class="previous disabled">上一页</span>
         {% endif %}
         <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
         {% if paginator.next_page %}
-            <a href="{{ paginator.next_page_path | relative_url }}" class="next">下一页</a>
+            <a href="/page{{ paginator.next_page }}/" class="next">下一页</a>
         {% else %}
             <span class="next disabled">下一页</span>
         {% endif %}
@@ -44,7 +42,8 @@ pagination:
 
 <!-- 图片展示 -->
 <div class="image-gallery">
-    {% assign current_image = sorted_images | slice: paginator.page, 1 | first %}
+    {% assign offset = paginator.page | minus: 1 %}
+    {% assign current_image = sorted_images | slice: offset, 1 | first %}
     {% if current_image %}
         <div class="image-item">
             <img src="{{ current_image.path | relative_url }}" alt="{{ current_image.basename | remove: '.png' }}">
@@ -59,13 +58,17 @@ pagination:
 {% if paginator.previous_page or paginator.next_page %}
     <div class="pagination bottom-pagination">
         {% if paginator.previous_page %}
-            <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">上一页</a>
+            {% if paginator.previous_page == 1 %}
+                <a href="/" class="previous">上一页</a>
+            {% else %}
+                <a href="/page{{ paginator.previous_page }}/" class="previous">上一页</a>
+            {% endif %}
         {% else %}
             <span class="previous disabled">上一页</span>
         {% endif %}
         <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
         {% if paginator.next_page %}
-            <a href="{{ paginator.next_page_path | relative_url }}" class="next">下一页</a>
+            <a href="/page{{ paginator.next_page }}/" class="next">下一页</a>
         {% else %}
             <span class="next disabled">下一页</span>
         {% endif %}
@@ -86,7 +89,7 @@ pagination:
     }
     .image-item {
         text-align: center;
-        max-width: 600px; /* 调整图片最大宽度 */
+        max-width: 600px;
     }
     .image-item img {
         max-width: 100%;
