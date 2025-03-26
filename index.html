@@ -1,12 +1,12 @@
 ---
 layout: page
 title: 我的测试网站
-description: "记录"
+description: "www"
 permalink: /
 ---
 
 <div class="description">
-    <p>这是一个我我我我我我我我我的网站。</p>
+    <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr 文件夹下图片的网站。</p>
 </div>
 
 {% assign image_folder = "qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
@@ -25,6 +25,10 @@ permalink: /
     </div>
 {% else %}
     <p>抱歉，暂无图片可显示。</p>
+    <!-- 调试信息 -->
+    <p>调试：找到 {{ page.total_images }} 张图片</p>
+    <p>静态文件总数：{{ site.static_files | size }}</p>
+    <p>筛选路径：{{ image_folder }}</p>
 {% endif %}
 
 <style>
