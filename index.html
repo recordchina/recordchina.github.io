@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 我的测试网站
-description: "啊啊啊"
+description: "纪念历史, 勿忘历史, 真实记录"
 ---
 
 <div class="container">
@@ -9,28 +9,51 @@ description: "啊啊啊"
         <!-- 主内容区域 -->
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 main-content">
             <div class="description">
-                <p>这是一个展示件夹下图片的网站。</p>
+                <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt 文件夹下图片的网站。</p>
             </div>
 
             <div class="image-gallery">
-                <p>请从右侧选择图片查看。</p>
+                {% if page.url == "/" or page.url == "/index.html" %}
+                    <p>请从右侧选择图片查看。</p>
+                {% else %}
+                    {% assign image_path = page.url %}
+                    {% assign filename = image_path | split: '/' | last | remove: '.png' %}
+                    <div class="image-item">
+                        <img src="{{ image_path | relative_url }}" alt="{{ filename }}">
+                        <p>{{ filename }}</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
-        <!-- 右侧图片链接 -->
+        <!-- 右侧图片链接（日历排版） -->
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sidebar">
             <h3>图片列表</h3>
-            <ul class="image-links">
-                {% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt" %}
-                {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
-                {% assign sorted_images = image_files | sort: "basename" %}
-                {% for image in sorted_images %}
-                    {% assign filename = image.basename | remove: ".png" %}
-                    {% assign month = filename | slice: 4, 2 %}
-                    {% assign day = filename | slice: 6, 2 %}
-                    <li><a href="{{ image.path | relative_url }}">{{ month }}月{{ day }}日</a></li>
-                {% endfor %}
-            </ul>
+            {% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt" %}
+            {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
+            {% assign sorted_images = image_files | sort: "basename" %}
+            {% assign months = "01,02,03,04,05,06,07,08,09,10,11,12" | split: "," %}
+            {% for month in months %}
+                {% assign month_images = sorted_images | where_exp: "item", "item.basename contains month" %}
+                {% if month_images.size > 0 %}
+                    <div class="month-section">
+                        <h4>{{ month }}月</h4>
+                        <div class="calendar">
+                            {% for image in month_images %}
+                                {% assign filename = image.basename | remove: ".png" %}
+                                {% assign day = filename | slice: 6, 2 %}
+                                {% assign suffix = filename | slice: 8, 100 %}
+                                <span class="day">
+                                    <a href="{{ image.path | relative_url }}" title="{{ filename }}">{{ day }}{% if suffix %}-{{ suffix }}{% endif %}</a>
+                                </span>
+                                {% if forloop.index | modulo: 7 == 0 %}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -44,6 +67,15 @@ description: "啊啊啊"
         text-align: center;
         margin: 20px 0;
     }
+    .image-item img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+    }
+    .image-item p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
     .main-content {
         padding: 20px;
     }
@@ -51,24 +83,35 @@ description: "啊啊啊"
         padding: 20px;
         background-color: #f9f9f9;
         border-left: 1px solid #ddd;
+        max-height: 80vh;
+        overflow-y: auto;
     }
     .sidebar h3 {
         margin-top: 0;
         font-size: 18px;
         text-align: center;
     }
-    .image-links {
-        list-style: none;
-        padding: 0;
+    .month-section {
+        margin-bottom: 15px;
     }
-    .image-links li {
-        margin: 5px 0;
+    .month-section h4 {
+        font-size: 16px;
+        margin: 10px 0 5px;
     }
-    .image-links a {
+    .calendar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .day {
+        width: 14%;
+        text-align: center;
+    }
+    .day a {
         color: #007bff;
         text-decoration: none;
     }
-    .image-links a:hover {
+    .day a:hover {
         text-decoration: underline;
     }
     @media (max-width: 767px) {
