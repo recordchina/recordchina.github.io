@@ -1,6 +1,7 @@
 ---
 layout: page
-description: "我的纪念"
+description: "纪念历史, 勿忘历史, 真实记录"
+permalink: /images/
 ---
 
 <div class="description">
@@ -13,53 +14,37 @@ description: "我的纪念"
 {% assign page.total_images = sorted_images | size %}
 
 {% if page.total_images > 0 %}
-    {% assign current_image_index = site.data.page_variables.current_image | default: 0 | plus: 0 %}
-    {% assign current_image_index = current_image_index | modulo: page.total_images %}
-    {% assign page.current_image = sorted_images | slice: current_image_index, 1 | first | basename %}
-    {% assign page.current_image_index = current_image_index %}
+    <div class="image-gallery">
+        {% for image in sorted_images %}
+            <div class="image-item">
+                <img src="{{ site.baseurl }}/{{ image.path | relative_url }}" alt="{{ image.basename | remove: '.png' }}">
+                <p>{{ image.basename | remove: '.png' }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% else %}
-    {% assign page.current_image_index = 0 %}
-    {% assign page.current_image = "not_found.png" %}
-{% endif %}
-
-<div class="image-container">
-    <img src="{{ site.baseurl }}/{{ image_folder }}/{{ page.current_image }}" alt="{{ page.current_image | remove: '.png' }}">
-</div>
-
-{% if page.total_images > 1 %}
-<div class="pager">
-    {% if page.current_image_index > 0 %}
-    <a href="{{ site.baseurl }}/?image={{ page.current_image_index | minus: 1 }}">上一页</a>
-    {% endif %}
-    {% if page.current_image_index < page.total_images | minus: 1 %}
-    <a href="{{ site.baseurl }}/?image={{ page.current_image_index | plus: 1 }}">下一页</a>
-    {% endif %}
-</div>
-{% endif %}
-
-{% if page.total_images == 0 %}
     <p>抱歉，暂无图片可显示。</p>
 {% endif %}
 
 <style>
-    .image-container {
-        text-align: center;
+    .image-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
         margin: 20px 0;
     }
-    .image-container img {
+    .image-item {
+        text-align: center;
+        max-width: 300px;
+    }
+    .image-item img {
         max-width: 100%;
         height: auto;
+        border: 1px solid #ddd;
     }
-    .pager {
-        text-align: center;
-        margin: 20px 0;
-    }
-    .pager a {
-        margin: 0 10px;
-        text-decoration: none;
-        color: #007bff;
-    }
-    .pager a:hover {
-        text-decoration: underline;
+    .image-item p {
+        margin: 5px 0;
+        font-size: 14px;
     }
 </style>
