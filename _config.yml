@@ -5,9 +5,9 @@ header-img: img/post-bg-desk.jpg
 email: aaa@gmail.com
 description: "我的测试网站，从此网站不再复杂"
 keyword: "我的测试网站，china"
-url: "https://recordchina.github.io"  # GitHub Pages 实际域名
-baseurl: ""                           # 保持为空
-github_repo: "https://github.com/recordchina/recordchina.github.io.git"  # 你的仓库
+url: "https://recordchina.github.io"
+baseurl: ""
+github_repo: "https://github.com/recordchina/recordchina.github.io.git"
 
 # Sidebar settings
 sidebar: true
@@ -27,3 +27,4 @@ kramdown:
 permalink: pretty
 paginate: 10
 exclude: ["less", "node_modules", "Gruntfile.js", "package.json", "README.md"]
+include: ["qsewr"]  # 强制包含图片文件夹
