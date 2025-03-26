@@ -25,15 +25,20 @@ permalink: /
     </div>
 {% else %}
     <p>抱歉，暂无图片可显示。</p>
-    <p>调试：找到 {{ page.total_images }} 张图片</p>
+    <p>调试：找到 {{ page.total_images | default: 0 }} 张图片</p>
     <p>静态文件总数：{{ site.static_files | size }}</p>
     <p>筛选路径：{{ image_folder }}</p>
-    <!-- 列出所有静态文件路径以进一步调试 -->
-    <ul>
+    <!-- 如果筛选失败，直接使用完整路径测试 -->
+    <div class="image-gallery">
         {% for file in site.static_files %}
-            <li>{{ file.path }}</li>
+            {% if file.path contains image_folder and file.extname == '.png' %}
+                <div class="image-item">
+                    <img src="{{ site.baseurl }}/{{ file.path | relative_url }}" alt="{{ file.basename | remove: '.png' }}">
+                    <p>{{ file.basename | remove: '.png' }}</p>
+                </div>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 {% endif %}
 
 <style>
