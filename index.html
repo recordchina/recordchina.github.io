@@ -8,59 +8,70 @@ description: "纪念历史, 勿忘历史, 真实记录"
     <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt 文件夹下图片的网站。</p>
 </div>
 
-{% assign sorted_images = site.images | sort: "path" %}
+{% assign sorted_images = site.data.images | sort: "path" %}
+{% assign total_images = sorted_images | size %}
+
+<!-- 计算当前页码 -->
+{% if page.url == "/" or page.url == "/index.html" %}
+    {% assign current_page = 1 %}
+{% else %}
+    {% assign current_page = page.url | split: "/" | last | replace: "page", "" | plus: 0 %}
+    {% if current_page == 0 %}
+        {% assign current_page = 1 %}
+    {% endif %}
+{% endif %}
+{% assign offset = current_page | minus: 1 %}
 
 <!-- 顶部导航 -->
-{% if paginator.previous_page or paginator.next_page %}
-    <div class="pagination top-pagination">
-        {% if paginator.previous_page %}
-            {% if paginator.previous_page == 1 %}
-                <a href="/" class="previous">上一页</a>
-            {% else %}
-                <a href="/page{{ paginator.previous_page }}/" class="previous">上一页</a>
-            {% endif %}
+<div class="pagination top-pagination">
+    {% if current_page > 1 %}
+        {% if current_page == 2 %}
+            <a href="/" class="previous">上一页</a>
         {% else %}
-            <span class="previous disabled">上一页</span>
+            <a href="/page{{ current_page | minus: 1 }}/" class="previous">上一页</a>
         {% endif %}
-        <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
-        {% if paginator.next_page %}
-            <a href="/page{{ paginator.next_page }}/" class="next">下一页</a>
-        {% else %}
-            <span class="next disabled">下一页</span>
-        {% endif %}
-    </div>
-{% endif %}
+    {% else %}
+        <span class="previous disabled">上一页</span>
+    {% endif %}
+    <span class="page-number">第 {{ current_page }} 页，共 {{ total_images }} 页</span>
+    {% if current_page < total_images %}
+        <a href="/page{{ current_page | plus: 1 }}/" class="next">下一页</a>
+    {% else %}
+        <span class="next disabled">下一页</span>
+    {% endif %}
+</div>
 
 <!-- 图片展示 -->
 <div class="image-gallery">
-    {% for image in paginator.posts %}
+    {% assign current_image = sorted_images | slice: offset, 1 | first %}
+    {% if current_image %}
         <div class="image-item">
-            <img src="{{ image.path | relative_url }}" alt="{{ image.path | split: '/' | last | remove: '.png' }}">
-            <p>{{ image.path | split: '/' | last | remove: '.png' }}</p>
+            <img src="{{ current_image.path | relative_url }}" alt="{{ current_image.path | split: '/' | last | remove: '.png' }}">
+            <p>{{ current_image.path | split: '/' | last | remove: '.png' }}</p>
         </div>
-    {% endfor %}
+    {% else %}
+        <p>抱歉，暂无图片可显示。</p>
+    {% endif %}
 </div>
 
 <!-- 底部导航 -->
-{% if paginator.previous_page or paginator.next_page %}
-    <div class="pagination bottom-pagination">
-        {% if paginator.previous_page %}
-            {% if paginator.previous_page == 1 %}
-                <a href="/" class="previous">上一页</a>
-            {% else %}
-                <a href="/page{{ paginator.previous_page }}/" class="previous">上一页</a>
-            {% endif %}
+<div class="pagination bottom-pagination">
+    {% if current_page > 1 %}
+        {% if current_page == 2 %}
+            <a href="/" class="previous">上一页</a>
         {% else %}
-            <span class="previous disabled">上一页</span>
+            <a href="/page{{ current_page | minus: 1 }}/" class="previous">上一页</a>
         {% endif %}
-        <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
-        {% if paginator.next_page %}
-            <a href="/page{{ paginator.next_page }}/" class="next">下一页</a>
-        {% else %}
-            <span class="next disabled">下一页</span>
-        {% endif %}
-    </div>
-{% endif %}
+    {% else %}
+        <span class="previous disabled">上一页</span>
+    {% endif %}
+    <span class="page-number">第 {{ current_page }} 页，共 {{ total_images }} 页</span>
+    {% if current_page < total_images %}
+        <a href="/page{{ current_page | plus: 1 }}/" class="next">下一页</a>
+    {% else %}
+        <span class="next disabled">下一页</span>
+    {% endif %}
+</div>
 
 <style>
     .description {
