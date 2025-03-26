@@ -1,23 +1,24 @@
 ---
 layout: page
 title: 我的测试网站
-description: "aaaaa"
+description: "44444"
 ---
 
 <div class="description">
-    <p>这是一个展示 文件夹下图片的网站。
-    第二行
-    第三行
-    </p>
-   <p>这是第二行展示 文件夹下图片的网站。
-    第二行
-    第三行
-    </p>
+    <p>这是一个展示 文件夹下图片的网站。</p>
 </div>
 
 {% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt" %}
 {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
 {% assign sorted_images = image_files | sort: "basename" %}
+
+<!-- 调试信息 -->
+<p>调试：共找到 {{ sorted_images | size }} 张图片</p>
+<ul>
+    {% for image in sorted_images %}
+        <li>{{ image.path }}</li>
+    {% endfor %}
+</ul>
 
 <!-- 顶部导航 -->
 {% if paginator.previous_page or paginator.next_page %}
