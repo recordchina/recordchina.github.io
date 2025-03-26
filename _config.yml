@@ -13,8 +13,18 @@ sidebar: true
 sidebar-about-description: "Goals determine what you're going to be!"
 sidebar-avatar: /img/about-HJ.jpg
 
-# Gems（可选保留，但分页不再依赖此插件）
-# gems: [jekyll-paginate]
+# Gems
+gems: [jekyll-paginate]
+
+# Pagination settings
+paginate: 1
+paginate_path: "/page:num/"
+
+# Collections
+collections:
+  images:
+    output: true
+    permalink: /page:num/
 
 # Markdown settings
 markdown: kramdown
