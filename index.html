@@ -1,15 +1,15 @@
 ---
 layout: page
 title: 我的测试网站
-description: "纪sss录"
+description: "啊啊啊啊啊啊啊啊啊"
 ---
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <!-- 主内容区域 -->
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 main-content">
             <div class="description">
-                <p>这是一个展示 对对对的网站。</p>
+                <p>这是一个展示xxx的网站。</p>
             </div>
 
             <div class="image-gallery">
@@ -18,7 +18,7 @@ description: "纪sss录"
         </div>
 
         <!-- 右侧图片链接 -->
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sidebar-wrapper">
             {% include image_list.html %}
         </div>
     </div>
@@ -35,5 +35,10 @@ description: "纪sss录"
     }
     .main-content {
         padding: 20px;
+    }
+    .sidebar-wrapper {
+        position: sticky;
+        top: 20px;
+        padding: 0;
     }
 </style>
