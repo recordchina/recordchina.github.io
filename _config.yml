@@ -1,17 +1,10 @@
 # Site settings
 title: 我的测试网站
 SEOTitle: 我的测试网站 - 让沟通更容易
-header-img: img/post-bg-desk.jpg
-email: aaa@gmail.com
 description: "我的测试网站，从此网站不再复杂"
 keyword: "我的测试网站，china"
 url: "https://recordchina.github.io"
 baseurl: ""
-
-# Sidebar settings
-sidebar: true
-sidebar-about-description: "Goals determine what you're going to be!"
-sidebar-avatar: /img/about-HJ.jpg
 
 # Markdown settings
 markdown: kramdown
