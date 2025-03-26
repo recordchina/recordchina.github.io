@@ -1,44 +1,55 @@
 ---
 layout: page
-description: "中西融合, 即学即会, 从此不再辛苦背单词"
+title: 我的测试网站
+description: "记录"
+permalink: /
 ---
 
-
-
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">
-            {{ post.title }}
-        </h2>
-        {% if post.subtitle %}
-        <h3 class="post-subtitle">
-            {{ post.subtitle }}
-        </h3>
-        {% endif %}
-        <div class="post-content-preview">
-            {{ post.content | strip_html | truncate:200 }}
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
+<div class="description">
+    <p>这是一个我我我我我我我我我的网站。</p>
 </div>
-<hr>
-{% endfor %}
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
+{% assign image_folder = "qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
+{% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
+{% assign sorted_images = image_files | sort: "basename" %}
+{% assign page.total_images = sorted_images | size %}
+
+{% if page.total_images > 0 %}
+    <div class="image-gallery">
+        {% for image in sorted_images %}
+            <div class="image-item">
+                <img src="{{ site.baseurl }}/{{ image.path | relative_url }}" alt="{{ image.basename | remove: '.png' }}">
+                <p>{{ image.basename | remove: '.png' }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>抱歉，暂无图片可显示。</p>
 {% endif %}
+
+<style>
+    .description {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .image-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+    }
+    .image-item {
+        text-align: center;
+        max-width: 300px;
+    }
+    .image-item img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+    }
+    .image-item p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+</style>
