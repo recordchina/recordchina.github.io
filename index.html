@@ -1,76 +1,38 @@
 ---
 layout: page
 title: 我的测试网站
-description: "纪念历史, 勿忘历史, 真实记录"
+description: "啊啊啊"
 ---
 
-<div class="description">
-    <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt 文件夹下图片的网站。</p>
-</div>
+<div class="container">
+    <div class="row">
+        <!-- 主内容区域 -->
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 main-content">
+            <div class="description">
+                <p>这是一个展示件夹下图片的网站。</p>
+            </div>
 
-{% assign sorted_images = site.data.images | sort: "path" %}
-{% assign total_images = sorted_images | size %}
-
-<!-- 计算当前页码 -->
-{% if page.url == "/" or page.url == "/index.html" %}
-    {% assign current_page = 1 %}
-{% else %}
-    {% assign current_page = page.url | split: "/" | last | replace: "page", "" | plus: 0 %}
-    {% if current_page == 0 %}
-        {% assign current_page = 1 %}
-    {% endif %}
-{% endif %}
-{% assign offset = current_page | minus: 1 %}
-
-<!-- 顶部导航 -->
-<div class="pagination top-pagination">
-    {% if current_page > 1 %}
-        {% if current_page == 2 %}
-            <a href="/" class="previous">上一页</a>
-        {% else %}
-            <a href="/page{{ current_page | minus: 1 }}/" class="previous">上一页</a>
-        {% endif %}
-    {% else %}
-        <span class="previous disabled">上一页</span>
-    {% endif %}
-    <span class="page-number">第 {{ current_page }} 页，共 {{ total_images }} 页</span>
-    {% if current_page < total_images %}
-        <a href="/page{{ current_page | plus: 1 }}/" class="next">下一页</a>
-    {% else %}
-        <span class="next disabled">下一页</span>
-    {% endif %}
-</div>
-
-<!-- 图片展示 -->
-<div class="image-gallery">
-    {% assign current_image = sorted_images | slice: offset, 1 | first %}
-    {% if current_image %}
-        <div class="image-item">
-            <img src="{{ current_image.path | relative_url }}" alt="{{ current_image.path | split: '/' | last | remove: '.png' }}">
-            <p>{{ current_image.path | split: '/' | last | remove: '.png' }}</p>
+            <div class="image-gallery">
+                <p>请从右侧选择图片查看。</p>
+            </div>
         </div>
-    {% else %}
-        <p>抱歉，暂无图片可显示。</p>
-    {% endif %}
-</div>
 
-<!-- 底部导航 -->
-<div class="pagination bottom-pagination">
-    {% if current_page > 1 %}
-        {% if current_page == 2 %}
-            <a href="/" class="previous">上一页</a>
-        {% else %}
-            <a href="/page{{ current_page | minus: 1 }}/" class="previous">上一页</a>
-        {% endif %}
-    {% else %}
-        <span class="previous disabled">上一页</span>
-    {% endif %}
-    <span class="page-number">第 {{ current_page }} 页，共 {{ total_images }} 页</span>
-    {% if current_page < total_images %}
-        <a href="/page{{ current_page | plus: 1 }}/" class="next">下一页</a>
-    {% else %}
-        <span class="next disabled">下一页</span>
-    {% endif %}
+        <!-- 右侧图片链接 -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sidebar">
+            <h3>图片列表</h3>
+            <ul class="image-links">
+                {% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt" %}
+                {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
+                {% assign sorted_images = image_files | sort: "basename" %}
+                {% for image in sorted_images %}
+                    {% assign filename = image.basename | remove: ".png" %}
+                    {% assign month = filename | slice: 4, 2 %}
+                    {% assign day = filename | slice: 6, 2 %}
+                    <li><a href="{{ image.path | relative_url }}">{{ month }}月{{ day }}日</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -79,47 +41,40 @@ description: "纪念历史, 勿忘历史, 真实记录"
         margin: 20px 0;
     }
     .image-gallery {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
+        text-align: center;
         margin: 20px 0;
     }
-    .image-item {
+    .main-content {
+        padding: 20px;
+    }
+    .sidebar {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-left: 1px solid #ddd;
+    }
+    .sidebar h3 {
+        margin-top: 0;
+        font-size: 18px;
         text-align: center;
-        max-width: 600px;
     }
-    .image-item img {
-        max-width: 100%;
-        height: auto;
-        border: 1px solid #ddd;
+    .image-links {
+        list-style: none;
+        padding: 0;
     }
-    .image-item p {
+    .image-links li {
         margin: 5px 0;
-        font-size: 16px;
     }
-    .pagination {
-        text-align: center;
-        margin: 20px 0;
-    }
-    .pagination a, .pagination span {
-        margin: 0 10px;
-        font-size: 14px;
-    }
-    .pagination a {
+    .image-links a {
         color: #007bff;
         text-decoration: none;
     }
-    .pagination a:hover {
+    .image-links a:hover {
         text-decoration: underline;
     }
-    .pagination .disabled {
-        color: #999;
-    }
-    .top-pagination {
-        margin-bottom: 30px;
-    }
-    .bottom-pagination {
-        margin-top: 30px;
+    @media (max-width: 767px) {
+        .sidebar {
+            border-left: none;
+            border-top: 1px solid #ddd;
+        }
     }
 </style>
