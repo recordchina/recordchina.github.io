@@ -1,43 +1,74 @@
 ---
 layout: page
-title: 我的测试网站
+title: 我的网站
 description: "aaa"
-permalink: /
+permalink: /:num/
+pagination:
+  enabled: true
+  per_page: 1
+  sort_field: basename
+  sort_reverse: false
+  trail:
+    before: 1
+    after: 1
 ---
 
 <div class="description">
-    <p>这是一个展示 qsewr/dasf/erwq/reeqr/rwer/ewqr 文件夹下图片的网站。</p>
+    <p>这是一个展示水水水水水的网站。
+    这是第二行
+    这是第三行
+    这是第四行
+    </p>
 </div>
 
-{% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr" %}
+{% assign image_folder = "/qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt" %}
 {% assign image_files = site.static_files | where_exp: "item", "item.path contains image_folder" | where_exp: "item", "item.extname == '.png'" %}
 {% assign sorted_images = image_files | sort: "basename" %}
-{% assign page.total_images = sorted_images | size %}
 
-{% if page.total_images > 0 %}
-    <div class="image-gallery">
-        {% for image in sorted_images %}
-            <div class="image-item">
-                <img src="{{ image.path | relative_url }}" alt="{{ image.basename | remove: '.png' }}">
-                <p>{{ image.basename | remove: '.png' }}</p>
-            </div>
-        {% endfor %}
+<!-- 顶部导航 -->
+{% if paginator.previous_page or paginator.next_page %}
+    <div class="pagination top-pagination">
+        {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">上一页</a>
+        {% else %}
+            <span class="previous disabled">上一页</span>
+        {% endif %}
+        <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
+        {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}" class="next">下一页</a>
+        {% else %}
+            <span class="next disabled">下一页</span>
+        {% endif %}
     </div>
-{% else %}
-    <p>抱歉，暂无图片可显示。</p>
-    <p>调试：找到 {{ page.total_images | default: 0 }} 张图片</p>
-    <p>静态文件总数：{{ site.static_files | size }}</p>
-    <p>筛选路径：{{ image_folder }}</p>
-    <!-- 如果筛选失败，直接使用完整路径测试 -->
-    <div class="image-gallery">
-        {% for file in site.static_files %}
-            {% if file.path contains image_folder and file.extname == '.png' %}
-                <div class="image-item">
-                    <img src="{{ file.path | relative_url }}" alt="{{ file.basename | remove: '.png' }}">
-                    <p>{{ file.basename | remove: '.png' }}</p>
-                </div>
-            {% endif %}
-        {% endfor %}
+{% endif %}
+
+<!-- 图片展示 -->
+<div class="image-gallery">
+    {% assign current_image = sorted_images | slice: paginator.page | first %}
+    {% if current_image %}
+        <div class="image-item">
+            <img src="{{ current_image.path | relative_url }}" alt="{{ current_image.basename | remove: '.png' }}">
+            <p>{{ current_image.basename | remove: '.png' }}</p>
+        </div>
+    {% else %}
+        <p>抱歉，暂无图片可显示。</p>
+    {% endif %}
+</div>
+
+<!-- 底部导航 -->
+{% if paginator.previous_page or paginator.next_page %}
+    <div class="pagination bottom-pagination">
+        {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">上一页</a>
+        {% else %}
+            <span class="previous disabled">上一页</span>
+        {% endif %}
+        <span class="page-number">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
+        {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}" class="next">下一页</a>
+        {% else %}
+            <span class="next disabled">下一页</span>
+        {% endif %}
     </div>
 {% endif %}
 
@@ -55,7 +86,7 @@ permalink: /
     }
     .image-item {
         text-align: center;
-        max-width: 300px;
+        max-width: 600px; /* 调整图片最大宽度 */
     }
     .image-item img {
         max-width: 100%;
@@ -64,6 +95,30 @@ permalink: /
     }
     .image-item p {
         margin: 5px 0;
+        font-size: 16px;
+    }
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .pagination a, .pagination span {
+        margin: 0 10px;
         font-size: 14px;
+    }
+    .pagination a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .pagination a:hover {
+        text-decoration: underline;
+    }
+    .pagination .disabled {
+        color: #999;
+    }
+    .top-pagination {
+        margin-bottom: 30px;
+    }
+    .bottom-pagination {
+        margin-top: 30px;
     }
 </style>
