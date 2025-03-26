@@ -7,7 +7,6 @@ description: "我的测试网站，从此网站不再复杂"
 keyword: "我的测试网站，china"
 url: "https://recordchina.github.io"
 baseurl: ""
-github_repo: "https://github.com/recordchina/recordchina.github.io.git"
 
 # Sidebar settings
 sidebar: true
@@ -15,7 +14,16 @@ sidebar-about-description: "Goals determine what you're going to be!"
 sidebar-avatar: /img/about-HJ.jpg
 
 # Gems
-gems: [jekyll-paginate]
+plugins:
+  - jekyll-paginate-v2
+
+# Pagination settings
+pagination:
+  enabled: true
+  per_page: 1
+  permalink: '/:num/'
+  sort_field: 'basename'
+  sort_reverse: false
 
 # Markdown settings
 markdown: kramdown
@@ -25,6 +33,5 @@ kramdown:
 
 # Build settings
 permalink: pretty
-paginate: 10
 exclude: ["less", "node_modules", "Gruntfile.js", "package.json", "README.md"]
-include: ["qsewr"]  # 强制包含图片文件夹
+include: ["qsewr"]
