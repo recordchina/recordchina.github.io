@@ -32,8 +32,7 @@
     .sidebar {
         padding: 20px;
         background-color: #f9f9f9;
-        border-left: 1px solid #ddd;
-        max-height: 80vh;
+        max-height: calc(100vh - 40px);
         overflow-y: auto;
     }
     .sidebar h3 {
@@ -63,11 +62,5 @@
     }
     .day a:hover {
         text-decoration: underline;
-    }
-    @media (max-width: 767px) {
-        .sidebar {
-            border-left: none;
-            border-top: 1px solid #ddd;
-        }
     }
 </style>
