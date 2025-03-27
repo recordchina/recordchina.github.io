@@ -1,44 +1,203 @@
----
-layout: page
-title: 我的测试网站
-description: "aaaa"
----
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Record China - 时间线图片展示">
+    <title>Record China - 时间线</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #575f4f;
+            color: #f1e8dd;
+            margin: 0;
+        }
+        .header-mobile {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+        }
+        .main {
+            padding: 20px 0;
+        }
+        .title h2 {
+            font-size: 2em;
+            font-weight: 900;
+            margin: 0;
+        }
+        .intro p {
+            font-size: 1.1em;
+            line-height: 1.65em;
+        }
+        .cate ul {
+            list-style: none;
+            padding: 0;
+        }
+        .cate ul li a {
+            color: #f1e8dd;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
+        .cate ul li a:hover, .cate ul li a.active {
+            color: #facc29;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            border: 2px solid #f1e8dd;
+        }
+        .footer {
+            padding: 30px 15px;
+            color: #fff;
+        }
+        @media (min-width: 992px) {
+            .header-mobile { display: none; }
+            .main { display: flex; }
+            .title, .intro, .cate { height: 100vh; position: sticky; top: 0; }
+            .title { width: 10%; }
+            .intro { width: 25%; }
+            .cate { width: 20%; }
+            .content { width: 45%; padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部（移动端） -->
+    <header class="header-mobile d-lg-none">
+        <div class="logo">
+            <a href="/">Record China</a>
+        </div>
+        <div class="menu">
+            <button class="btn">☰</button>
+        </div>
+    </header>
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- 主内容区域 -->
-        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 main-content">
-            <div class="description">
-                <p>这是一个展示 xxx 的网站。</p>
+    <!-- 主体 -->
+    <main class="main">
+        <div class="container-fluid">
+            <!-- 标题 -->
+            <div class="title">
+                <div class="inner">
+                    <h2>时间线</h2>
+                </div>
             </div>
-
-            <div class="image-gallery">
-                <p>请从右侧选择图片查看。</p>
+            <!-- 简介 -->
+            <div class="intro">
+                <div class="inner">
+                    <p>这里有好多。。。。。。。图片。</p>
+                    <a href="/" class="btn underline">返回首页</a>
+                </div>
+            </div>
+            <!-- 分类 -->
+            <div class="cate">
+                <div class="inner">
+                    <ul id="year-list">
+                        <!-- 年份列表由 JS 动态生成 -->
+                    </ul>
+                </div>
+            </div>
+            <!-- 内容区 -->
+            <div class="content">
+                <section class="board" id="image-board">
+                    <div class="row">
+                        <p>请选择左侧年份以查看图片。</p>
+                    </div>
+                </section>
             </div>
         </div>
+    </main>
 
-        <!-- 右侧图片链接 -->
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sidebar-wrapper">
-            {% include image_list.html %}
+    <!-- 页脚 -->
+    <footer class="footer d-none d-lg-block">
+        <div class="container-fluid d-flex justify-content-between">
+            <div class="footer-left">
+                <a href="/" class="btn underline">首页</a> | 
+                <a href="/about" class="btn underline">关于我们</a>
+            </div>
+            <div class="footer-right">
+                <button class="btn active">中</button>
+                <button class="btn">EN</button>
+            </div>
         </div>
-    </div>
-</div>
+    </footer>
 
-<style>
-    .description {
-        text-align: center;
-        margin: 20px 0;
-    }
-    .image-gallery {
-        text-align: center;
-        margin: 20px 0;
-    }
-    .main-content {
-        padding: 20px;
-    }
-    .sidebar-wrapper {
-        position: sticky;
-        top: 20px;
-        padding: 0;
-    }
-</style>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 自定义 JS -->
+    <script>
+        // 图片路径和完整文件名列表
+        const basePath = "qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt/";
+        const imageFiles = [
+            "29760928.png", "29761201.png", "29771201.png", "29780101-1.png", "29780101-2.png",
+            "29780101-3.png", "29780101.png", "29780114.png", "29780213.png", "29780214.png",
+            "29780301.png", "29780401.png", "29780402.png", "29780403.png", "29780415.png",
+            "29780416.png", "2978041602.png", "2978041603.png", "2978041701.png", "29780418.png",
+            "2978041802.png", "2978041901.png", "29780425.png", "29780426.png", "2978042602.png",
+            "29780427.png", "2978042702.png", "2978042703.png", "29780428.png", "2978042901.png",
+            "2978043001.png", "2978050301.png", "29780504.png", "29780507.png", "29780509.png",
+            "29780520.png", "2978052001.png", "29780521.png", "29780522.png", "2978052202.png",
+            "29780523.png", "29780525.png", "29780528.png", "2978052802.png", "29780529.png",
+            "29780531.png", "2978053102.png", "29780602.png", "2978060202.png", "2978060203.png",
+            "2978060301.png", "2978060302.png", "2978060401.png", "2978060402.png", "2978060403.png",
+            "2978060404.png", "2978060405.png", "2978060406.png", "2978060407.png", "2978060408.png",
+            "2978060409.png", "2978060410.png", "2978060411.png", "2978060412.png", "2978060501.png",
+            "2978060502.png", "2978060503.png", "2978060601.png", "2978060602.png", "2978060701.png",
+            "2978060702.png", "29780801.png", "29780802.png", "29780803.png", "29780804.png",
+            "29780805.png", "29780806.png", "2978080602.png"
+        ];
+
+        // 年份映射
+        const yearMap = {
+            "2976": "1986",
+            "2977": "1988",
+            "2978": "1989"
+        };
+
+        // 按年份分组
+        const images = {};
+        imageFiles.forEach(file => {
+            const yearCode = file.slice(0, 4);
+            const displayYear = yearMap[yearCode];
+            if (!images[displayYear]) images[displayYear] = [];
+            images[displayYear].push(`${basePath}${file}`);
+        });
+
+        // 动态生成年份列表
+        const yearList = document.getElementById('year-list');
+        const imageBoard = document.getElementById('image-board');
+        Object.keys(images).forEach(year => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${year}`;
+            a.textContent = year;
+            a.onclick = () => showImages(year);
+            li.appendChild(a);
+            yearList.appendChild(li);
+        });
+
+        // 显示图片函数
+        function showImages(year) {
+            const yearImages = images[year] || [];
+            imageBoard.innerHTML = yearImages.length > 0
+                ? yearImages.map(img => `<div class="col-md-6"><img src="${img}" alt="${year} 时间线图片"></div>`).join('')
+                : '<p>该年份暂无图片。</p>';
+            
+            // 更新选中状态
+            document.querySelectorAll('.cate a').forEach(a => a.classList.remove('active'));
+            document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
+        }
+
+        // 默认显示第一个年份的图片
+        if (Object.keys(images).length > 0) {
+            showImages(Object.keys(images)[0]);
+        }
+    </script>
+</body>
+</html>
