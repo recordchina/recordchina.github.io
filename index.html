@@ -51,7 +51,7 @@
         }
         .content img {
             width: 100%; /* 填充网格列宽 */
-            max-height: 200px; /* 限制高度 */
+            max-height: 300px; /* 增加高度，确保文字清晰 */
             object-fit: contain; /* 保持比例 */
             display: block; /* 防止定位问题 */
             margin-bottom: 15px;
@@ -60,7 +60,7 @@
         .content .row {
             margin: 0; /* 移除默认外边距 */
         }
-        .content .col-md-4 {
+        .content .col-md-6 {
             padding: 5px; /* 内边距，避免紧贴 */
         }
         .footer {
@@ -93,7 +93,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里展示了11111111111111的88888时刻。</p>
+                            <p>这里展示了 78 张按年份和日期排序的时间线图片，记录了 1986-1989 年间的历史时刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -187,11 +187,12 @@
             yearList.appendChild(li);
         });
 
-        // 显示图片函数（一行 3 张）
+        // 显示图片函数（每页一行，每行 2 张）
         function showImages(year) {
             const yearImages = images[year] || [];
-            imageBoard.innerHTML = yearImages.length > 0
-                ? yearImages.map(img => `<div class="col-md-4"><img src="${img}" alt="${year} 时间线图片"></div>`).join('')
+            const displayedImages = yearImages.slice(0, 2); // 限制显示前 2 张
+            imageBoard.innerHTML = displayedImages.length > 0
+                ? displayedImages.map(img => `<div class="col-md-6"><img src="${img}" alt="${year} 时间线图片"></div>`).join('')
                 : '<p>该年份暂无图片。</p>';
             
             // 更新选中状态
