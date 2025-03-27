@@ -50,10 +50,14 @@
             color: #facc29;
         }
         .content img {
-            max-width: 100%;
-            height: auto;
+            width: 100%; /* 图片宽度适应网格 */
+            max-height: 200px; /* 限制最大高度，避免覆盖 */
+            object-fit: contain; /* 保持比例 */
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
+        }
+        .content .col-md-4 {
+            padding: 5px; /* 添加内边距，避免图片紧贴 */
         }
         .footer {
             padding: 30px 15px;
@@ -88,7 +92,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里展示了 888888888ssssssss刻。</p>
+                            <p>这里aaaaaaaa333444555666时刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
