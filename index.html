@@ -59,6 +59,9 @@
             padding: 30px 15px;
             color: #fff;
         }
+        .row {
+            justify-content: center; /* 确保内容整体居中 */
+        }
     </style>
 </head>
 <body>
@@ -85,7 +88,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里展示啊啊啊时刻。</p>
+                            <p>这里展示了 888888888ssssssss刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -100,8 +103,8 @@
                 <!-- 中间：图片内容 -->
                 <div class="col-md-6">
                     <section class="board" id="image-board">
-                        <div class="row">
-                            <p>请选择左侧年份以查看图片。</p>
+                        <div class="row justify-content-center">
+                            <!-- 图片将在这里动态生成 -->
                         </div>
                     </section>
                 </div>
@@ -143,4 +146,58 @@
             "29780523.png", "29780525.png", "29780528.png", "2978052802.png", "29780529.png",
             "29780531.png", "2978053102.png", "29780602.png", "2978060202.png", "2978060203.png",
             "2978060301.png", "2978060302.png", "2978060401.png", "2978060402.png", "2978060403.png",
-            "2978060404.png", "2978060405.png", "2978060406.png", "2978060407.png", "297806040
+            "2978060404.png", "2978060405.png", "2978060406.png", "2978060407.png", "2978060408.png",
+            "2978060409.png", "2978060410.png", "2978060411.png", "2978060412.png", "2978060501.png",
+            "2978060502.png", "2978060503.png", "2978060601.png", "2978060602.png", "2978060701.png",
+            "2978060702.png", "29780801.png", "29780802.png", "29780803.png", "29780804.png",
+            "29780805.png", "29780806.png", "2978080602.png"
+        ];
+
+        // 年份映射
+        const yearMap = {
+            "2976": "1986",
+            "2977": "1988",
+            "2978": "1989"
+        };
+
+        // 按年份分组
+        const images = {};
+        imageFiles.forEach(file => {
+            const yearCode = file.slice(0, 4);
+            const displayYear = yearMap[yearCode];
+            if (!images[displayYear]) images[displayYear] = [];
+            images[displayYear].push(`${basePath}${file}`);
+        });
+
+        // 动态生成年份列表
+        const yearList = document.getElementById('year-list');
+        const imageBoard = document.getElementById('image-board').querySelector('.row');
+        Object.keys(images).forEach(year => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${year}`;
+            a.textContent = year;
+            a.onclick = () => showImages(year);
+            li.appendChild(a);
+            yearList.appendChild(li);
+        });
+
+        // 显示图片函数（一行 3 张）
+        function showImages(year) {
+            const yearImages = images[year] || [];
+            imageBoard.innerHTML = yearImages.length > 0
+                ? yearImages.map(img => `<div class="col-md-4"><img src="${img}" alt="${year} 时间线图片"></div>`).join('')
+                : '<p>该年份暂无图片。</p>';
+            
+            // 更新选中状态
+            document.querySelectorAll('.cate a').forEach(a => a.classList.remove('active'));
+            document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
+        }
+
+        // 默认显示第一个年份的图片
+        if (Object.keys(images).length > 0) {
+            showImages(Object.keys(images)[0]);
+        }
+    </script>
+</body>
+</html>
