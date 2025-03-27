@@ -23,20 +23,22 @@
             padding: 15px;
         }
         .main {
-            padding: 20px 0;
+            padding: 20px;
         }
         .title h2 {
             font-size: 2em;
             font-weight: 900;
-            margin: 0;
+            margin: 0 0 10px 0;
         }
         .intro p {
             font-size: 1.1em;
             line-height: 1.65em;
+            margin-bottom: 10px;
         }
         .cate ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
         .cate ul li a {
             color: #f1e8dd;
@@ -57,14 +59,19 @@
             padding: 30px 15px;
             color: #fff;
         }
+        @media (max-width: 991px) {
+            .header-mobile { display: flex; }
+            .main { display: block; }
+            .title, .intro, .cate, .content { width: 100%; }
+        }
         @media (min-width: 992px) {
             .header-mobile { display: none; }
-            .main { display: flex; }
-            .title, .intro, .cate { height: 100vh; position: sticky; top: 0; }
+            .main { display: flex; flex-wrap: nowrap; align-items: flex-start; }
             .title { width: 10%; }
             .intro { width: 25%; }
-            .cate { width: 20%; }
-            .content { width: 45%; padding: 0 20px; }
+            .cate { width: 15%; }
+            .content { width: 50%; padding-left: 20px; }
+            .title, .intro, .cate { position: sticky; top: 20px; }
         }
     </style>
 </head>
@@ -91,7 +98,7 @@
             <!-- 简介 -->
             <div class="intro">
                 <div class="inner">
-                    <p>这里有好多。。。。。。。图片。</p>
+                    <p>这里展示份查看对应图片。</p>
                     <a href="/" class="btn underline">返回首页</a>
                 </div>
             </div>
