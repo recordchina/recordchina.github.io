@@ -19,10 +19,11 @@
             padding: 0;
             height: 100vh;
             display: flex;
-            align-items: center; /* 垂直居中 */
+            flex-direction: column; /* 列布局支持底部链接 */
+            justify-content: space-between; /* 内容与底部分开 */
         }
         .intro-header {
-            background-image: url('img/post-bg-rwd.jpg'); /* 保留背景图片，可替换 */
+            background-image: url('img/post-bg-rwd.jpg'); /* 背景图片 */
             background-size: cover;
             background-position: center;
             width: 100%;
@@ -47,6 +48,21 @@
             font-size: 1em;
             margin-top: 20px;
             color: #ffffff; /* 子标题白色 */
+        }
+        .footer-link {
+            position: fixed; /* 固定在页面底部 */
+            bottom: 10px; /* 距离底部 10px */
+            left: 10px; /* 距离左侧 10px，确保在左下角 */
+            z-index: 1000; /* 确保在内容之上 */
+        }
+        .footer-link a {
+            color: #ffffff; /* 白色文字 */
+            font-weight: bold; /* 粗体 */
+            text-decoration: underline; /* 下划线 */
+            font-size: 1em;
+        }
+        .footer-link a:hover {
+            color: #facc29; /* 悬停时变为黄色，与 index.html 高亮色一致 */
         }
     </style>
 </head>
@@ -78,6 +94,7 @@
             </div>
         </div>
     </header>
+
     <!-- 返回主页链接 -->
     <div class="footer-link">
         <a href="/index.html">返回主页</a>
