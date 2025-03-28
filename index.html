@@ -69,8 +69,8 @@
         }
         .content img {
             width: 100%;
-            height: 100%; /* 图片填充外框 */
-            max-height: 507px; /* 外框放大 30% */
+            height: 100%;
+            max-height: 507px;
             display: block;
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
@@ -78,7 +78,7 @@
         }
         .content .col-md-6 {
             padding: 5px;
-            height: 507px; /* 确保外框高度一致 */
+            height: 507px;
         }
         .content .row {
             margin: 0;
@@ -140,7 +140,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里哦哦哦哦哦哦哦哦啊啊啊啊啊啊啊啊啊啊啊啊刻。</p>
+                            <p>这里abcdefgggggggggggggg时刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -246,6 +246,7 @@
         let currentYear = null;
         let currentPage = 1;
         const imagesPerPage = 2;
+        let currentModalIndex = 0; // 当前 Modal 图片索引
 
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
@@ -271,9 +272,9 @@
             const displayedImages = yearImages.slice(startIndex, endIndex);
 
             imageBoard.innerHTML = displayedImages.length > 0
-                ? displayedImages.map(img => `
+                ? displayedImages.map((img, index) => `
                     <div class="col-md-6">
-                        <img src="${img}" alt="${year} 时间线图片" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModal('${img}')">
+                        <img src="${img}" alt="${year} 时间线图片" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModal('${img}', ${startIndex + index})">
                     </div>`).join('')
                 : '<p>该年份暂无图片。</p>';
 
@@ -335,11 +336,28 @@
             document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
         }
 
-        // 显示放大图片的 Modal
-        function showModal(imageSrc) {
+        // 显示放大图片的 Modal 并记录索引
+        function showModal(imageSrc, index) {
             const modalImage = document.getElementById('modalImage');
             modalImage.src = imageSrc;
+            currentModalIndex = index;
         }
+
+        // 键盘翻页逻辑
+        document.addEventListener('keydown', (event) => {
+            if (!currentYear || !document.getElementById('imageModal').classList.contains('show')) return;
+
+            const yearImages = images[currentYear];
+            if (!yearImages || yearImages.length === 0) return;
+
+            if (event.key === 'ArrowLeft') {
+                currentModalIndex = (currentModalIndex - 1 + yearImages.length) % yearImages.length;
+                document.getElementById('modalImage').src = yearImages[currentModalIndex];
+            } else if (event.key === 'ArrowRight') {
+                currentModalIndex = (currentModalIndex + 1) % yearImages.length;
+                document.getElementById('modalImage').src = yearImages[currentModalIndex];
+            }
+        });
 
         // 默认显示第一个年份的图片
         if (Object.keys(images).length > 0) {
