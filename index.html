@@ -16,7 +16,7 @@
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            height: 100vh; /* 确保页面高度占满视口 */
+            height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -27,15 +27,15 @@
         }
         .main {
             padding: 20px;
-            flex-grow: 1; /* 让 main 占满剩余空间 */
+            flex-grow: 1;
             display: flex;
-            align-items: center; /* 垂直居中整个内容 */
+            align-items: center;
         }
         .left-column {
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 左侧内容垂直居中 */
+            justify-content: center;
         }
         .title h2 {
             font-size: 2em;
@@ -65,22 +65,23 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 图片和分页垂直居中 */
+            justify-content: center;
         }
         .content img {
             width: 100%;
-            max-height: 390px;
-            object-fit: contain;
+            height: 100%; /* 图片填充外框 */
+            max-height: 507px; /* 外框放大 30% */
             display: block;
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
             cursor: pointer;
         }
-        .content .row {
-            margin: 0;
-        }
         .content .col-md-6 {
             padding: 5px;
+            height: 507px; /* 确保外框高度一致 */
+        }
+        .content .row {
+            margin: 0;
         }
         .pagination {
             margin-top: 15px;
@@ -139,7 +140,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里哈哈哈哈哈哈哈时刻。</p>
+                            <p>这里哦哦哦哦哦哦哦哦啊啊啊啊啊啊啊啊啊啊啊啊刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -279,21 +280,18 @@
             // 更新分页按钮
             pagination.innerHTML = '';
             if (totalPages > 1) {
-                // 第一页
                 const firstButton = document.createElement('button');
                 firstButton.textContent = '第一页';
                 firstButton.disabled = page === 1;
                 firstButton.onclick = () => showImages(year, 1);
                 pagination.appendChild(firstButton);
 
-                // 上一页
                 const prevButton = document.createElement('button');
                 prevButton.textContent = '上一页';
                 prevButton.disabled = page === 1;
                 prevButton.onclick = () => showImages(year, page - 1);
                 pagination.appendChild(prevButton);
 
-                // 前后 3 页
                 const startPage = Math.max(1, page - 3);
                 const endPage = Math.min(totalPages, page + 3);
                 for (let i = startPage; i <= endPage; i++) {
@@ -304,21 +302,18 @@
                     pagination.appendChild(pageButton);
                 }
 
-                // 下一页
                 const nextButton = document.createElement('button');
                 nextButton.textContent = '下一页';
                 nextButton.disabled = page === totalPages;
                 nextButton.onclick = () => showImages(year, page + 1);
                 pagination.appendChild(nextButton);
 
-                // 最后一页
                 const lastButton = document.createElement('button');
                 lastButton.textContent = '最后一页';
                 lastButton.disabled = page === totalPages;
                 lastButton.onclick = () => showImages(year, totalPages);
                 pagination.appendChild(lastButton);
 
-                // 跳转到第几页
                 const jumpInput = document.createElement('input');
                 jumpInput.type = 'number';
                 jumpInput.min = 1;
