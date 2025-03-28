@@ -16,6 +16,9 @@
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
+            height: 100vh; /* 确保页面高度占满视口 */
+            display: flex;
+            flex-direction: column;
         }
         .header-mobile {
             display: flex;
@@ -24,6 +27,15 @@
         }
         .main {
             padding: 20px;
+            flex-grow: 1; /* 让 main 占满剩余空间 */
+            display: flex;
+            align-items: center; /* 垂直居中整个内容 */
+        }
+        .left-column {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 左侧内容垂直居中 */
         }
         .title h2 {
             font-size: 2em;
@@ -49,14 +61,20 @@
         .cate ul li a:hover, .cate ul li a.active {
             color: #facc29;
         }
+        .content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 图片和分页垂直居中 */
+        }
         .content img {
             width: 100%;
-            max-height: 390px; /* 放大约 30% */
+            max-height: 390px;
             object-fit: contain;
             display: block;
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
-            cursor: pointer; /* 点击放大提示 */
+            cursor: pointer;
         }
         .content .row {
             margin: 0;
@@ -66,8 +84,12 @@
         }
         .pagination {
             margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-        .pagination button {
+        .pagination button, .pagination input {
             background-color: #f1e8dd;
             color: #575f4f;
             border: none;
@@ -78,6 +100,14 @@
         .pagination button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+        }
+        .pagination button.active {
+            background-color: #facc29;
+            color: #575f4f;
+        }
+        .pagination input {
+            width: 50px;
+            text-align: center;
         }
         .footer {
             padding: 30px 15px;
@@ -101,7 +131,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- 左侧：标题 + 年份 -->
-                <div class="col-md-3">
+                <div class="col-md-3 left-column">
                     <div class="title">
                         <div class="inner">
                             <h2>时间线</h2>
@@ -109,7 +139,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里abcdef时刻。</p>
+                            <p>这里哈哈哈哈哈哈哈时刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -230,7 +260,7 @@
             yearList.appendChild(li);
         });
 
-        // 显示图片函数（带分页）
+        // 显示图片函数（带增强分页）
         function showImages(year, page) {
             const yearImages = images[year] || [];
             const totalImages = yearImages.length;
@@ -249,26 +279,60 @@
             // 更新分页按钮
             pagination.innerHTML = '';
             if (totalPages > 1) {
+                // 第一页
+                const firstButton = document.createElement('button');
+                firstButton.textContent = '第一页';
+                firstButton.disabled = page === 1;
+                firstButton.onclick = () => showImages(year, 1);
+                pagination.appendChild(firstButton);
+
+                // 上一页
                 const prevButton = document.createElement('button');
                 prevButton.textContent = '上一页';
                 prevButton.disabled = page === 1;
-                prevButton.onclick = () => {
-                    if (page > 1) showImages(year, page - 1);
-                };
+                prevButton.onclick = () => showImages(year, page - 1);
                 pagination.appendChild(prevButton);
 
+                // 前后 3 页
+                const startPage = Math.max(1, page - 3);
+                const endPage = Math.min(totalPages, page + 3);
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.className = i === page ? 'active' : '';
+                    pageButton.onclick = () => showImages(year, i);
+                    pagination.appendChild(pageButton);
+                }
+
+                // 下一页
                 const nextButton = document.createElement('button');
                 nextButton.textContent = '下一页';
                 nextButton.disabled = page === totalPages;
-                nextButton.onclick = () => {
-                    if (page < totalPages) showImages(year, page + 1);
-                };
+                nextButton.onclick = () => showImages(year, page + 1);
                 pagination.appendChild(nextButton);
 
-                const pageInfo = document.createElement('span');
-                pageInfo.textContent = ` 第 ${page}/${totalPages} 页 `;
-                pageInfo.style.margin = '0 10px';
-                pagination.appendChild(pageInfo);
+                // 最后一页
+                const lastButton = document.createElement('button');
+                lastButton.textContent = '最后一页';
+                lastButton.disabled = page === totalPages;
+                lastButton.onclick = () => showImages(year, totalPages);
+                pagination.appendChild(lastButton);
+
+                // 跳转到第几页
+                const jumpInput = document.createElement('input');
+                jumpInput.type = 'number';
+                jumpInput.min = 1;
+                jumpInput.max = totalPages;
+                jumpInput.placeholder = '页码';
+                pagination.appendChild(jumpInput);
+
+                const jumpButton = document.createElement('button');
+                jumpButton.textContent = '跳转';
+                jumpButton.onclick = () => {
+                    const jumpPage = parseInt(jumpInput.value);
+                    if (jumpPage >= 1 && jumpPage <= totalPages) showImages(year, jumpPage);
+                };
+                pagination.appendChild(jumpButton);
             }
 
             // 更新选中状态
