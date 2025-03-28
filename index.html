@@ -50,18 +50,34 @@
             color: #facc29;
         }
         .content img {
-            width: 100%; /* 填充网格列宽 */
-            max-height: 300px; /* 增加高度，确保文字清晰 */
-            object-fit: contain; /* 保持比例 */
-            display: block; /* 防止定位问题 */
+            width: 100%;
+            max-height: 390px; /* 放大约 30% */
+            object-fit: contain;
+            display: block;
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
+            cursor: pointer; /* 点击放大提示 */
         }
         .content .row {
-            margin: 0; /* 移除默认外边距 */
+            margin: 0;
         }
         .content .col-md-6 {
-            padding: 5px; /* 内边距，避免紧贴 */
+            padding: 5px;
+        }
+        .pagination {
+            margin-top: 15px;
+        }
+        .pagination button {
+            background-color: #f1e8dd;
+            color: #575f4f;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
         .footer {
             padding: 30px 15px;
@@ -93,7 +109,7 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这里展示了66666666时刻。</p>
+                            <p>这里abcdef时刻。</p>
                             <a href="/" class="btn underline">返回首页</a>
                         </div>
                     </div>
@@ -111,6 +127,9 @@
                         <div class="row">
                             <!-- 图片将在这里动态生成 -->
                         </div>
+                        <div class="pagination" id="pagination">
+                            <!-- 分页按钮将在这里生成 -->
+                        </div>
                     </section>
                 </div>
                 <!-- 右侧：占位 -->
@@ -118,6 +137,21 @@
             </div>
         </div>
     </main>
+
+    <!-- 放大图片的 Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="modalImage" style="width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 页脚 -->
     <footer class="footer d-none d-lg-block">
@@ -177,32 +211,81 @@
         // 动态生成年份列表
         const yearList = document.getElementById('year-list');
         const imageBoard = document.getElementById('image-board').querySelector('.row');
+        const pagination = document.getElementById('pagination');
+        let currentYear = null;
+        let currentPage = 1;
+        const imagesPerPage = 2;
+
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = `#${year}`;
             a.textContent = year;
-            a.onclick = () => showImages(year);
+            a.onclick = () => {
+                currentYear = year;
+                currentPage = 1;
+                showImages(year, currentPage);
+            };
             li.appendChild(a);
             yearList.appendChild(li);
         });
 
-        // 显示图片函数（每页一行，每行 2 张）
-        function showImages(year) {
+        // 显示图片函数（带分页）
+        function showImages(year, page) {
             const yearImages = images[year] || [];
-            const displayedImages = yearImages.slice(0, 2); // 限制显示前 2 张
+            const totalImages = yearImages.length;
+            const totalPages = Math.ceil(totalImages / imagesPerPage);
+            const startIndex = (page - 1) * imagesPerPage;
+            const endIndex = startIndex + imagesPerPage;
+            const displayedImages = yearImages.slice(startIndex, endIndex);
+
             imageBoard.innerHTML = displayedImages.length > 0
-                ? displayedImages.map(img => `<div class="col-md-6"><img src="${img}" alt="${year} 时间线图片"></div>`).join('')
+                ? displayedImages.map(img => `
+                    <div class="col-md-6">
+                        <img src="${img}" alt="${year} 时间线图片" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModal('${img}')">
+                    </div>`).join('')
                 : '<p>该年份暂无图片。</p>';
-            
+
+            // 更新分页按钮
+            pagination.innerHTML = '';
+            if (totalPages > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.textContent = '上一页';
+                prevButton.disabled = page === 1;
+                prevButton.onclick = () => {
+                    if (page > 1) showImages(year, page - 1);
+                };
+                pagination.appendChild(prevButton);
+
+                const nextButton = document.createElement('button');
+                nextButton.textContent = '下一页';
+                nextButton.disabled = page === totalPages;
+                nextButton.onclick = () => {
+                    if (page < totalPages) showImages(year, page + 1);
+                };
+                pagination.appendChild(nextButton);
+
+                const pageInfo = document.createElement('span');
+                pageInfo.textContent = ` 第 ${page}/${totalPages} 页 `;
+                pageInfo.style.margin = '0 10px';
+                pagination.appendChild(pageInfo);
+            }
+
             // 更新选中状态
             document.querySelectorAll('.cate a').forEach(a => a.classList.remove('active'));
             document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
         }
 
+        // 显示放大图片的 Modal
+        function showModal(imageSrc) {
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+        }
+
         // 默认显示第一个年份的图片
         if (Object.keys(images).length > 0) {
-            showImages(Object.keys(images)[0]);
+            currentYear = Object.keys(images)[0];
+            showImages(currentYear, 1);
         }
     </script>
 </body>
