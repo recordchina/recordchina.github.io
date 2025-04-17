@@ -36,6 +36,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding-right: 10px; /* 减少右边距，靠近图片 */
         }
         .title h2 {
             font-size: 2em;
@@ -47,19 +48,25 @@
             line-height: 1.65em;
             margin-bottom: 10px;
         }
+        .cate {
+            margin-top: 5px; /* 减少上边距，靠近图片 */
+        }
         .cate ul {
             list-style: none;
             padding: 0;
             margin: 0;
+            text-align: center; /* 年份居中对齐 */
         }
         .cate ul li a {
-            color: #f1e8dd;
+            color: #ff6b6b; /* 鲜艳珊瑚红 */
             text-decoration: none;
             padding: 5px 10px;
             display: block;
+            font-size: 1.5em; /* 保持大字体 */
+            font-weight: 500; /* 加粗 */
         }
         .cate ul li a:hover, .cate ul li a.active {
-            color: #facc29;
+            color: #facc29; /* 悬停和选中保持原有活跃颜色 */
         }
         .content {
             height: 100%;
@@ -114,6 +121,43 @@
             padding: 30px 15px;
             color: #fff;
         }
+        /* 纪念文字容器 */
+        .memory-text {
+            text-align: left; /* 左对齐 */
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(241, 232, 221, 0.2); /* 半透明背景 */
+            border-radius: 5px;
+        }
+        .memory-text p {
+            color: #facc29; /* 活跃颜色 */
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.2em; /* 稍大字体 */
+            font-weight: 500; /* 中等粗细 */
+            line-height: 1.8; /* 行距 */
+            margin: 5px 0;
+            padding-left: 10px; /* 左边距 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* 文字阴影 */
+        }
+        /* 移动端调整 */
+        @media (max-width: 768px) {
+            .memory-text {
+                padding: 10px;
+            }
+            .memory-text p {
+                font-size: 1em; /* 移动端字体稍小 */
+                padding-left: 5px; /* 移动端左边距稍小 */
+            }
+            .cate ul li a {
+                font-size: 1.2em; /* 移动端年份字体稍小 */
+            }
+            .left-column {
+                padding-right: 5px; /* 移动端减少右边距 */
+            }
+            .cate {
+                margin-top: 2px; /* 移动端进一步减少上边距 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -159,6 +203,18 @@
                 </div>
                 <!-- 中间：图片内容 -->
                 <div class="col-md-6 content">
+                    <!-- 纪念文字 -->
+                    <div class="memory-text">
+                        <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
+                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
+                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
+                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
+                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
+                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
+                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
+                    </div>
                     <section class="board" id="image-board">
                         <div class="row">
                             <!-- 图片将在这里动态生成 -->
@@ -184,6 +240,18 @@
                 </div>
                 <div class="modal-body">
                     <img src="" id="modalImage" style="width: 100%; height: auto;">
+                    <!-- 纪念文字 -->
+                    <div class="memory-text">
+                        <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
+                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
+                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
+                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
+                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
+                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
+                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,7 +323,7 @@
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = `#${year}`;
+            a.href = '#' + year;
             a.textContent = year;
             a.onclick = () => {
                 currentYear = year;
