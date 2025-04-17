@@ -36,6 +36,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding-right: 10px; /* 减少右边距，靠近图片 */
         }
         .title h2 {
             font-size: 2em;
@@ -47,21 +48,25 @@
             line-height: 1.65em;
             margin-bottom: 10px;
         }
+        .cate {
+            margin-top: 5px; /* 减少上边距，靠近图片 */
+        }
         .cate ul {
             list-style: none;
             padding: 0;
             margin: 0;
+            text-align: center; /* 年份居中对齐 */
         }
         .cate ul li a {
-            color: #f1e8dd;
+            color: #ff6b6b; /* 鲜艳珊瑚红 */
             text-decoration: none;
             padding: 5px 10px;
             display: block;
-            font-size: 1.5em; /* 增大年份字体 */
-            font-weight: 500; /* 加粗年份 */
+            font-size: 1.5em; /* 保持大字体 */
+            font-weight: 500; /* 加粗 */
         }
         .cate ul li a:hover, .cate ul li a.active {
-            color: #facc29;
+            color: #facc29; /* 悬停和选中保持原有活跃颜色 */
         }
         .content {
             height: 100%;
@@ -145,6 +150,12 @@
             }
             .cate ul li a {
                 font-size: 1.2em; /* 移动端年份字体稍小 */
+            }
+            .left-column {
+                padding-right: 5px; /* 移动端减少右边距 */
+            }
+            .cate {
+                margin-top: 2px; /* 移动端进一步减少上边距 */
             }
         }
     </style>
@@ -312,7 +323,7 @@
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = '#' + year; // 修复：使用字符串拼接
+            a.href = '#' + year;
             a.textContent = year;
             a.onclick = () => {
                 currentYear = year;
