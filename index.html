@@ -57,6 +57,8 @@
             text-decoration: none;
             padding: 5px 10px;
             display: block;
+            font-size: 1.5em; /* 增大年份字体 */
+            font-weight: 500; /* 加粗年份 */
         }
         .cate ul li a:hover, .cate ul li a.active {
             color: #facc29;
@@ -116,10 +118,10 @@
         }
         /* 纪念文字容器 */
         .memory-text {
-            text-align: center;
+            text-align: left; /* 左对齐 */
             margin-bottom: 20px;
             padding: 15px;
-            background: rgba(241, 232, 221, 0.2); /* 半透明背景，基于 #f1e8dd */
+            background: rgba(241, 232, 221, 0.2); /* 半透明背景 */
             border-radius: 5px;
         }
         .memory-text p {
@@ -129,7 +131,8 @@
             font-weight: 500; /* 中等粗细 */
             line-height: 1.8; /* 行距 */
             margin: 5px 0;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* 文字阴影提升可读性 */
+            padding-left: 10px; /* 左边距 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* 文字阴影 */
         }
         /* 移动端调整 */
         @media (max-width: 768px) {
@@ -138,6 +141,10 @@
             }
             .memory-text p {
                 font-size: 1em; /* 移动端字体稍小 */
+                padding-left: 5px; /* 移动端左边距稍小 */
+            }
+            .cate ul li a {
+                font-size: 1.2em; /* 移动端年份字体稍小 */
             }
         }
     </style>
@@ -305,7 +312,7 @@
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = `#${year}`;
+            a.href = '#' + year; // 修复：使用字符串拼接
             a.textContent = year;
             a.onclick = () => {
                 currentYear = year;
