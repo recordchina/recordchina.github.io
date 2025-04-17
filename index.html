@@ -1,20 +1,287 @@
-g",
-            "29780520.png", "2978052001.png", "29780521.png", "29780522.png", "2978052202.png",
-            "29780523.png", "29780525.png", "29780528.png", "2978052802.png", "29780529.png",
-            "29780531.png", "2978053102.png", "29780602.png", "2978060202.png", "2978060203.png",
-            "2978060301.png", "2978060302.png", "2978060401.png", "2978060402.png", "2978060403.png",
-            "2978060404.png", "2978060405.png", "2978060406.png", "2978060407.png", "2978060408.png",
-            "2978060409.png", "2978060410.png", "2978060411.png", "2978060412.png", "2978060501.png",
-            "2978060502.png", "2978060503.png", "2978060601.png", "2978060602.png", "2978060701.png",
-            "2978060702.png", "29780801.png", "29780802.png", "29780803.png", "29780804.png",
-            "29780805.png", "29780806.png", "2978080602.png"
-        ];
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="记录历史 - 图片展示">
+    <title>记录历史 - 永不忘</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #575f4f;
+            color: #f1e8dd;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header-mobile {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+        }
+        .main {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        .left-column {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 10px; /* 减少右边距，靠近图片 */
+        }
+        .title h2 {
+            font-size: 2em;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+        }
+        .intro p {
+            font-size: 1.1em;
+            line-height: 1.65em;
+            margin-bottom: 10px;
+        }
+        .cate {
+            margin-top: 5px; /* 减少上边距，靠近图片 */
+        }
+        .cate ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center; /* 年份居中对齐 */
+        }
+        .cate ul li a {
+            color: #ff6b6b; /* 鲜艳珊瑚红 */
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            font-size: 1.5em; /* 保持大字体 */
+            font-weight: 500; /* 加粗 */
+        }
+        .cate ul li a:hover, .cate ul li a.active {
+            color: #facc29; /* 悬停和选中保持原有活跃颜色 */
+        }
+        .content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .content img {
+            width: 100%;
+            height: 100%;
+            max-height: 507px;
+            display: block;
+            margin-bottom: 15px;
+            border: 2px solid #f1e8dd;
+            cursor: pointer;
+        }
+        .content .col-md-6 {
+            padding: 5px;
+            height: 507px;
+        }
+        .content .row {
+            margin: 0;
+        }
+        .pagination {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pagination button, .pagination input {
+            background-color: #f1e8dd;
+            color: #575f4f;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .pagination button.active {
+            background-color: #facc29;
+            color: #575f4f;
+        }
+        .pagination input {
+            width: 50px;
+            text-align: center;
+        }
+        .footer {
+            padding: 30px 15px;
+            color: #fff;
+        }
+        /* 纪念文字容器 */
+        .memory-text {
+            text-align: left; /* 左对齐 */
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(241, 232, 221, 0.2); /* 半透明背景 */
+            border-radius: 5px;
+        }
+        .memory-text p {
+            color: #facc29; /* 活跃颜色 */
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.2em; /* 稍大字体 */
+            font-weight: 500; /* 中等粗细 */
+            line-height: 1.8; /* 行距 */
+            margin: 5px 0;
+            padding-left: 10px; /* 左边距 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* 文字阴影 */
+        }
+        /* 移动端调整 */
+        @media (max-width: 768px) {
+            .memory-text {
+                padding: 10px;
+            }
+            .memory-text p {
+                font-size: 1em; /* 移动端字体稍小 */
+                padding-left: 5px; /* 移动端左边距稍小 */
+            }
+            .cate ul li a {
+                font-size: 1.2em; /* 移动端年份字体稍小 */
+            }
+            .left-column {
+                padding-right: 5px; /* 移动端减少右边距 */
+            }
+            .cate {
+                margin-top: 2px; /* 移动端进一步减少上边距 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部（移动端） -->
+    <header class="header-mobile d-lg-none">
+        <div class="logo">
+            <a href="/">Record China</a>
+        </div>
+        <div class="menu">
+            <button class="btn">☰</button>
+        </div>
+    </header>
+
+    <!-- 主体 -->
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 左侧：标题 + 年份 -->
+                <div class="col-md-3 left-column">
+                    <div class="title">
+                        <div class="inner">
+                            <h2>记录历史 传播真相</h2>
+                        </div>
+                    </div>
+                    <div class="intro">
+                        <div class="inner">
+                            <p>这是一个流动的纪念碑，碑身上交错刻下三条时间线：</p>
+                            <p>主线：详细讲述19xx年x月至x月发生在xx的一场规<br>模浩大的民主抗争运动。</p>
+                            <p>背景线：xx运动推动了改变国际政治格局的苏东剧<br>变，因此记录了当代全球民主自由抗争史。</p>
+                            <p>生命线：被大历史裹挟的个体命运的挣扎，从未因时<br>光流逝而消散。</p>
+                            <p>请点击以下年份浏览具体事件信息：<br>
+                               浏览大图时可用键盘左右箭头切换</p>
+                            <a href="/" class="btn underline"></a>
+                        </div>
+                    </div>
+                    <div class="cate">
+                        <div class="inner">
+                            <ul id="year-list">
+                                <!-- 年份列表由 JS 动态生成 -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 中间：图片内容 -->
+                <div class="col-md-6 content">
+                    <!-- 纪念文字 -->
+                    <div class="memory-text">
+                        <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
+                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
+                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
+                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
+                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
+                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
+                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
+                    </div>
+                    <section class="board" id="image-board">
+                        <div class="row">
+                            <!-- 图片将在这里动态生成 -->
+                        </div>
+                        <div class="pagination" id="pagination">
+                            <!-- 分页按钮将在这里生成 -->
+                        </div>
+                    </section>
+                </div>
+                <!-- 右侧：占位 -->
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 放大图片的 Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="modalImage" style="width: 100%; height: auto;">
+                    <!-- 纪念文字 -->
+                    <div class="memory-text">
+                        <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
+                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
+                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
+                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
+                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
+                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
+                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer d-none d-lg-block">
+        <div class="container-fluid d-flex justify-content-between">
+            <div class="footer-left">
+                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
+            </div>
+            <div class="footer-right">
+                <button class="btn active">中</button>
+                <button class="btn">EN</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 自定义 JS -->
+    <script>
+        // 图片路径和完整文件名列表
+      
 
         // 年份映射
         const yearMap = {
-            "2976": "1986",
-            "2977": "1988",
-            "2978": "1989"
+            "2976": "2976",
+            "2977": "2977",
+            "2978": "2978"
         };
 
         // 按年份分组
