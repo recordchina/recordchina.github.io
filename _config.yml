@@ -1,8 +1,8 @@
 # Site settings
-title: 我的测试网站
-SEOTitle: 我的测试网站 - 让沟通更容易
-description: "我的测试网站，从此网站不再复杂"
-keyword: "我的测试网站，china"
+title: 八九六四纪念 支持台湾独立网站
+SEOTitle: 天安门 八九六四纪念 支持台湾独立网站
+description: "天安门 八九六四纪念 支持台湾独立网站"
+keyword: "天安门 八九六四纪念 支持台湾独立网站，北京 中国"
 url: "https://recordchina.github.io"
 baseurl: ""
 
@@ -16,3 +16,7 @@ kramdown:
 permalink: pretty
 exclude: ["less", "node_modules", "Gruntfile.js", "package.json", "README.md"]
 include: ["qsewr"]
+
+text
+plugins:
+  - jekyll-sitemap
