@@ -28,58 +28,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
+        /* --- 核心布局修改：实现固定头部和尾部 --- */
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            min-height: 100vh; /* 改为 min-height 以适应移动端内容 */
+            /* 关键：强制占满屏幕高度，不产生 Body 级滚动 */
+            height: 100vh; 
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
         }
+
+        /* 头部固定高度 */
         .header-mobile {
+            flex: 0 0 auto; /* 不允许缩放 */
             display: flex;
             justify-content: space-between;
             padding: 15px;
+            background-color: #575f4f; /* 确保背景色不透明 */
+            z-index: 10;
         }
+
+        /* 中间内容区域：自适应高度并产生内部滚动 */
         .main {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            align-items: center; /* 垂直居中 */
-        }
-        
-        /* 左侧栏样式优化 */
-        .left-column {
-            height: 100%;
+            flex: 1 1 auto; /* 占据剩余空间 */
+            overflow-y: auto; /* 允许垂直滚动 */
+            overflow-x: hidden;
+            padding: 20px 0; /* 上下内边距 */
+            width: 100%;
             display: flex;
             flex-direction: column;
-            padding-right: 10px;
         }
 
-        /* 仅在电脑端(md以上)启用左侧滚动，防止内容溢出 */
-        @media (min-width: 768px) {
-            .left-column {
-                justify-content: flex-start; /* 顶部对齐 */
-                overflow-y: auto; /* 允许垂直滚动 */
-                max-height: calc(100vh - 120px); /* 限制高度，避免挤出Footer */
-                scrollbar-width: none; /* Firefox 隐藏滚动条 */
-            }
-            .left-column::-webkit-scrollbar {
-                display: none; /* Chrome/Safari 隐藏滚动条 */
-            }
-            .main {
-                height: calc(100vh - 80px); /* 限制主要区域高度 */
-                align-items: flex-start; /* 顶部对齐 */
-                overflow: hidden;
-            }
+        /* 尾部 Footer：固定在底部，不随内容滚动 */
+        .footer {
+            flex: 0 0 auto; /* 不允许缩放 */
+            padding: 15px;
+            color: #fff;
+            background-color: rgba(0,0,0,0.2); /* 稍微加深背景区分 */
+            z-index: 10;
         }
 
+        /* --- 样式细节 --- */
+        
         .title h2 {
             font-size: 2em;
             font-weight: 900;
             margin: 0 0 10px 0;
         }
+        
+        /* 左侧栏样式 */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
+
         .intro p {
             font-size: 1.1em;
             line-height: 1.65em;
@@ -92,7 +100,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: center;
+            text-align: center; /* 左侧年份居中 */
         }
         .cate ul li a {
             color: #ff6b6b;
@@ -105,29 +113,28 @@
         .cate ul li a:hover, .cate ul li a.active {
             color: #facc29;
         }
+
+        /* 右侧内容样式 */
         .content {
-            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
         }
         .content img {
             width: 100%;
-            height: 100%;
+            height: auto;
             max-height: 507px;
             display: block;
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
             cursor: pointer;
-            object-fit: cover; /* 防止图片拉伸变形 */
+            object-fit: cover;
         }
         .content .col-md-6 {
             padding: 5px;
-            height: 507px;
         }
-        .content .row {
-            margin: 0;
-        }
+        
+        /* 分页样式 */
         .pagination {
             margin-top: 15px;
             display: flex;
@@ -156,14 +163,6 @@
             text-align: center;
         }
         
-        /* Footer 通用样式 */
-        .footer {
-            padding: 20px 15px;
-            color: #fff;
-            background-color: rgba(0,0,0,0.1);
-            margin-top: auto; /* 确保 Footer 沉底 */
-        }
-
         .memory-text {
             text-align: left;
             margin-bottom: 20px;
@@ -187,32 +186,40 @@
             padding-top: 15px;
         }
 
-        /* 友情链接样式 */
-        .friendly-links {
-            margin-top: 25px;
+        /* --- 友情链接（移动到底部后的新样式） --- */
+        .bottom-links {
+            margin-top: 40px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 15px;
-            text-align: left;
-            padding-bottom: 20px; /* 底部留白 */
+            padding-top: 20px;
+            width: 100%;
+            text-align: center; /* 底部链接居中 */
+            padding-bottom: 20px;
         }
-        .friendly-links h5 {
-            font-size: 1em;
+        .bottom-links h5 {
+            font-size: 1.1em;
             color: #facc29;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: bold;
-            padding-left: 5px;
         }
-        .friendly-links ul li a {
-            font-size: 0.85em !important;
-            padding: 2px 5px !important;
-            color: #f1e8dd !important;
-            display: block;
+        .bottom-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 链接横向居中排列 */
+            gap: 15px; /* 链接之间的间距 */
+        }
+        .bottom-links ul li a {
+            font-size: 0.9em;
+            color: #f1e8dd;
+            text-decoration: none;
             opacity: 0.8;
             transition: all 0.3s;
-            text-align: left;
+            white-space: nowrap; /* 防止链接换行 */
         }
-        .friendly-links ul li a:hover {
-            color: #ff6b6b !important;
+        .bottom-links ul li a:hover {
+            color: #ff6b6b;
             opacity: 1;
             text-decoration: underline;
         }
@@ -222,24 +229,25 @@
             .memory-text { padding: 10px; }
             .memory-text p { font-size: 1em; padding-left: 5px; }
             .cate ul li a { font-size: 1.2em; }
-            .left-column { padding-right: 5px; height: auto; max-height: none; overflow: visible; }
-            .cate { margin-top: 2px; }
-            .content .col-md-6 { height: auto; }
             .content img { max-height: 300px; }
             
             /* 手机端 Footer 样式调整：垂直排列 */
             .footer .container-fluid {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
                 text-align: center;
             }
             .footer-center {
                 font-size: 0.8em;
-                display: block !important; /* 强制显示 */
+                display: block !important; 
             }
             .footer-left a, .footer-right button {
                 font-size: 0.9em;
             }
+            
+            /* 手机端友情链接稍微紧凑一点 */
+            .bottom-links { margin-top: 20px; padding-bottom: 10px; }
+            .bottom-links ul { gap: 10px; }
         }
     </style>
 </head>
@@ -286,26 +294,8 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    <div class="cate friendly-links">
-                        <div class="inner">
-                            <h5>友情链接</h5>
-                            <ul>
-                                <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
-                                <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
-                                <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
-                                <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
-                                <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
-                                <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
-                                <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
-                                <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
-                                <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
-                                <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
                 </div>
+
                 <div class="col-md-6 content">
                     <div class="memory-text">
                         <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
@@ -327,6 +317,27 @@
                 </div>
                 <div class="col-md-3"></div>
             </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="bottom-links">
+                        <h5>友情链接</h5>
+                        <ul>
+                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
