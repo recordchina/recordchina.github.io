@@ -36,13 +36,14 @@
         }
 
         body {
+            /* 手机端自然高度 */
             height: auto;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- 电脑端布局 (App模式：左右滚动) --- */
+        /* --- 电脑端布局 (App模式) --- */
         @media (min-width: 769px) {
             body {
                 height: 100vh;
@@ -73,7 +74,7 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 右侧内容区 (包含友情链接和Footer) */
+            /* 右侧内容区 */
             .content {
                 height: 100%;
                 overflow-y: auto;
@@ -81,12 +82,37 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
-                padding-bottom: 40px; 
+                padding-bottom: 60px; /* 给固定底部的 Footer 留空间 */
             }
             .content::-webkit-scrollbar { display: none; }
+            
+            /* 电脑端左侧显示友情链接列表 */
+            .friendly-links-pc { display: block; margin-top: 30px; }
+            /* 电脑端隐藏内容区的友情链接（避免重复） */
+            .friendly-links-mobile { display: none; }
+            
+            /* 电脑端让 Footer 固定到底部 */
+            .site-info-block {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 100;
+                background-color: rgba(0,0,0,0.4); /* 电脑端背景深一点 */
+                padding: 15px 0;
+            }
+            /* 电脑端 Footer 内容横向排列 */
+            .site-info-flex {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 98%;
+                margin: 0 auto;
+            }
+            .info-center { margin: 0 auto; }
         }
 
-        /* --- 移动端布局 (自然流：上下堆叠) --- */
+        /* --- 移动端布局 (自然流) --- */
         @media (max-width: 768px) {
             .header-mobile {
                 display: flex;
@@ -115,6 +141,38 @@
                 max-height: 250px;
                 margin-bottom: 10px;
             }
+            
+            .friendly-links-pc { display: none; }
+            
+            /* 手机端 Footer 是自然流动的 */
+            .site-info-block {
+                position: static;
+                margin-top: 0;
+                background: rgba(0,0,0,0.15);
+                padding: 10px 15px;
+                border-radius: 0 0 5px 5px;
+            }
+            
+            /* 手机端布局核心：倒三角结构 */
+            .site-info-flex {
+                display: flex;
+                flex-direction: column;
+            }
+            /* 1. 计数器在最上面 */
+            .info-center {
+                width: 100%;
+                text-align: center;
+                order: 1;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px dashed rgba(255,255,255,0.2);
+            }
+            /* 2. 关于我们在下面左边 (其实这里只有它了，就左对齐即可) */
+            .info-left {
+                width: 100%;
+                text-align: left;
+                order: 2;
+            }
         }
 
         /* --- 组件样式 --- */
@@ -125,17 +183,6 @@
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
         .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
         .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
-
-        .content img {
-            width: 100%;
-            height: auto;
-            max-height: 507px;
-            display: block;
-            margin-bottom: 15px;
-            border: 2px solid #f1e8dd;
-            cursor: pointer;
-            object-fit: cover;
-        }
 
         .pagination {
             margin-top: 15px;
@@ -179,31 +226,24 @@
             padding-top: 10px;
         }
 
-        /* --- 友情链接板块 (紧贴分页器下方) --- */
-        .friendly-links-block {
+        /* 友情链接样式 (移动端紧贴版) */
+        .friendly-links-mobile {
             margin-top: 20px; 
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
             text-align: center;
             width: 100%;
+            background: rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+            border-radius: 5px 5px 0 0; /* 上圆角 */
         }
-        /* 手机端样式微调 */
-        @media (max-width: 768px) {
-            .friendly-links-block {
-                margin-top: 15px; 
-                background: rgba(0,0,0,0.1); 
-                padding-bottom: 5px;
-                border-radius: 5px 5px 0 0;
-            }
-        }
-
-        .friendly-links-block h5 {
+        .friendly-links-mobile h5 {
             font-size: 1.1em;
             color: #facc29;
             margin-bottom: 10px;
             font-weight: bold;
         }
-        .friendly-links-block ul {
+        .friendly-links-mobile ul {
             list-style: none;
             padding: 0;
             margin: 0;
@@ -212,7 +252,7 @@
             justify-content: center;
             gap: 10px;
         }
-        .friendly-links-block ul li a {
+        .friendly-links-mobile ul li a {
             font-size: 0.85em;
             color: #f1e8dd;
             text-decoration: none;
@@ -220,79 +260,22 @@
             transition: all 0.3s;
             white-space: nowrap;
         }
-        .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
+        .friendly-links-mobile ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* --- 网站信息板块 (脱离 Footer，紧贴友情链接) --- */
-        .site-info-block {
-            color: #fff;
-            width: 100%;
-            background: rgba(0,0,0,0.2); 
+        /* 电脑端左侧链接样式 */
+        .friendly-links-pc ul li a {
+            font-size: 0.85em;
+            color: #f1e8dd;
+            text-decoration: none;
+            display: block;
+            padding: 2px 5px;
         }
-        /* 手机端紧贴上方 */
-        @media (max-width: 768px) {
-            .site-info-block {
-                margin-top: 0;
-                padding: 10px 0;
-                border-radius: 0 0 5px 5px;
-            }
-        }
-        /* 电脑端增加一点间距 */
-        @media (min-width: 769px) {
-            .site-info-block {
-                margin-top: 20px;
-                padding: 15px 0;
-                border-radius: 5px;
-            }
-        }
-
-        /* === 布局核心：Flex 排序控制 === */
-        .site-info-flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* 手机端特殊排序：倒三角布局 */
-        @media (max-width: 768px) {
-            .site-info-flex {
-                flex-wrap: wrap; /* 允许换行 */
-            }
-            
-            /* 1. 计数器：order 1 (占满第一行) */
-            .info-center {
-                width: 100%;
-                order: 1; 
-                text-align: center;
-                margin-bottom: 12px;
-                padding-bottom: 10px;
-                border-bottom: 1px dashed rgba(255,255,255,0.15); /* 分割线 */
-                font-size: 0.8em;
-                opacity: 0.9;
-                display: block !important;
-            }
-            
-            /* 2. 关于我们：order 2 (第二行左侧) */
-            .info-left {
-                width: 50%;
-                order: 2;
-                text-align: left;
-                padding-left: 5px;
-            }
-            
-            /* 3. 语言切换：order 3 (第二行右侧) */
-            .info-right {
-                width: 50%;
-                order: 3;
-                text-align: right;
-                padding-right: 5px;
-            }
-
-            .info-left a, .info-right button { font-size: 0.9em; padding: 2px 8px; }
-        }
-        
-        /* 电脑端：一行排列 */
-        @media (min-width: 769px) {
-            .info-center { font-size: 0.9em; opacity: 0.8; }
+        .friendly-links-pc h5 {
+            font-size: 1em;
+            color: #facc29;
+            margin-bottom: 10px;
+            font-weight: bold;
+            padding-left: 5px;
         }
     </style>
 </head>
@@ -339,6 +322,22 @@
                             </ul>
                         </div>
                     </div>
+                    
+                    <div class="friendly-links-pc">
+                        <h5>友情链接</h5>
+                        <ul>
+                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="col-md-6 content">
@@ -361,7 +360,7 @@
                             </div>
                     </section>
 
-                    <div class="friendly-links-block">
+                    <div class="friendly-links-mobile">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -378,7 +377,7 @@
                     </div>
 
                     <div class="site-info-block">
-                        <div class="site-info-flex px-3">
+                        <div class="site-info-flex">
                             
                             <div class="info-center">
                                 <span id="busuanzi_container_site_pv" style="display:none">
@@ -388,8 +387,7 @@
                                     </svg>
                                     历史见证人次: <span id="busuanzi_value_site_pv"></span>
                                 </span>
-                                <span style="margin: 0 5px;">|</span>
-                                <span id="busuanzi_container_site_uv" style="display:none">
+                                <span style="margin: 0 5px; display:none;" class="d-md-inline">|</span> <span id="busuanzi_container_site_uv" style="display:none">
                                     访客数: <span id="busuanzi_value_site_uv"></span>
                                 </span>
                             </div>
@@ -398,14 +396,10 @@
                                  <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
                             </div>
                             
-                            <div class="info-right">
-                                <button class="btn active" style="color:#fff; background-color:#facc29; border:none;">中</button>
-                                <button class="btn" style="color:#fff;">EN</button>
                             </div>
-                            
-                        </div>
                     </div>
-                    </div>
+
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
