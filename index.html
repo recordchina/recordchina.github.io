@@ -33,7 +33,7 @@
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            height: 100vh;
+            min-height: 100vh; /* 改为 min-height 以适应移动端内容 */
             display: flex;
             flex-direction: column;
         }
@@ -46,15 +46,35 @@
             padding: 20px;
             flex-grow: 1;
             display: flex;
-            align-items: center;
+            align-items: center; /* 垂直居中 */
         }
+        
+        /* 左侧栏样式优化 */
         .left-column {
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             padding-right: 10px;
         }
+
+        /* 仅在电脑端(md以上)启用左侧滚动，防止内容溢出 */
+        @media (min-width: 768px) {
+            .left-column {
+                justify-content: flex-start; /* 顶部对齐 */
+                overflow-y: auto; /* 允许垂直滚动 */
+                max-height: calc(100vh - 120px); /* 限制高度，避免挤出Footer */
+                scrollbar-width: none; /* Firefox 隐藏滚动条 */
+            }
+            .left-column::-webkit-scrollbar {
+                display: none; /* Chrome/Safari 隐藏滚动条 */
+            }
+            .main {
+                height: calc(100vh - 80px); /* 限制主要区域高度 */
+                align-items: flex-start; /* 顶部对齐 */
+                overflow: hidden;
+            }
+        }
+
         .title h2 {
             font-size: 2em;
             font-weight: 900;
@@ -99,6 +119,7 @@
             margin-bottom: 15px;
             border: 2px solid #f1e8dd;
             cursor: pointer;
+            object-fit: cover; /* 防止图片拉伸变形 */
         }
         .content .col-md-6 {
             padding: 5px;
@@ -134,11 +155,15 @@
             width: 50px;
             text-align: center;
         }
+        
+        /* Footer 通用样式 */
         .footer {
             padding: 20px 15px;
             color: #fff;
             background-color: rgba(0,0,0,0.1);
+            margin-top: auto; /* 确保 Footer 沉底 */
         }
+
         .memory-text {
             text-align: left;
             margin-bottom: 20px;
@@ -161,12 +186,14 @@
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
         }
-        /* 新增友情链接样式 */
+
+        /* 友情链接样式 */
         .friendly-links {
             margin-top: 25px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
-            text-align: left; /* 左对齐 */
+            text-align: left;
+            padding-bottom: 20px; /* 底部留白 */
         }
         .friendly-links h5 {
             font-size: 1em;
@@ -176,26 +203,43 @@
             padding-left: 5px;
         }
         .friendly-links ul li a {
-            font-size: 0.85em !important; /* 覆盖原有的大号字体 */
+            font-size: 0.85em !important;
             padding: 2px 5px !important;
             color: #f1e8dd !important;
             display: block;
             opacity: 0.8;
             transition: all 0.3s;
+            text-align: left;
         }
         .friendly-links ul li a:hover {
             color: #ff6b6b !important;
             opacity: 1;
             text-decoration: underline;
         }
-        /* 移动端调整 */
+
+        /* 移动端特定调整 */
         @media (max-width: 768px) {
             .memory-text { padding: 10px; }
             .memory-text p { font-size: 1em; padding-left: 5px; }
             .cate ul li a { font-size: 1.2em; }
-            .left-column { padding-right: 5px; }
+            .left-column { padding-right: 5px; height: auto; max-height: none; overflow: visible; }
             .cate { margin-top: 2px; }
-            .footer-center { display: none; }
+            .content .col-md-6 { height: auto; }
+            .content img { max-height: 300px; }
+            
+            /* 手机端 Footer 样式调整：垂直排列 */
+            .footer .container-fluid {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .footer-center {
+                font-size: 0.8em;
+                display: block !important; /* 强制显示 */
+            }
+            .footer-left a, .footer-right button {
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -242,6 +286,7 @@
                             </ul>
                         </div>
                     </div>
+                    
                     <div class="cate friendly-links">
                         <div class="inner">
                             <h5>友情链接</h5>
@@ -259,6 +304,7 @@
                             </ul>
                         </div>
                     </div>
+
                 </div>
                 <div class="col-md-6 content">
                     <div class="memory-text">
@@ -309,7 +355,7 @@
         </div>
     </div>
 
-    <footer class="footer d-none d-lg-block">
+    <footer class="footer">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div class="footer-left">
                  <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
