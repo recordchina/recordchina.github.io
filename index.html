@@ -12,7 +12,8 @@
     <meta name="robots" content="index, follow">
     
     <link rel="canonical" href="https://8964.freeddns.org/" />
-
+<link rel="preconnect" href="//busuanzi.ibruce.info">
+<link rel="dns-prefetch" href="//busuanzi.ibruce.info">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://8964.freeddns.org/" />
     <meta property="og:title" content="1989年6月4日 - 记录历史 传播真相" />
@@ -294,7 +295,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <script>
         // 图片路径和完整文件名列表
@@ -460,5 +460,21 @@
             showImages(currentYear, 1);
         }
     </script>
+
+ <script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            var script = document.createElement("script");
+            script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+            script.async = true;
+            script.dataset.tag = "busuanzi"; 
+            document.body.appendChild(script);
+            
+        }, 1500);
+    });
+
+    
+</script>
+    
 </body>
 </html>
