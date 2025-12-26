@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. 全局基础 --- */
+        /* 全局基础 */
         html, body {
             margin: 0;
             padding: 0;
@@ -35,7 +35,7 @@
             color: #f1e8dd;
         }
 
-        /* 默认状态：自然高度，防止手机端内容被截断 */
+        /* 手机端：自然高度 */
         body {
             height: auto;
             min-height: 100vh;
@@ -43,55 +43,50 @@
             flex-direction: column;
         }
 
-        /* --- 2. 电脑端布局 (App 左右分栏模式) --- */
+        /* 电脑端：锁定高度，左右分栏滚动 */
         @media (min-width: 769px) {
-            html, body {
-                height: 100vh; /* 锁定屏幕高度 */
-                overflow: hidden; /* 禁止整页滚动 */
+            body {
+                height: 100vh;
+                overflow: hidden;
             }
             .header-mobile { display: none; }
-            
             .main {
                 flex: 1;
                 height: 100%;
                 overflow: hidden;
-                display: flex;
+                display: flex; 
             }
-            .main > .container-fluid {
-                height: 100%;
-            }
-            .main .row {
+            .main > .container-fluid, .main .row {
                 height: 100%;
             }
             
-            /* 左侧栏：独立滚动 */
             .left-column {
                 height: 100%;
                 overflow-y: auto;
+                scrollbar-width: none; 
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                scrollbar-width: none; 
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 右侧内容区：独立滚动 (这是防止冲破边界的关键) */
+            /* 关键：右侧栏内容过多时，只在盒子内部滚动，不冲破屏幕 */
             .content {
                 height: 100%;
-                overflow-y: auto; /* 内容多时出现滚动条 */
-                padding-bottom: 40px; /* 底部留白 */
+                overflow-y: auto;
                 scrollbar-width: none;
-                display: block; /* 恢复默认块级显示 */
+                padding-bottom: 40px; 
+                display: block; 
             }
             .content::-webkit-scrollbar { display: none; }
             
-            /* 电脑端隐藏移动版菜单 */
+            /* 电脑端左侧显示友情链接 */
             .friendly-links-pc { display: block; margin-top: 30px; }
+            /* 电脑端隐藏右侧内容里的友情链接（防止重复） */
             .friendly-links-mobile { display: none; }
-            .site-info-wrapper { margin-top: 40px; }
         }
 
-        /* --- 3. 移动端布局 (自然流模式) --- */
+        /* 移动端：自然流布局 */
         @media (max-width: 768px) {
             .header-mobile {
                 display: flex;
@@ -99,39 +94,23 @@
                 padding: 10px 15px;
                 background-color: #575f4f;
             }
-            
-            .main {
-                display: block;
-                height: auto;
-                padding: 0;
-            }
-            
+            .main { padding: 0; }
             .left-column {
                 padding-bottom: 10px;
                 margin-bottom: 10px;
                 border-bottom: 1px solid rgba(241, 232, 221, 0.1);
             }
+            .content { padding-bottom: 20px; }
+            .content img { max-height: 250px; margin-bottom: 10px; }
             
-            /* 手机端右侧内容：自然延伸，不设高度限制 */
-            .content {
-                height: auto !important; 
-                overflow: visible !important;
-                padding-bottom: 30px;
-            }
-            
-            .content img {
-                max-height: 250px;
-                margin-bottom: 10px;
-            }
-            
+            /* 手机端隐藏左侧列表，显示右侧列表 */
             .friendly-links-pc { display: none; }
             .friendly-links-mobile { display: block; }
         }
 
-        /* --- 组件样式 --- */
+        /* 样式细节 */
         .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
         .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
-        
         .cate { margin-top: 5px; }
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
         .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
@@ -179,7 +158,24 @@
             padding-top: 10px;
         }
 
-        /* --- 友情链接通用样式 --- */
+        /* 友情链接样式 */
+        .friendly-links-block {
+            margin-top: 25px;
+            border-top: 1px solid rgba(241, 232, 221, 0.3);
+            padding-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+        /* 手机端加个深色背景区分 */
+        @media (max-width: 768px) {
+            .friendly-links-mobile {
+                background: rgba(0,0,0,0.1);
+                padding-bottom: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+            }
+        }
+        
         .friendly-links-block h5 {
             font-size: 1.1em;
             color: #facc29;
@@ -192,7 +188,7 @@
             margin: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; /* 默认居中 */
+            justify-content: center;
             gap: 10px;
         }
         .friendly-links-block ul li a {
@@ -205,46 +201,39 @@
         }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* 手机端友情链接 */
-        .friendly-links-mobile {
-            margin-top: 25px;
-            border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 15px;
-            text-align: center;
-            background: rgba(0,0,0,0.1);
-            padding-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        /* 电脑端左侧友情链接 */
-        .friendly-links-pc ul { justify-content: flex-start; }
+        /* 电脑端左侧链接列表样式调整 */
         .friendly-links-pc { text-align: left; }
-        .friendly-links-pc h5 { padding-left: 5px; }
+        .friendly-links-pc ul { justify-content: flex-start; }
         .friendly-links-pc ul li a { padding: 2px 5px; display: block; }
+        .friendly-links-pc h5 { padding-left: 5px; }
 
         /* --- 底部信息区域 (计数器 + 关于我们) --- */
         .site-info-wrapper {
-            /* 这是一个容器，紧接在友情链接下面 */
+            /* 紧接在友情链接下面 */
             width: 100%;
-            margin-top: 10px;
             background: rgba(0,0,0,0.2);
             border-radius: 5px;
             padding: 15px;
             color: #fff;
+            /* 确保顺序是竖直排列 */
+            display: flex;
+            flex-direction: column;
+            gap: 10px; 
         }
 
-        /* 计数器行：居中，独占一行 */
+        /* 计数器行：居中 */
         .info-counter {
             text-align: center;
             padding-bottom: 10px;
-            margin-bottom: 10px;
             border-bottom: 1px dashed rgba(255,255,255,0.2);
             font-size: 0.85em;
+            width: 100%;
         }
 
         /* 关于我们行：左对齐 */
         .info-about {
             text-align: left;
+            width: 100%;
         }
         .info-about a {
             font-weight: bold;
@@ -361,7 +350,7 @@
                                 </svg>
                                 历史见证人次: <span id="busuanzi_value_site_pv"></span>
                             </span>
-                            <span style="margin: 0 5px;" class="d-none d-md-inline">|</span>
+                            <span style="margin: 0 5px;">|</span>
                             <span id="busuanzi_container_site_uv" style="display:none">
                                 访客数: <span id="busuanzi_value_site_uv"></span>
                             </span>
@@ -372,7 +361,8 @@
                         </div>
 
                     </div>
-                    </div>
+
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
