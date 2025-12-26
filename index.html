@@ -44,12 +44,11 @@
         .header-mobile {
             display: flex;
             justify-content: space-between;
-            padding: 10px 15px;
+            padding: 8px 15px; /* 压缩头部内边距 */
             background-color: #575f4f;
             border-bottom: 1px solid rgba(241, 232, 221, 0.1);
         }
 
-        /* 手机端内容区容器 */
         .main {
             padding: 0;
             display: block;
@@ -57,12 +56,12 @@
         }
 
         /* 标题和文字样式 */
-        .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
-        .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
+        .title h2 { font-size: 1.8em; font-weight: 900; margin: 0 0 5px 0; }
+        .intro p { font-size: 1em; line-height: 1.5em; margin-bottom: 5px; }
         
         .cate { margin-top: 5px; }
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
-        .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
+        .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 2px 10px; display: block; font-size: 1.3em; font-weight: 500; }
         .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
 
         /* 图片样式 */
@@ -71,7 +70,7 @@
             height: auto;
             max-height: 507px;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border: 2px solid #f1e8dd;
             cursor: pointer;
             object-fit: cover;
@@ -79,7 +78,7 @@
         
         /* 分页器样式 */
         .pagination {
-            margin-top: 15px;
+            margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -89,46 +88,44 @@
             background-color: #f1e8dd;
             color: #575f4f;
             border: none;
-            padding: 5px 10px;
-            margin: 0 5px;
+            padding: 3px 8px; /* 按钮稍微变小 */
+            margin: 0 3px;
             cursor: pointer;
+            font-size: 0.9em;
         }
         .pagination button:disabled { background-color: #ccc; cursor: not-allowed; }
         .pagination button.active { background-color: #facc29; color: #575f4f; }
-        .pagination input { width: 50px; text-align: center; }
+        .pagination input { width: 40px; text-align: center; }
         
         /* 记忆文本样式 */
         .memory-text {
             text-align: left;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(241, 232, 221, 0.2);
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(241, 232, 221, 0.15);
             border-radius: 5px;
         }
         .memory-text p {
             color: #facc29;
             font-family: 'Noto Sans TC', sans-serif;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 500;
-            line-height: 1.8;
-            margin: 5px 0;
-            padding-left: 10px;
+            line-height: 1.6;
+            margin: 3px 0;
+            padding-left: 5px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* 友情链接 - 基础样式 */
         .bottom-links {
-            margin-top: 15px;
-            padding-top: 15px;
             padding-bottom: 5px;
             width: 100%;
             text-align: center;
-            border-top: 1px solid rgba(241, 232, 221, 0.3);
         }
         .bottom-links h5 {
-            font-size: 1em;
+            font-size: 0.95em;
             color: #facc29;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
         .bottom-links ul {
@@ -138,10 +135,10 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
+            gap: 5px; /* 链接间距更小 */
         }
         .bottom-links ul li a {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #f1e8dd;
             text-decoration: none;
             opacity: 0.8;
@@ -152,64 +149,91 @@
 
         /* Footer 样式 */
         .footer {
-            padding: 10px 5px;
+            padding: 8px 5px;
             color: #fff;
-            background-color: rgba(0,0,0,0.25);
+            background-color: rgba(0,0,0,0.3);
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         /* =========================================
-           2. 移动端 (手机) 样式调整 (Max-width: 768px)
+           2. 移动端 (手机) 深度优化 (Max-width: 768px)
+           目标：消除空白，紧凑展示
            ========================================= */
         @media (max-width: 768px) {
-            /* 修正：在手机端给左侧栏增加一点底部间距，避免内容粘连 */
+            /* 1. 全局容器去高度限制 */
+            body, .main, .container-fluid {
+                height: auto !important;
+                min-height: 0 !important;
+            }
+
+            /* 2. 左侧栏（介绍区）：压缩间距 */
             .left-column {
-                padding-bottom: 20px;
-                border-bottom: 1px dashed rgba(241, 232, 221, 0.2);
-                margin-bottom: 20px;
+                padding-bottom: 10px; /* 减少底部留白 */
+                margin-bottom: 10px;
+                border-bottom: 1px dashed rgba(241, 232, 221, 0.15);
+            }
+            .title h2 { font-size: 1.5em; margin-bottom: 5px; } /* 标题变小 */
+            .intro p { 
+                font-size: 0.9em; /* 正文变小 */
+                line-height: 1.3em; 
+                margin-bottom: 4px; 
+                color: rgba(241, 232, 221, 0.9);
+            }
+            /* 年份列表横排变紧凑? 保持现状但减少间距 */
+            .cate ul li a { padding: 0px 5px; font-size: 1.2em; }
+            .manifesto-link { margin-top: 5px; }
+
+            /* 3. 中间内容区（记忆文本+图片）：压缩 */
+            .memory-text {
+                padding: 8px;
+                margin-bottom: 8px; /* 减少与图片的距离 */
+            }
+            .memory-text p {
+                font-size: 0.85em; /* 缩小诗句字体 */
+                line-height: 1.25em; /* 压缩行高 */
+                margin: 2px 0;
             }
 
-            .memory-text { padding: 10px; margin-bottom: 10px; }
-            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
-            
             .content img { 
-                max-height: 250px; 
-                margin-bottom: 10px; 
-                /* 确保图片居中 */
-                margin-left: auto;
-                margin-right: auto;
+                max-height: 220px; /* 限制手机图片最大高度，避免太高 */
+                margin-bottom: 5px;
             }
             
-            /* 分页器：去掉底部边距，让下面的线贴上来 */
-            .pagination { 
-                margin-top: 5px; 
-                margin-bottom: 0px !important; 
+            /* 4. 分页器与底部链接：极度紧贴 */
+            .pagination {
+                margin-top: 5px;
+                margin-bottom: 0px !important;
+                padding-bottom: 5px;
             }
-
-            /* 友情链接：去掉顶部边距，紧贴分页器 */
+            
+            /* 关键：友情链接紧贴上来 */
             .bottom-links {
-                margin-top: 0px !important; 
-                padding-top: 10px !important;
-                border-top: 1px solid rgba(241, 232, 221, 0.3);
+                margin-top: 0px !important;
+                padding-top: 5px !important;
+                border-top: 1px solid rgba(241, 232, 221, 0.2);
             }
 
+            /* 5. Footer 紧凑化 */
+            .footer { padding: 5px; }
             .footer .container-fluid {
                 flex-direction: column;
-                gap: 5px;
+                gap: 2px;
                 text-align: center;
             }
             .footer-center {
-                font-size: 0.75em;
+                font-size: 0.7em;
                 display: block !important;
+                margin: 2px 0;
             }
             .footer-left a, .footer-right button {
-                font-size: 0.8em;
-                padding: 2px 8px;
+                font-size: 0.75em;
+                padding: 1px 6px;
+                line-height: 1.2;
             }
         }
 
         /* =========================================
-           3. 电脑端样式 (Min-width: 769px)
+           3. 电脑端样式 (Min-width: 769px) - 保持原样
            ========================================= */
         @media (min-width: 769px) {
             body {
@@ -249,10 +273,15 @@
 
             .bottom-links {
                 background: rgba(0,0,0,0.1);
+                padding-top: 15px;
                 padding-bottom: 15px;
+                margin-top: 15px;
                 gap: 15px;
+                border-top: 1px solid rgba(241, 232, 221, 0.3);
             }
-            
+            .bottom-links ul { gap: 15px; }
+            .bottom-links ul li a { font-size: 0.9em; }
+
             .footer { margin-top: auto; }
         }
     </style>
@@ -263,15 +292,13 @@
             <a href="/" style="color: #f1e8dd; text-decoration: none; font-weight: bold;">Record China</a>
         </div>
         <div class="menu">
-            <button class="btn" style="color: #f1e8dd;">?</button>
+            <button class="btn" style="color: #f1e8dd; padding: 0;">?</button>
         </div>
     </header>
 
     <main class="main">
         <div class="container-fluid">
-            <div class="row">
-                
-                <div class="col-md-3 left-column">
+            <div class="row g-0"> <div class="col-md-3 left-column">
                     <div class="title">
                         <div class="inner">
                             <h2>记录历史 传播真相</h2>
@@ -280,11 +307,9 @@
                     <div class="intro">
                         <div class="inner">
                             <p>这是一个流动的纪念碑，碑身上交错刻下三条时间线：</p>
-                            <p>主线：详细讲述1989年4月至6月发生在中国的一场规<br>模浩大的民主抗争运动。</p>
-                            <p>背景线：八九天安门运动以及改变国际政治格局的苏<br>东剧变，真实记录了当代全球民主自由抗争史。</p>
-                            <p>生命线：被大历史裹挟的个体命运的挣扎，从未因时<br>光流逝而消散。</p>
-                            <p>请点击以下年份浏览具体事件信息：<br>
-                                浏览大图时可用键盘左右箭头切换</p>
+                            <p>主线：详细讲述1989年4月至6月发生在中国的一场规模浩大的民主抗争运动。</p>
+                            <p>背景线：八九天安门运动以及改变国际政治格局的苏东剧变。</p>
+                            <p>生命线：被大历史裹挟的个体命运的挣扎。</p>
                             <a href="/" class="btn underline"></a>
                         </div>
                     </div>
@@ -302,17 +327,16 @@
                         </div>
                     </div>
                 </div> 
+
                 <div class="col-md-6 content">
                     <div class="memory-text">
                         <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
-                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
-                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
-                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
-                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
-                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
-                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
-                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
-                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
+                        <p>自由之光，照亮历史 | Light of Freedom</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades</p>
+                        <p>燃起希望，争取自由 | Ignite Hope</p>
+                        <p>和平永存，自由不熄 | Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Remember History</p>
+                        <p>记录记忆，守护自由 | Defend Freedom</p>
                     </div>
                     <section class="board" id="image-board">
                         <div class="row">
@@ -321,6 +345,7 @@
                             </div>
                     </section>
                 </div>
+
                 <div class="col-md-3 d-none d-md-block"></div>
             </div>
             
@@ -355,17 +380,6 @@
                 </div>
                 <div class="modal-body">
                     <img src="" id="modalImage" style="width: 100%; height: auto;">
-                    <div class="memory-text">
-                        <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
-                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
-                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
-                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
-                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
-                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
-                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
-                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
-                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -379,15 +393,15 @@
             
             <div class="footer-center" style="color: #f1e8dd;">
                 <span id="busuanzi_container_site_pv" style="display:none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: middle;">
                       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                       <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                     </svg>
-                    历史见证人次: <span id="busuanzi_value_site_pv"></span>
+                    历史见证: <span id="busuanzi_value_site_pv"></span>
                 </span>
                 <span style="margin: 0 5px;">|</span>
                 <span id="busuanzi_container_site_uv" style="display:none">
-                    访客数: <span id="busuanzi_value_site_uv"></span>
+                    访客: <span id="busuanzi_value_site_uv"></span>
                 </span>
             </div>
 
@@ -402,7 +416,6 @@
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <script>
-        // 图片路径和完整文件名列表
         const basePath = "qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt/";
         const imageFiles = [
             "29760928.png", "29761201.png", "29771201.png", "29780101-1.png", "29780101-2.png",
@@ -423,11 +436,7 @@
             "29780805.png", "29780806.png", "2978080602.png"
         ];
 
-        const yearMap = {
-            "2976": "1986",
-            "2977": "1988",
-            "2978": "1989"
-        };
+        const yearMap = { "2976": "1986", "2977": "1988", "2978": "1989" };
 
         const images = {};
         imageFiles.forEach(file => {
@@ -484,42 +493,36 @@
                     if(cls) btn.className = cls;
                     return btn;
                 };
-
-                pagination.appendChild(createBtn('第一页', page === 1, () => showImages(year, 1)));
-                pagination.appendChild(createBtn('上一页', page === 1, () => showImages(year, page - 1)));
-
-                const startPage = Math.max(1, page - 3);
-                const endPage = Math.min(totalPages, page + 3);
+                pagination.appendChild(createBtn('«', page === 1, () => showImages(year, 1)));
+                pagination.appendChild(createBtn('<', page === 1, () => showImages(year, page - 1)));
+                const startPage = Math.max(1, page - 2); 
+                const endPage = Math.min(totalPages, page + 2);
                 for (let i = startPage; i <= endPage; i++) {
                     pagination.appendChild(createBtn(i, false, () => showImages(year, i), i === page ? 'active' : ''));
                 }
-
-                pagination.appendChild(createBtn('下一页', page === totalPages, () => showImages(year, page + 1)));
-                pagination.appendChild(createBtn('最后一页', page === totalPages, () => showImages(year, totalPages)));
+                pagination.appendChild(createBtn('>', page === totalPages, () => showImages(year, page + 1)));
+                pagination.appendChild(createBtn('»', page === totalPages, () => showImages(year, totalPages)));
 
                 const jumpInput = document.createElement('input');
                 jumpInput.type = 'number';
                 jumpInput.min = 1;
                 jumpInput.max = totalPages;
-                jumpInput.placeholder = '页码';
+                jumpInput.placeholder = 'Go';
                 pagination.appendChild(jumpInput);
-
                 const jumpButton = document.createElement('button');
-                jumpButton.textContent = '跳转';
+                jumpButton.textContent = 'Go';
                 jumpButton.onclick = () => {
                     const jumpPage = parseInt(jumpInput.value);
                     if (jumpPage >= 1 && jumpPage <= totalPages) showImages(year, jumpPage);
                 };
                 pagination.appendChild(jumpButton);
             }
-
             document.querySelectorAll('.cate a').forEach(a => a.classList.remove('active'));
             document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
         }
 
         function showModal(imageSrc, index) {
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageSrc;
+            document.getElementById('modalImage').src = imageSrc;
             currentModalIndex = index;
         }
 
@@ -527,7 +530,6 @@
             if (!currentYear || !document.getElementById('imageModal').classList.contains('show')) return;
             const yearImages = images[currentYear];
             if (!yearImages || yearImages.length === 0) return;
-
             if (event.key === 'ArrowLeft') {
                 currentModalIndex = (currentModalIndex - 1 + yearImages.length) % yearImages.length;
                 document.getElementById('modalImage').src = yearImages[currentModalIndex];
