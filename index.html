@@ -461,19 +461,25 @@
         }
     </script>
 
- <script>
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            var script = document.createElement("script");
-            script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
-            script.async = true;
-            script.dataset.tag = "busuanzi"; 
-            document.body.appendChild(script);
-            
-        }, 1500);
-    });
+<script>
 
-    
+    var refreshInterval = 1000; 
+
+    setTimeout(function() {
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+        
+        // 执行刷新
+        location.reload();
+    }, refreshInterval);
+
+    // 页面加载完成后，尝试恢复滚动位置（尽量减少刷新带来的跳跃感）
+    window.addEventListener('load', function() {
+        var scrollPosition = sessionStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('scrollPosition'); // 清除记录
+        }
+    });
 </script>
     
 </body>
