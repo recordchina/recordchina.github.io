@@ -167,11 +167,16 @@
             .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
             
             .content img { max-height: 250px; margin-bottom: 10px; }
-            .pagination { margin-top: 5px; margin-bottom: 5px; }
+            
+            /* 修改1：去掉分页器底部边距 */
+            .pagination { 
+                margin-top: 5px; 
+                margin-bottom: 0px !important; 
+            }
 
-            /* 强制友情链接紧贴上方 */
+            /* 修改2：强制去掉友情链接顶部间距 */
             .bottom-links {
-                margin-top: 10px !important;
+                margin-top: 0px !important; 
                 padding-top: 10px !important;
             }
 
@@ -288,7 +293,7 @@
                     <div class="cate manifesto-link">
                         <div class="inner">
                             <ul>
-                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔</a></li>
+                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔-台湾</li>
                             </ul>
                         </div>
                     </div>
@@ -313,7 +318,7 @@
                             </div>
                     </section>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-3 d-none d-md-block"></div>
             </div>
             
             <div class="row">
