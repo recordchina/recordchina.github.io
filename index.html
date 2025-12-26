@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. 基础重置 --- */
+        /* --- 基础设置 --- */
         html, body {
             margin: 0;
             padding: 0;
@@ -35,58 +35,55 @@
             color: #f1e8dd;
         }
 
+        /* 手机端默认：高度自动，不撑满，有多少显示多少 */
         body {
             height: auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            min-height: auto;
+            display: block;
         }
 
-        /* --- 2. 电脑端布局 (App 模式) --- */
+        /* --- 电脑端布局 (App模式) --- */
         @media (min-width: 769px) {
             body {
-                height: 100vh;
+                height: 100vh; /* 电脑端锁定一屏 */
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
             }
             .header-mobile { display: none; }
             .main {
                 flex: 1;
-                overflow-y: auto;
+                overflow-y: hidden;
                 height: 100%;
-                display: flex;
+                display: flex; 
             }
             .main > .container-fluid {
                 height: 100%;
-                padding-bottom: 0;
             }
+            .main .row {
+                height: 100%;
+            }
+            
+            /* 左侧栏单独滚动 */
             .left-column {
-                max-height: 100%;
+                height: 100%;
                 overflow-y: auto;
                 scrollbar-width: none; 
             }
+            .left-column::-webkit-scrollbar { display: none; }
+            
+            /* 右侧内容单独滚动 - 关键点 */
             .content {
                 height: 100%;
                 overflow-y: auto;
                 scrollbar-width: none;
-                padding-bottom: 60px; /* 给固定底部的Footer留位置 */
+                /* 电脑端增加内边距，防止内容贴边 */
+                padding-bottom: 40px; 
             }
-            
-            /* 电脑端：强制Footer固定在屏幕底部 */
-            .footer {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                z-index: 100;
-            }
-            
-            /* 电脑端：隐藏内容流里的友情链接（因为左侧栏已经有了） */
-            .friendly-links-mobile {
-                display: none; 
-            }
+            .content::-webkit-scrollbar { display: none; }
         }
 
-        /* --- 3. 移动端布局 (完全流式) --- */
+        /* --- 移动端布局 (自然流) --- */
         @media (max-width: 768px) {
             .header-mobile {
                 display: flex;
@@ -108,7 +105,6 @@
                 border-bottom: 1px solid rgba(241, 232, 221, 0.1);
             }
             
-            /* 右侧内容区 */
             .content {
                 height: auto !important;
                 display: block !important;
@@ -119,34 +115,9 @@
                 max-height: 250px;
                 margin-bottom: 10px;
             }
-            
-            .memory-text {
-                padding: 10px;
-                margin-bottom: 5px;
-            }
-            
-            /* 友情链接 - 手机版样式 */
-            .friendly-links-mobile {
-                display: block; 
-                margin-top: 15px;
-                border-top: 1px solid rgba(241, 232, 221, 0.3);
-                padding-top: 15px;
-                background: rgba(0,0,0,0.1);
-                border-radius: 5px;
-                margin-bottom: 0; /* 紧贴 Footer */
-            }
-            
-            /* Footer - 手机版样式 (变成了普通 div) */
-            .footer {
-                position: static; /* 取消固定，变成普通元素 */
-                margin-top: 0;
-                padding: 10px 5px;
-                background: rgba(0,0,0,0.2);
-                border-radius: 0 0 5px 5px; /* 下方圆角 */
-            }
         }
 
-        /* --- 通用组件样式 --- */
+        /* --- 组件样式 --- */
         .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
         .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
         
@@ -208,15 +179,21 @@
             padding-top: 10px;
         }
 
-        /* 友情链接样式 */
-        .links-container { text-align: center; }
-        .links-container h5 {
+        /* --- 友情链接板块 (紧贴) --- */
+        .friendly-links-block {
+            margin-top: 20px; /* 距离分页器一点距离 */
+            border-top: 1px solid rgba(241, 232, 221, 0.3);
+            padding-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+        .friendly-links-block h5 {
             font-size: 1.1em;
             color: #facc29;
             margin-bottom: 10px;
             font-weight: bold;
         }
-        .links-container ul {
+        .friendly-links-block ul {
             list-style: none;
             padding: 0;
             margin: 0;
@@ -225,7 +202,7 @@
             justify-content: center;
             gap: 10px;
         }
-        .links-container ul li a {
+        .friendly-links-block ul li a {
             font-size: 0.85em;
             color: #f1e8dd;
             text-decoration: none;
@@ -233,23 +210,52 @@
             transition: all 0.3s;
             white-space: nowrap;
         }
-        .links-container ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
+        .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* Footer 内容样式 */
-        .footer {
-            padding: 10px 15px;
+        /* --- 网站信息板块 (原 Footer 内容) --- */
+        .site-info-block {
+            margin-top: 0; /* 紧贴友情链接 */
+            padding: 10px 0;
             color: #fff;
-            background-color: rgba(0,0,0,0.25);
+            width: 100%;
+            background: rgba(0,0,0,0.1); /* 稍微深一点的背景区分 */
+            margin-bottom: 0;
+            border-radius: 5px;
         }
+        
         @media (max-width: 768px) {
-            .footer .container-fluid {
+            .memory-text { padding: 10px; margin-bottom: 5px; }
+            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
+            
+            /* 手机端压缩间距 */
+            .friendly-links-block {
+                margin-top: 15px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background: transparent;
+            }
+            .friendly-links-block ul { gap: 8px; }
+            .friendly-links-block ul li a { font-size: 0.75em; }
+            
+            /* 网站信息手机端布局 */
+            .site-info-block { margin-top: 0; background: rgba(0,0,0,0.2); }
+            .site-info-flex {
                 flex-direction: column;
-                gap: 5px;
+                gap: 10px;
                 text-align: center;
             }
-            .footer-center { display: block !important; font-size: 0.8em; }
-            .footer-left a, .footer-right button { font-size: 0.85em; padding: 2px 8px; }
+            .info-center { display: block !important; font-size: 0.8em; margin: 5px 0;}
+            .info-left a, .info-right button { font-size: 0.85em; padding: 2px 8px; }
         }
+        
+        @media (min-width: 769px) {
+            .site-info-flex {
+                justify-content: space-between;
+                align-items: center;
+            }
+             .info-center { font-size: 0.9em; opacity: 0.8; }
+        }
+
     </style>
 </head>
 <body>
@@ -295,22 +301,6 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    <div class="friendly-links-mobile links-container d-none d-md-block" style="background: none; text-align: left; border: none; margin-top: 30px;">
-                        <h5 style="padding-left: 0;">友情链接</h5>
-                        <ul style="justify-content: flex-start;">
-                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
-                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
-                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
-                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
-                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
-                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
-                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
-                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
-                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
-                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
-                        </ul>
-                    </div>
                 </div>
 
                 <div class="col-md-6 content">
@@ -333,7 +323,7 @@
                             </div>
                     </section>
 
-                    <div class="friendly-links-mobile links-container d-md-none">
+                    <div class="friendly-links-block">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -349,13 +339,13 @@
                         </ul>
                     </div>
 
-                    <footer class="footer">
-                        <div class="container-fluid d-flex justify-content-between align-items-center">
-                            <div class="footer-left">
+                    <div class="site-info-block">
+                        <div class="d-flex site-info-flex px-3">
+                            <div class="info-left">
                                  <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
                             </div>
                             
-                            <div class="footer-center" style="color: #f1e8dd;">
+                            <div class="info-center">
                                 <span id="busuanzi_container_site_pv" style="display:none">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
                                       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -369,13 +359,14 @@
                                 </span>
                             </div>
                 
-                            <div class="footer-right">
-                                <button class="btn active">中</button>
-                                <button class="btn">EN</button>
+                            <div class="info-right">
+                                <button class="btn active" style="color:#fff; background-color:#facc29; border:none;">中</button>
+                                <button class="btn" style="color:#fff;">EN</button>
                             </div>
                         </div>
-                    </footer>
                     </div>
+
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
