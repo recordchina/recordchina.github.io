@@ -38,8 +38,9 @@
             flex-direction: column;
         }
 
-        /* === 电脑端布局 (保持美观的 App 模式) === 
-           只有在电脑上才锁定高度，手机上不锁定
+        /* ========================================
+           电脑端布局 (保持 App 模式，左右独立滚动)
+           ========================================
         */
         @media (min-width: 769px) {
             body {
@@ -60,7 +61,8 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             .header-mobile { display: none; }
-            /* 电脑端友情链接推到底部 */
+            
+            /* 电脑端：友情链接推到底部 */
             .main > .container-fluid {
                 min-height: 100%;
                 display: flex;
@@ -71,26 +73,28 @@
             }
         }
 
-        /* === 移动端布局 (自然流动模式) === 
-           这是解决你问题的核心部分
+        /* ========================================
+           移动端布局 (自然堆叠模式 - 关键修改)
+           ========================================
         */
         @media (max-width: 768px) {
+            /* 关键点1：恢复默认的高度行为，不再强行撑满 */
             body {
-                height: auto !important; /* 允许高度随内容自动缩放 */
+                height: auto !important;
                 min-height: auto !important;
-                display: block !important; /* 恢复普通文档流 */
+                display: block !important;
             }
             
+            /* 关键点2：主内容区也不设高度，随内容自然伸缩 */
             .main {
                 height: auto !important;
                 overflow: visible !important;
-                flex: none !important; /* 禁止自动撑开 */
+                flex: none !important;
+                display: block !important;
             }
             
-            /* 强制消除 Bootstrap container 的多余高度 */
             .main > .container-fluid {
                 height: auto;
-                min-height: auto;
                 display: block;
             }
         }
@@ -196,7 +200,6 @@
             padding-top: 15px;
             width: 100%;
             text-align: center;
-            padding-bottom: 5px; /* 下方留一点点空隙给 Footer */
             background: rgba(0,0,0,0.1);
         }
         .bottom-links h5 {
@@ -230,23 +233,21 @@
             color: #fff;
             background-color: rgba(0,0,0,0.25);
             border-top: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            /* 确保它在文档流中自然排列 */
         }
 
-        /* --- 移动端强力调整 (针对“贴着放”的需求) --- */
+        /* --- 移动端强力调整 (实现紧贴效果) --- */
         @media (max-width: 768px) {
             .memory-text { padding: 10px; margin-bottom: 5px; }
             .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
             .cate ul li a { font-size: 1.2em; padding: 2px 10px; }
             .content img { max-height: 250px; margin-bottom: 10px; }
             
-            /* 友情链接：去掉多余 margin，紧贴上方内容 */
+            /* 1. 友情链接：去掉上方大间距，只留一点分割线 */
             .bottom-links {
-                margin-top: 0; 
+                margin-top: 20px; /* 与上方图片分页保持适当距离 */
                 padding-top: 10px;
-                padding-bottom: 0; /* 底部不留白，因为紧接着就是 Footer */
-                background: transparent; /* 手机端去掉背景色，看起来更连贯 */
+                padding-bottom: 0; /* 底部不留白 */
+                background: transparent; 
                 border-top: 1px solid rgba(241, 232, 221, 0.3);
             }
             .bottom-links ul { 
@@ -255,10 +256,12 @@
             }
             .bottom-links ul li a { font-size: 0.75em; }
             
-            /* Footer：紧贴友情链接 */
+            /* 2. Footer：紧紧贴着友情链接 */
             .footer {
-                padding: 8px 5px;
-                margin-top: 0; /* 确保无缝衔接 */
+                padding: 10px 5px;
+                margin-top: 0; 
+                /* 确保它不被推到底部，而是自然跟随 */
+                position: static; 
             }
             .footer .container-fluid {
                 flex-direction: column;
@@ -315,7 +318,7 @@
                     <div class="cate manifesto-link">
                         <div class="inner">
                             <ul>
-                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔</a></li>
+                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔-台湾</a></li>
                             </ul>
                         </div>
                     </div>
