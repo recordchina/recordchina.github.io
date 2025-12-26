@@ -28,74 +28,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 核心布局：App 模式 --- */
+        /* --- 全局基础 --- */
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            /* 关键：使用 100dvh (Dynamic Viewport Height) 解决手机地址栏导致的留白 */
-            height: 100vh; 
-            height: 100dvh; 
-            overflow: hidden; /* 禁止 Body 滚动，只让 Main 滚动 */
+            /* 关键：设置为最小高度，而不是固定高度，允许内容少的时候只有半屏 */
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
         }
 
-        /* 头部固定 */
+        /* --- 电脑端布局 (保持 App 模式) --- */
+        @media (min-width: 769px) {
+            body {
+                height: 100vh; /* 电脑端锁定高度 */
+                overflow: hidden;
+            }
+            .header-mobile {
+                display: none; /* 电脑端不显示这个头 */
+            }
+            .main {
+                flex: 1;
+                overflow-y: auto; /* 电脑端内部滚动 */
+                height: 100%;
+            }
+            .footer {
+                margin-top: auto; /* 电脑端 Footer 沉底 */
+            }
+            /* 电脑端左侧单独滚动 */
+            .left-column {
+                max-height: calc(100vh - 150px);
+                overflow-y: auto;
+            }
+            .left-column::-webkit-scrollbar { display: none; }
+        }
+
+        /* --- 移动端布局 (自然流动模式) --- */
+        @media (max-width: 768px) {
+            body {
+                height: auto; /* 手机端高度自动 */
+                overflow-y: auto; /* 手机端恢复原生滚动 */
+                display: block; /* 恢复普通文档流 */
+            }
+            
+            .main {
+                height: auto;
+                overflow: visible; /* 不再截断内容 */
+                padding: 0;
+            }
+            
+            /* 强制消除 Bootstrap container 的多余高度 */
+            .main > .container-fluid {
+                height: auto;
+                min-height: auto;
+                display: block;
+            }
+        }
+
+        /* --- 通用组件样式 --- */
         .header-mobile {
-            flex: 0 0 auto;
             display: flex;
             justify-content: space-between;
             padding: 10px 15px;
             background-color: #575f4f;
-            z-index: 20;
+            /* 手机端头部不固定，随页面滚动，节省空间 */
         }
 
-        /* 中间内容区域 */
-        .main {
-            flex: 1 1 auto; /* 占据剩余空间 */
-            overflow-y: auto; /* 内部独立滚动 */
-            overflow-x: hidden;
-            width: 100%;
-            /* 关键：去掉 padding，由内部元素控制 */
-            padding: 0; 
-        }
-
-        /* 关键修复：让容器变成 Flex 列布局 
-           这能确保友情链接永远被“推”到可视区域的最底部
-        */
-        .main > .container-fluid {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding-top: 10px;
-        }
-
-        /* 让第一个 Row (内容区) 自动撑开，占据所有空余高度 */
-        .main > .container-fluid > .row:first-child {
-            flex-grow: 1; 
-        }
-
-        /* 让第二个 Row (友情链接) 紧贴底部，不要缩小 */
-        .main > .container-fluid > .row:last-child {
-            flex-shrink: 0;
-            margin-top: auto; /* 如果内容短，这就把链接推到底部 */
-        }
-
-        /* 尾部 Footer：固定在屏幕最下方 */
-        .footer {
-            flex: 0 0 auto; /* 不许缩放 */
-            padding: 8px 15px; /* 更加紧凑 */
-            color: #fff;
-            background-color: rgba(0,0,0,0.25); /* 稍微加深背景，与内容区分 */
-            z-index: 20;
-            /* 顶部加一条微弱的线，增加层次感 */
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* --- 普通样式 --- */
-        
         .title h2 {
             font-size: 2em;
             font-weight: 900;
@@ -115,15 +115,9 @@
             line-height: 1.65em;
             margin-bottom: 10px;
         }
-        .cate {
-            margin-top: 5px;
-        }
-        .cate ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-        }
+        
+        .cate { margin-top: 5px; }
+        .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
         .cate ul li a {
             color: #ff6b6b;
             text-decoration: none;
@@ -132,9 +126,7 @@
             font-size: 1.5em;
             font-weight: 500;
         }
-        .cate ul li a:hover, .cate ul li a.active {
-            color: #facc29;
-        }
+        .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
 
         .content img {
             width: 100%;
@@ -146,9 +138,7 @@
             cursor: pointer;
             object-fit: cover;
         }
-        .content .col-md-6 {
-            padding: 5px;
-        }
+        .content .col-md-6 { padding: 5px; }
         
         .pagination {
             margin-top: 15px;
@@ -165,18 +155,9 @@
             margin: 0 5px;
             cursor: pointer;
         }
-        .pagination button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .pagination button.active {
-            background-color: #facc29;
-            color: #575f4f;
-        }
-        .pagination input {
-            width: 50px;
-            text-align: center;
-        }
+        .pagination button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .pagination button.active { background-color: #facc29; color: #575f4f; }
+        .pagination input { width: 50px; text-align: center; }
         
         .memory-text {
             text-align: left;
@@ -201,16 +182,16 @@
             padding-top: 10px;
         }
 
-        /* --- 友情链接（紧凑版） --- */
+        /* --- 友情链接板块 (紧凑设计) --- */
         .bottom-links {
-            margin-top: 0; /* 去掉顶部额外边距，依靠 flex-grow 自动填充 */
+            /* 关键：marginTop 设为 0，防止把下面顶得太远 */
+            margin-top: 10px; 
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
             width: 100%;
             text-align: center;
-            /* 底部留白极小，因为它下面紧接着就是 Footer */
-            padding-bottom: 10px; 
-            background: rgba(0,0,0,0.1); /* 给一个极淡的背景，让它视觉上像是“底座” */
+            padding-bottom: 10px;
+            background: rgba(0,0,0,0.1);
         }
         .bottom-links h5 {
             font-size: 1.1em;
@@ -235,48 +216,56 @@
             transition: all 0.3s;
             white-space: nowrap;
         }
-        .bottom-links ul li a:hover {
-            color: #ff6b6b;
-            opacity: 1;
-            text-decoration: underline;
+        .bottom-links ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
+
+        /* --- Footer (计数器) --- */
+        .footer {
+            padding: 10px 15px;
+            color: #fff;
+            background-color: rgba(0,0,0,0.25);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            /* 手机端不再固定，而是自然跟随在内容后面 */
+            position: relative;
         }
 
-        /* --- 移动端强力优化 --- */
+        /* --- 移动端强力调整 (最终修正) --- */
         @media (max-width: 768px) {
-            /* 压缩文字块 */
-            .memory-text { padding: 10px; margin-bottom: 10px; }
-            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.5; margin: 3px 0; }
+            /* 压缩间距 */
+            .memory-text { padding: 10px; margin-bottom: 5px; }
+            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
+            .cate ul li a { font-size: 1.2em; padding: 2px 10px; }
             
-            /* 图片高度 */
-            .content img { max-height: 300px; }
+            /* 图片变小一点以便一屏多看点内容 */
+            .content img { max-height: 250px; margin-bottom: 10px; }
             
-            /* Footer 极度紧凑 */
+            /* 分页器紧凑 */
+            .pagination { margin-top: 10px; margin-bottom: 5px; }
+            
+            /* 友情链接紧贴内容 */
+            .bottom-links {
+                margin-top: 0; /* 紧贴上一块内容 */
+                padding-top: 10px;
+                padding-bottom: 5px;
+            }
+            .bottom-links ul { gap: 6px; }
+            .bottom-links ul li a { font-size: 0.75em; }
+            
+            /* Footer 紧贴友情链接 */
+            .footer {
+                padding: 8px;
+                text-align: center;
+            }
             .footer .container-fluid {
                 flex-direction: column;
-                gap: 4px; 
-                text-align: center;
+                gap: 5px;
             }
             .footer-center {
                 font-size: 0.75em;
-                display: block !important; 
-                opacity: 0.9;
+                display: block !important;
             }
             .footer-left a, .footer-right button {
                 font-size: 0.8em;
-                padding: 1px 6px;
-                min-height: auto;
-            }
-            
-            /* 友情链接手机版 */
-            .bottom-links { 
-                padding-top: 10px;
-                padding-bottom: 5px; /* 紧贴 Footer */
-            }
-            .bottom-links ul { 
-                gap: 8px; /* 间距更密 */
-            }
-            .bottom-links ul li a {
-                font-size: 0.8em;
+                padding: 2px 8px;
             }
         }
     </style>
@@ -347,9 +336,10 @@
                 </div>
                 <div class="col-md-3"></div>
             </div>
-
+            
             <div class="row">
-                <div class="col-12 p-0"> <div class="bottom-links">
+                <div class="col-12 p-0">
+                    <div class="bottom-links">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -366,7 +356,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
