@@ -8,9 +8,7 @@
     <title>1989年6月4日 八九六四 台湾独立 | 记录历史 传播真相 中国 北京 天安门 大屠杀</title>
     <meta name="description" content="TIAN AN MEN 天安门 八九六四 台湾独立。这是一个流动的纪念碑，真实记录了1989年民主运动及个体命运的挣扎。">
     <meta name="keywords" content="天安门,八九六四,1989,19890606,1989年6月4日,台湾独立,民主运动,大屠杀,六四运动,历史真相" />
-    
     <meta name="robots" content="index, follow">
-    
     <link rel="canonical" href="https://8964.freeddns.org/" />
 
     <meta property="og:type" content="website" />
@@ -28,35 +26,139 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           1. 基础全局样式 (手机优先 Mobile First)
-           默认就是自然流动，绝对不设 100vh
-           ========================================= */
-        body {
+        /* --- 1. 基础重置 --- */
+        html, body {
+            margin: 0;
+            padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
-            margin: 0;
-            display: block; /* 默认普通块级布局 */
+        }
+
+        /* 手机端默认：高度自动，有多少显示多少，绝对不撑满 */
+        body {
             height: auto;
             min-height: auto;
-        }
-
-        /* 手机端头部 */
-        .header-mobile {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 15px;
-            background-color: #575f4f;
-        }
-
-        /* 手机端内容区 */
-        .main {
-            padding: 0;
             display: block;
-            height: auto;
         }
 
+        /* --- 2. 电脑端布局 (仅在宽屏生效) --- */
+        @media (min-width: 769px) {
+            body {
+                height: 100vh; /* 电脑端锁定高度 */
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            .header-mobile { display: none; }
+            .main {
+                flex: 1;
+                overflow-y: auto;
+                height: 100%;
+                display: flex; /* 开启Flex以便左右布局 */
+            }
+            .main > .container-fluid {
+                height: 100%;
+                padding-bottom: 0;
+            }
+            .main .row {
+                height: 100%;
+            }
+            .left-column {
+                max-height: 100%;
+                overflow-y: auto;
+                /* 隐藏滚动条 */
+                scrollbar-width: none; 
+            }
+            .left-column::-webkit-scrollbar { display: none; }
+            
+            .content {
+                height: 100%;
+                overflow-y: auto;
+                scrollbar-width: none;
+            }
+            .content::-webkit-scrollbar { display: none; }
+            
+            .footer {
+                margin-top: auto;
+            }
+            
+            /* 电脑端：友情链接显示在左侧栏底部，或者这里我把它放回右侧底部 */
+            .friendly-links-pc {
+                display: block;
+                margin-top: 30px;
+                border-top: 1px solid rgba(241, 232, 221, 0.3);
+                padding-top: 15px;
+            }
+            .friendly-links-mobile {
+                display: none; /* 电脑端隐藏移动版链接 */
+            }
+        }
+
+        /* --- 3. 移动端布局 (Max-width: 768px) --- */
+        @media (max-width: 768px) {
+            .header-mobile {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 15px;
+                background-color: #575f4f;
+            }
+            
+            /* 关键：取消所有高度限制 */
+            .main {
+                height: auto !important;
+                overflow: visible !important;
+                display: block !important;
+                padding: 0;
+            }
+            
+            /* 左侧栏（移动端在上方） */
+            .left-column {
+                height: auto !important;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid rgba(241, 232, 221, 0.1);
+            }
+            
+            /* 右侧内容区 */
+            .content {
+                height: auto !important;
+                display: block !important;
+            }
+            
+            /* 图片高度 */
+            .content img {
+                max-height: 250px;
+                margin-bottom: 10px;
+            }
+            
+            .memory-text {
+                padding: 10px;
+                margin-bottom: 5px;
+            }
+            
+            .friendly-links-pc {
+                display: none; /* 手机端隐藏电脑版位置 */
+            }
+            .friendly-links-mobile {
+                display: block; /* 手机端显示紧贴版 */
+                margin-top: 15px;
+                border-top: 1px solid rgba(241, 232, 221, 0.3);
+                padding-top: 15px;
+                background: rgba(0,0,0,0.1);
+                border-radius: 5px;
+            }
+            
+            /* Footer 紧贴 */
+            .footer {
+                position: static;
+                margin-top: 0;
+                padding: 15px 5px;
+                background: rgba(0,0,0,0.2);
+            }
+        }
+
+        /* --- 通用组件样式 --- */
         .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
         .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
         
@@ -75,7 +177,7 @@
             cursor: pointer;
             object-fit: cover;
         }
-        
+
         .pagination {
             margin-top: 15px;
             display: flex;
@@ -112,140 +214,53 @@
             padding-left: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
-
-        /* 友情链接 - 默认样式 (手机端) */
-        .bottom-links {
-            margin-top: 15px; /* 与上方图片保持一点距离 */
-            padding-top: 15px;
-            padding-bottom: 5px;
-            width: 100%;
-            text-align: center;
+        .manifesto-link {
+            margin-top: 15px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
-            background: transparent;
+            padding-top: 10px;
         }
-        .bottom-links h5 {
-            font-size: 1em;
+
+        /* 友情链接通用样式 */
+        .links-container { text-align: center; }
+        .links-container h5 {
+            font-size: 1.1em;
             color: #facc29;
             margin-bottom: 10px;
             font-weight: bold;
         }
-        .bottom-links ul {
+        .links-container ul {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px; /* 紧凑间距 */
+            gap: 10px;
         }
-        .bottom-links ul li a {
-            font-size: 0.8em;
+        .links-container ul li a {
+            font-size: 0.85em;
             color: #f1e8dd;
             text-decoration: none;
             opacity: 0.8;
             transition: all 0.3s;
             white-space: nowrap;
         }
-        .bottom-links ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
+        .links-container ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* Footer - 默认样式 (手机端) */
+        /* Footer 样式 */
         .footer {
-            padding: 10px 5px;
+            padding: 10px 15px;
             color: #fff;
             background-color: rgba(0,0,0,0.25);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            /* 手机端：自然跟随，不要用 margin-top: auto */
-            margin-top: 0; 
         }
-
-        /* =========================================
-           2. 移动端特别微调 (Max-width: 768px)
-           进一步压缩间距，确保“紧贴”
-           ========================================= */
         @media (max-width: 768px) {
-            .memory-text { padding: 10px; margin-bottom: 5px; }
-            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
-            
-            .content img { max-height: 250px; margin-bottom: 10px; }
-            .pagination { margin-top: 5px; margin-bottom: 5px; }
-
-            /* 强制友情链接紧贴上方 */
-            .bottom-links {
-                margin-top: 10px !important;
-                padding-top: 10px !important;
-            }
-
-            /* Footer 样式微调 */
             .footer .container-fluid {
                 flex-direction: column;
                 gap: 5px;
                 text-align: center;
             }
-            .footer-center {
-                font-size: 0.75em;
-                display: block !important;
-            }
-            .footer-left a, .footer-right button {
-                font-size: 0.8em;
-                padding: 2px 8px;
-            }
-        }
-
-        /* =========================================
-           3. 电脑端样式 (Min-width: 769px)
-           只有在这里，我们才开启“全屏 App 模式”
-           ========================================= */
-        @media (min-width: 769px) {
-            body {
-                height: 100vh; /* 锁定屏幕高度 */
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-            }
-            .header-mobile { display: none; }
-            
-            .main {
-                flex: 1;
-                overflow-y: auto; /* 内部滚动 */
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .main > .container-fluid {
-                min-height: 100%;
-                display: flex;
-                flex-direction: column;
-            }
-
-            /* 电脑端左侧单独滚动 */
-            .left-column {
-                max-height: calc(100vh - 150px);
-                overflow-y: auto;
-                padding-right: 10px;
-            }
-            .left-column::-webkit-scrollbar { width: 0; }
-
-            /* 电脑端右侧内容布局 */
-            .content .col-md-6 { padding: 5px; }
-
-            /* 电脑端：利用 flex 将友情链接推到底部 */
-            .main > .container-fluid > .row:last-child {
-                margin-top: auto;
-            }
-
-            /* 电脑端友情链接稍微宽松一点 */
-            .bottom-links {
-                background: rgba(0,0,0,0.1);
-                padding-bottom: 15px;
-                gap: 15px;
-            }
-            .bottom-links ul { gap: 15px; }
-            .bottom-links ul li a { font-size: 0.9em; }
-
-            .footer {
-                margin-top: auto; /* 沉底 */
-            }
+            .footer-center { display: block !important; font-size: 0.8em; }
+            .footer-left a, .footer-right button { font-size: 0.85em; padding: 2px 8px; }
         }
     </style>
 </head>
@@ -306,19 +321,15 @@
                         <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
                         <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
                     </div>
+                    
                     <section class="board" id="image-board">
                         <div class="row">
                             </div>
                         <div class="pagination" id="pagination">
                             </div>
                     </section>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-            
-            <div class="row">
-                <div class="col-12 p-0">
-                    <div class="bottom-links">
+
+                    <div class="friendly-links-mobile links-container d-md-none">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -333,7 +344,25 @@
                             <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
                         </ul>
                     </div>
+                    
+                    <div class="friendly-links-pc links-container d-none d-md-block">
+                         <h5>友情链接</h5>
+                        <ul>
+                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
+
                 </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </main>
