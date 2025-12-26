@@ -35,7 +35,7 @@
             color: #f1e8dd;
         }
 
-        /* 手机端默认：高度自动，有多少内容显示多少，不强求一屏 */
+        /* 手机端默认：高度自动 */
         body {
             height: auto;
             min-height: 100vh;
@@ -43,11 +43,11 @@
             flex-direction: column;
         }
 
-        /* --- 2. 电脑端布局 (App模式) --- */
+        /* --- 2. 电脑端布局 (App模式，修复溢出问题) --- */
         @media (min-width: 769px) {
-            body {
-                height: 100vh;
-                overflow: hidden;
+            html, body {
+                height: 100%; /* 确保 html 和 body 都是 100% */
+                overflow: hidden; /* 禁止最外层滚动 */
             }
             .header-mobile { display: none; }
             
@@ -75,12 +75,13 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 右侧内容区：独立滚动 */
+            /* 右侧内容区：独立滚动 (修复核心) */
             .content {
                 height: 100%;
-                overflow-y: auto;
+                max-height: 100%; /* 强制不超过父容器 */
+                overflow-y: auto; /* 内容多时显示滚动条 */
                 scrollbar-width: none;
-                padding-bottom: 20px; 
+                /* padding-bottom: 20px;  <-- 移除容器的 padding */
             }
             .content::-webkit-scrollbar { display: none; }
         }
@@ -107,7 +108,7 @@
             }
             
             .content {
-                padding-bottom: 30px; /* 底部留白 */
+                /* padding-bottom: 30px; <-- 移除手机端的容器 padding */
             }
             
             .content img {
@@ -168,15 +169,24 @@
         }
 
         /* =========================================
-           4. 底部板块样式 (友情链接 + 网站信息)
+           4. 底部板块样式 (修复溢出问题的关键)
            ========================================= */
         
-        /* 容器：与上方内容隔开一点 */
+        /* 容器：与上方内容隔开，并在底部增加边距以代替容器的 padding */
         .bottom-section {
             margin-top: 25px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
             width: 100%;
+            /* 在这里添加底部边距，确保滚动到最后有空间 */
+            margin-bottom: 40px; 
+        }
+        
+        /* 手机端底部边距稍微小一点 */
+        @media (max-width: 768px) {
+             .bottom-section {
+                 margin-bottom: 30px;
+             }
         }
 
         /* 友情链接 */
@@ -211,10 +221,10 @@
 
         /* 网站信息区域 */
         .site-info {
-            background: rgba(0,0,0,0.15); /* 稍微深一点的背景 */
+            background: rgba(0,0,0,0.15);
             padding: 10px 15px;
             border-radius: 5px;
-            text-align: center; /* 默认居中 */
+            text-align: center;
         }
 
         /* 计数器行：独占一行，居中 */
