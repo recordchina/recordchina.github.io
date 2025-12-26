@@ -28,46 +28,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 核心布局修改：实现固定头部和尾部 --- */
+        /* --- 核心布局修改 --- */
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            /* 关键：强制占满屏幕高度，不产生 Body 级滚动 */
+            /* 使用 dvh (dynamic viewport height) 解决手机浏览器地址栏导致的空白问题 */
             height: 100vh; 
+            height: 100dvh; 
             overflow: hidden; 
             display: flex;
             flex-direction: column;
         }
 
-        /* 头部固定高度 */
+        /* 头部固定 */
         .header-mobile {
-            flex: 0 0 auto; /* 不允许缩放 */
+            flex: 0 0 auto;
             display: flex;
             justify-content: space-between;
-            padding: 15px;
-            background-color: #575f4f; /* 确保背景色不透明 */
+            padding: 10px 15px; /* 稍微减小头部内边距 */
+            background-color: #575f4f;
             z-index: 10;
         }
 
         /* 中间内容区域：自适应高度并产生内部滚动 */
         .main {
-            flex: 1 1 auto; /* 占据剩余空间 */
-            overflow-y: auto; /* 允许垂直滚动 */
+            flex: 1 1 auto;
+            overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 0; /* 上下内边距 */
+            padding: 10px 0 0 0; /* 顶部留一点空，底部去掉 padding */
             width: 100%;
             display: flex;
             flex-direction: column;
         }
 
-        /* 尾部 Footer：固定在底部，不随内容滚动 */
+        /* 尾部 Footer：固定在底部 */
         .footer {
-            flex: 0 0 auto; /* 不允许缩放 */
-            padding: 15px;
+            flex: 0 0 auto;
+            padding: 10px 15px; /* 稍微减小 Footer 内边距 */
             color: #fff;
-            background-color: rgba(0,0,0,0.2); /* 稍微加深背景区分 */
+            background-color: rgba(0,0,0,0.2);
             z-index: 10;
         }
 
@@ -79,13 +80,12 @@
             margin: 0 0 10px 0;
         }
         
-        /* 左侧栏样式 */
         .left-column {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             padding-right: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* 减小原来的间距 */
         }
 
         .intro p {
@@ -100,7 +100,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: center; /* 左侧年份居中 */
+            text-align: center;
         }
         .cate ul li a {
             color: #ff6b6b;
@@ -114,7 +114,6 @@
             color: #facc29;
         }
 
-        /* 右侧内容样式 */
         .content {
             display: flex;
             flex-direction: column;
@@ -134,7 +133,6 @@
             padding: 5px;
         }
         
-        /* 分页样式 */
         .pagination {
             margin-top: 15px;
             display: flex;
@@ -181,19 +179,19 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
         .manifesto-link {
-            margin-top: 25px;
+            margin-top: 15px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
-        /* --- 友情链接（移动到底部后的新样式） --- */
+        /* --- 友情链接（底部） --- */
         .bottom-links {
-            margin-top: 40px;
+            margin-top: 20px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 20px;
+            padding-top: 15px;
             width: 100%;
-            text-align: center; /* 底部链接居中 */
-            padding-bottom: 20px;
+            text-align: center;
+            padding-bottom: 20px; /* 默认底部留白 */
         }
         .bottom-links h5 {
             font-size: 1.1em;
@@ -207,8 +205,8 @@
             margin: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; /* 链接横向居中排列 */
-            gap: 15px; /* 链接之间的间距 */
+            justify-content: center;
+            gap: 15px;
         }
         .bottom-links ul li a {
             font-size: 0.9em;
@@ -216,7 +214,7 @@
             text-decoration: none;
             opacity: 0.8;
             transition: all 0.3s;
-            white-space: nowrap; /* 防止链接换行 */
+            white-space: nowrap;
         }
         .bottom-links ul li a:hover {
             color: #ff6b6b;
@@ -224,30 +222,47 @@
             text-decoration: underline;
         }
 
-        /* 移动端特定调整 */
+        /* --- 移动端强力调整 --- */
         @media (max-width: 768px) {
-            .memory-text { padding: 10px; }
-            .memory-text p { font-size: 1em; padding-left: 5px; }
+            /* 压缩文字块的内边距 */
+            .memory-text { padding: 10px; margin-bottom: 10px; }
+            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.5; margin: 3px 0; }
+            
             .cate ul li a { font-size: 1.2em; }
             .content img { max-height: 300px; }
             
-            /* 手机端 Footer 样式调整：垂直排列 */
+            /* 手机端 Footer：更加紧凑 */
             .footer .container-fluid {
                 flex-direction: column;
-                gap: 10px;
+                gap: 5px; /* 极小的间距 */
                 text-align: center;
             }
             .footer-center {
-                font-size: 0.8em;
+                font-size: 0.75em; /* 字体改小 */
                 display: block !important; 
             }
             .footer-left a, .footer-right button {
-                font-size: 0.9em;
+                font-size: 0.8em;
+                padding: 2px 8px; /* 按钮改小 */
             }
             
-            /* 手机端友情链接稍微紧凑一点 */
-            .bottom-links { margin-top: 20px; padding-bottom: 10px; }
-            .bottom-links ul { gap: 10px; }
+            /* 关键修改：友情链接极度紧凑 */
+            .bottom-links { 
+                margin-top: 10px;     /* 上方间距减小 */
+                padding-top: 10px;    /* 分割线间距减小 */
+                padding-bottom: 5px;  /* 底部几乎不留白，因为下面就是 Footer */
+            }
+            .bottom-links h5 {
+                margin-bottom: 5px;   /* 标题和链接贴近 */
+                font-size: 1em;
+            }
+            .bottom-links ul { 
+                gap: 8px;             /* 链接排列更紧密 */
+                margin-bottom: 0;
+            }
+            .bottom-links ul li a {
+                font-size: 0.8em;     /* 链接字体缩小 */
+            }
         }
     </style>
 </head>
@@ -290,7 +305,7 @@
                     <div class="cate manifesto-link">
                         <div class="inner">
                             <ul>
-                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔</a></li>
+                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔-台湾</a></li>
                             </ul>
                         </div>
                     </div>
@@ -372,7 +387,7 @@
                  <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
             </div>
             
-            <div class="footer-center" style="color: #f1e8dd; opacity: 0.8; font-size: 0.9em;">
+            <div class="footer-center" style="color: #f1e8dd; opacity: 0.8;">
                 <span id="busuanzi_container_site_pv" style="display:none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
                       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -380,7 +395,7 @@
                     </svg>
                     历史见证人次: <span id="busuanzi_value_site_pv"></span>
                 </span>
-                <span style="margin: 0 10px;">|</span>
+                <span style="margin: 0 5px;">|</span>
                 <span id="busuanzi_container_site_uv" style="display:none">
                     访客数: <span id="busuanzi_value_site_uv"></span>
                 </span>
