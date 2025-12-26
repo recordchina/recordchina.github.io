@@ -44,7 +44,7 @@
         /* --- 电脑端布局 (App模式) --- */
         @media (min-width: 769px) {
             body {
-                height: 100vh;
+                height: 100vh; /* 电脑端锁定一屏 */
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
@@ -63,6 +63,7 @@
                 height: 100%;
             }
             
+            /* 左侧栏单独滚动 */
             .left-column {
                 height: 100%;
                 overflow-y: auto;
@@ -70,6 +71,7 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             
+            /* 右侧内容单独滚动 */
             .content {
                 height: 100%;
                 overflow-y: auto;
@@ -78,6 +80,7 @@
             }
             .content::-webkit-scrollbar { display: none; }
             
+            /* 电脑端：强制Footer固定在屏幕底部 */
             .footer {
                 position: fixed;
                 bottom: 0;
@@ -86,8 +89,13 @@
                 z-index: 100;
             }
             
-            .friendly-links-mobile { display: none; }
-            .site-info-block { display: none; } 
+            /* 电脑端：隐藏移动版链接 */
+            .friendly-links-mobile {
+                display: none; 
+            }
+            
+            /* 电脑端网站信息布局 */
+            .site-info-block { display: none; } /* 电脑端不显示这里的，显示fixed footer */
         }
 
         /* --- 移动端布局 (自然流) --- */
@@ -123,6 +131,7 @@
                 margin-bottom: 10px;
             }
             
+            /* 手机端隐藏电脑版Footer，显示嵌入式信息块 */
             .footer { display: none !important; }
             .site-info-block { display: block !important; }
         }
@@ -222,13 +231,13 @@
         }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* --- 网站信息板块 (布局修改) --- */
+        /* --- 网站信息板块 (布局核心修改) --- */
         .site-info-block {
             margin-top: 0;
             padding: 15px 0;
             color: #fff;
             width: 100%;
-            background: rgba(0,0,0,0.2); 
+            background: rgba(0,0,0,0.2); /* 背景加深 */
             border-radius: 0 0 5px 5px;
         }
         
@@ -243,41 +252,37 @@
             .friendly-links-block ul { gap: 8px; }
             .friendly-links-block ul li a { font-size: 0.75em; }
 
-            /* 关键修改：顺序重排 */
+            /* 关键修改：手机端两行布局 */
             .site-info-flex {
                 display: flex;
-                flex-wrap: wrap;
+                flex-wrap: wrap; /* 允许换行 */
                 align-items: center;
-                padding-top: 5px;
             }
             
-            /* 1. 计数器：放在最上面 (Order 1) */
-            .info-center {
-                width: 100%;
-                text-align: center;
-                order: 1; /* 第一位 */
-                margin-bottom: 12px;
-                padding-bottom: 10px;
-                border-bottom: 1px dashed rgba(255,255,255,0.15); /* 下方加虚线分割 */
-                font-size: 0.8em;
-                opacity: 0.9;
-                display: block !important;
-            }
-            
-            /* 2. 关于我们：放在左下 (Order 2) */
+            /* 左边：关于我们 */
             .info-left {
                 width: 50%;
                 text-align: left;
-                order: 2; /* 第二位 */
-                padding-left: 5px;
+                order: 1; /* 第一行左边 */
             }
             
-            /* 3. 语言切换：放在右下 (Order 3) */
+            /* 右边：语言切换 */
             .info-right {
                 width: 50%;
                 text-align: right;
-                order: 3; /* 第三位 */
-                padding-right: 5px;
+                order: 2; /* 第一行右边 */
+            }
+            
+            /* 中间：计数器 (强制换行) */
+            .info-center {
+                width: 100%;
+                text-align: center;
+                order: 3; /* 第二行 */
+                margin-top: 12px;
+                padding-top: 10px;
+                border-top: 1px dashed rgba(255,255,255,0.15); /* 加个虚线分割更清晰 */
+                font-size: 0.8em;
+                opacity: 0.9;
             }
 
             .info-left a, .info-right button { font-size: 0.9em; padding: 2px 8px; }
@@ -390,6 +395,15 @@
 
                     <div class="site-info-block d-md-none">
                         <div class="site-info-flex px-3">
+                            <div class="info-left">
+                                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
+                            </div>
+                            
+                            <div class="info-right">
+                                <button class="btn active" style="color:#fff; background-color:#facc29; border:none;">中</button>
+                                <button class="btn" style="color:#fff;">EN</button>
+                            </div>
+                            
                             <div class="info-center">
                                 <span id="busuanzi_container_site_pv" style="display:none">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
@@ -402,15 +416,6 @@
                                 <span id="busuanzi_container_site_uv" style="display:none">
                                     访客数: <span id="busuanzi_value_site_uv"></span>
                                 </span>
-                            </div>
-
-                            <div class="info-left">
-                                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
-                            </div>
-                            
-                            <div class="info-right">
-                                <button class="btn active" style="color:#fff; background-color:#facc29; border:none;">中</button>
-                                <button class="btn" style="color:#fff;">EN</button>
                             </div>
                         </div>
                     </div>
