@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. 基础重置 --- */
+        /* --- 1. 全局基础 --- */
         html, body {
             margin: 0;
             padding: 0;
@@ -35,7 +35,7 @@
             color: #f1e8dd;
         }
 
-        /* 手机端默认：高度自动 */
+        /* 默认状态：自然高度，防止手机端内容被截断 */
         body {
             height: auto;
             min-height: 100vh;
@@ -43,19 +43,19 @@
             flex-direction: column;
         }
 
-        /* --- 2. 电脑端布局 (App模式，修复溢出问题) --- */
+        /* --- 2. 电脑端布局 (App 左右分栏模式) --- */
         @media (min-width: 769px) {
             html, body {
-                height: 100%; /* 确保 html 和 body 都是 100% */
-                overflow: hidden; /* 禁止最外层滚动 */
+                height: 100vh; /* 锁定屏幕高度 */
+                overflow: hidden; /* 禁止整页滚动 */
             }
             .header-mobile { display: none; }
             
             .main {
                 flex: 1;
-                overflow: hidden;
                 height: 100%;
-                display: flex; 
+                overflow: hidden;
+                display: flex;
             }
             .main > .container-fluid {
                 height: 100%;
@@ -68,25 +68,30 @@
             .left-column {
                 height: 100%;
                 overflow-y: auto;
-                scrollbar-width: none; 
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                scrollbar-width: none; 
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 右侧内容区：独立滚动 (修复核心) */
+            /* 右侧内容区：独立滚动 (这是防止冲破边界的关键) */
             .content {
                 height: 100%;
-                max-height: 100%; /* 强制不超过父容器 */
-                overflow-y: auto; /* 内容多时显示滚动条 */
+                overflow-y: auto; /* 内容多时出现滚动条 */
+                padding-bottom: 40px; /* 底部留白 */
                 scrollbar-width: none;
-                /* padding-bottom: 20px;  <-- 移除容器的 padding */
+                display: block; /* 恢复默认块级显示 */
             }
             .content::-webkit-scrollbar { display: none; }
+            
+            /* 电脑端隐藏移动版菜单 */
+            .friendly-links-pc { display: block; margin-top: 30px; }
+            .friendly-links-mobile { display: none; }
+            .site-info-wrapper { margin-top: 40px; }
         }
 
-        /* --- 3. 移动端布局 (自然流) --- */
+        /* --- 3. 移动端布局 (自然流模式) --- */
         @media (max-width: 768px) {
             .header-mobile {
                 display: flex;
@@ -96,8 +101,8 @@
             }
             
             .main {
-                height: auto !important;
-                display: block !important;
+                display: block;
+                height: auto;
                 padding: 0;
             }
             
@@ -107,14 +112,20 @@
                 border-bottom: 1px solid rgba(241, 232, 221, 0.1);
             }
             
+            /* 手机端右侧内容：自然延伸，不设高度限制 */
             .content {
-                /* padding-bottom: 30px; <-- 移除手机端的容器 padding */
+                height: auto !important; 
+                overflow: visible !important;
+                padding-bottom: 30px;
             }
             
             .content img {
                 max-height: 250px;
                 margin-bottom: 10px;
             }
+            
+            .friendly-links-pc { display: none; }
+            .friendly-links-mobile { display: block; }
         }
 
         /* --- 组件样式 --- */
@@ -168,32 +179,7 @@
             padding-top: 10px;
         }
 
-        /* =========================================
-           4. 底部板块样式 (修复溢出问题的关键)
-           ========================================= */
-        
-        /* 容器：与上方内容隔开，并在底部增加边距以代替容器的 padding */
-        .bottom-section {
-            margin-top: 25px;
-            border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 15px;
-            width: 100%;
-            /* 在这里添加底部边距，确保滚动到最后有空间 */
-            margin-bottom: 40px; 
-        }
-        
-        /* 手机端底部边距稍微小一点 */
-        @media (max-width: 768px) {
-             .bottom-section {
-                 margin-bottom: 30px;
-             }
-        }
-
-        /* 友情链接 */
-        .friendly-links-block {
-            text-align: center;
-            margin-bottom: 15px;
-        }
+        /* --- 友情链接通用样式 --- */
         .friendly-links-block h5 {
             font-size: 1.1em;
             color: #facc29;
@@ -206,7 +192,7 @@
             margin: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: center; /* 默认居中 */
             gap: 10px;
         }
         .friendly-links-block ul li a {
@@ -219,40 +205,52 @@
         }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* 网站信息区域 */
-        .site-info {
-            background: rgba(0,0,0,0.15);
-            padding: 10px 15px;
-            border-radius: 5px;
+        /* 手机端友情链接 */
+        .friendly-links-mobile {
+            margin-top: 25px;
+            border-top: 1px solid rgba(241, 232, 221, 0.3);
+            padding-top: 15px;
             text-align: center;
+            background: rgba(0,0,0,0.1);
+            padding-bottom: 10px;
+            border-radius: 5px;
         }
 
-        /* 计数器行：独占一行，居中 */
-        .counter-row {
+        /* 电脑端左侧友情链接 */
+        .friendly-links-pc ul { justify-content: flex-start; }
+        .friendly-links-pc { text-align: left; }
+        .friendly-links-pc h5 { padding-left: 5px; }
+        .friendly-links-pc ul li a { padding: 2px 5px; display: block; }
+
+        /* --- 底部信息区域 (计数器 + 关于我们) --- */
+        .site-info-wrapper {
+            /* 这是一个容器，紧接在友情链接下面 */
+            width: 100%;
+            margin-top: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            padding: 15px;
+            color: #fff;
+        }
+
+        /* 计数器行：居中，独占一行 */
+        .info-counter {
+            text-align: center;
             padding-bottom: 10px;
             margin-bottom: 10px;
             border-bottom: 1px dashed rgba(255,255,255,0.2);
-            font-size: 0.9em;
-            color: #f1e8dd;
+            font-size: 0.85em;
         }
 
         /* 关于我们行：左对齐 */
-        .about-row {
+        .info-about {
             text-align: left;
         }
-        .about-row a {
-            color: #fff;
+        .info-about a {
             font-weight: bold;
-            font-size: 0.9em;
+            color: #fff;
             text-decoration: underline;
-        }
-
-        /* 手机端微调 */
-        @media (max-width: 768px) {
-            .bottom-section { margin-top: 20px; }
-            .friendly-links-block ul { gap: 8px; }
-            .friendly-links-block ul li a { font-size: 0.75em; }
-            .counter-row { font-size: 0.8em; }
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -299,6 +297,22 @@
                             </ul>
                         </div>
                     </div>
+                    
+                    <div class="friendly-links-pc friendly-links-block">
+                        <h5>友情链接</h5>
+                        <ul>
+                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="col-md-6 content">
@@ -321,42 +335,40 @@
                             </div>
                     </section>
 
-                    <div class="bottom-section">
+                    <div class="friendly-links-mobile friendly-links-block">
+                        <h5>友情链接</h5>
+                        <ul>
+                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="site-info-wrapper">
                         
-                        <div class="friendly-links-block">
-                            <h5>友情链接</h5>
-                            <ul>
-                                <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
-                                <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
-                                <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
-                                <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
-                                <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
-                                <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
-                                <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
-                                <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
-                                <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
-                                <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
-                            </ul>
+                        <div class="info-counter">
+                            <span id="busuanzi_container_site_pv" style="display:none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
+                                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                </svg>
+                                历史见证人次: <span id="busuanzi_value_site_pv"></span>
+                            </span>
+                            <span style="margin: 0 5px;" class="d-none d-md-inline">|</span>
+                            <span id="busuanzi_container_site_uv" style="display:none">
+                                访客数: <span id="busuanzi_value_site_uv"></span>
+                            </span>
                         </div>
 
-                        <div class="site-info">
-                            <div class="counter-row">
-                                <span id="busuanzi_container_site_pv" style="display:none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
-                                      <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                      <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                    </svg>
-                                    历史见证人次: <span id="busuanzi_value_site_pv"></span>
-                                </span>
-                                <span style="margin: 0 5px;" class="d-none d-md-inline">|</span>
-                                <span id="busuanzi_container_site_uv" style="display:none">
-                                    访客数: <span id="busuanzi_value_site_uv"></span>
-                                </span>
-                            </div>
-
-                            <div class="about-row">
-                                <a href="/about" class="btn underline">关于我们</a>
-                            </div>
+                        <div class="info-about">
+                             <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold; padding: 0;">关于我们</a>
                         </div>
 
                     </div>
