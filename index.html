@@ -35,7 +35,6 @@
             color: #f1e8dd;
         }
 
-        /* 手机端默认：高度自动，不撑满，有多少显示多少 */
         body {
             height: auto;
             min-height: auto;
@@ -45,7 +44,7 @@
         /* --- 电脑端布局 (App模式) --- */
         @media (min-width: 769px) {
             body {
-                height: 100vh; /* 电脑端锁定一屏 */
+                height: 100vh;
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
@@ -64,7 +63,6 @@
                 height: 100%;
             }
             
-            /* 左侧栏单独滚动 */
             .left-column {
                 height: 100%;
                 overflow-y: auto;
@@ -72,15 +70,24 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 右侧内容单独滚动 - 关键点 */
             .content {
                 height: 100%;
                 overflow-y: auto;
                 scrollbar-width: none;
-                /* 电脑端增加内边距，防止内容贴边 */
-                padding-bottom: 40px; 
+                padding-bottom: 60px; 
             }
             .content::-webkit-scrollbar { display: none; }
+            
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 100;
+            }
+            
+            .friendly-links-mobile { display: none; }
+            .site-info-block { display: none; } 
         }
 
         /* --- 移动端布局 (自然流) --- */
@@ -115,6 +122,9 @@
                 max-height: 250px;
                 margin-bottom: 10px;
             }
+            
+            .footer { display: none !important; }
+            .site-info-block { display: block !important; }
         }
 
         /* --- 组件样式 --- */
@@ -179,9 +189,9 @@
             padding-top: 10px;
         }
 
-        /* --- 友情链接板块 (紧贴) --- */
+        /* 友情链接板块 (紧贴) */
         .friendly-links-block {
-            margin-top: 20px; /* 距离分页器一点距离 */
+            margin-top: 20px; 
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
             text-align: center;
@@ -212,22 +222,18 @@
         }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* --- 网站信息板块 (原 Footer 内容) --- */
+        /* --- 网站信息板块 (布局修改) --- */
         .site-info-block {
-            margin-top: 0; /* 紧贴友情链接 */
-            padding: 10px 0;
+            margin-top: 0;
+            padding: 15px 0;
             color: #fff;
             width: 100%;
-            background: rgba(0,0,0,0.1); /* 稍微深一点的背景区分 */
-            margin-bottom: 0;
-            border-radius: 5px;
+            background: rgba(0,0,0,0.2); 
+            border-radius: 0 0 5px 5px;
         }
         
+        /* 手机端 Flex 布局控制 */
         @media (max-width: 768px) {
-            .memory-text { padding: 10px; margin-bottom: 5px; }
-            .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.4; margin: 3px 0; }
-            
-            /* 手机端压缩间距 */
             .friendly-links-block {
                 margin-top: 15px;
                 padding-top: 10px;
@@ -236,26 +242,53 @@
             }
             .friendly-links-block ul { gap: 8px; }
             .friendly-links-block ul li a { font-size: 0.75em; }
-            
-            /* 网站信息手机端布局 */
-            .site-info-block { margin-top: 0; background: rgba(0,0,0,0.2); }
+
+            /* 关键修改：顺序重排 */
             .site-info-flex {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            .info-center { display: block !important; font-size: 0.8em; margin: 5px 0;}
-            .info-left a, .info-right button { font-size: 0.85em; padding: 2px 8px; }
-        }
-        
-        @media (min-width: 769px) {
-            .site-info-flex {
-                justify-content: space-between;
+                display: flex;
+                flex-wrap: wrap;
                 align-items: center;
+                padding-top: 5px;
             }
-             .info-center { font-size: 0.9em; opacity: 0.8; }
+            
+            /* 1. 计数器：放在最上面 (Order 1) */
+            .info-center {
+                width: 100%;
+                text-align: center;
+                order: 1; /* 第一位 */
+                margin-bottom: 12px;
+                padding-bottom: 10px;
+                border-bottom: 1px dashed rgba(255,255,255,0.15); /* 下方加虚线分割 */
+                font-size: 0.8em;
+                opacity: 0.9;
+                display: block !important;
+            }
+            
+            /* 2. 关于我们：放在左下 (Order 2) */
+            .info-left {
+                width: 50%;
+                text-align: left;
+                order: 2; /* 第二位 */
+                padding-left: 5px;
+            }
+            
+            /* 3. 语言切换：放在右下 (Order 3) */
+            .info-right {
+                width: 50%;
+                text-align: right;
+                order: 3; /* 第三位 */
+                padding-right: 5px;
+            }
+
+            .info-left a, .info-right button { font-size: 0.9em; padding: 2px 8px; }
         }
 
+        /* 电脑端 Footer 样式 */
+        .footer {
+            padding: 10px 15px;
+            color: #fff;
+            background-color: rgba(0,0,0,0.25);
+        }
     </style>
 </head>
 <body>
@@ -301,6 +334,22 @@
                             </ul>
                         </div>
                     </div>
+                    
+                    <div class="friendly-links-mobile links-container d-none d-md-block" style="background: none; text-align: left; border: none; margin-top: 30px;">
+                        <h5 style="padding-left: 0;">友情链接</h5>
+                        <ul style="justify-content: flex-start;">
+                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="col-md-6 content">
@@ -323,7 +372,7 @@
                             </div>
                     </section>
 
-                    <div class="friendly-links-block">
+                    <div class="friendly-links-block d-md-none">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -339,12 +388,8 @@
                         </ul>
                     </div>
 
-                    <div class="site-info-block">
-                        <div class="d-flex site-info-flex px-3">
-                            <div class="info-left">
-                                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
-                            </div>
-                            
+                    <div class="site-info-block d-md-none">
+                        <div class="site-info-flex px-3">
                             <div class="info-center">
                                 <span id="busuanzi_container_site_pv" style="display:none">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
@@ -358,7 +403,11 @@
                                     访客数: <span id="busuanzi_value_site_uv"></span>
                                 </span>
                             </div>
-                
+
+                            <div class="info-left">
+                                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
+                            </div>
+                            
                             <div class="info-right">
                                 <button class="btn active" style="color:#fff; background-color:#facc29; border:none;">中</button>
                                 <button class="btn" style="color:#fff;">EN</button>
@@ -396,6 +445,33 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer d-none d-md-block">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="footer-left">
+                 <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
+            </div>
+            
+            <div class="footer-center" style="color: #f1e8dd;">
+                <span id="busuanzi_container_site_pv" style="display:none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
+                      <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                      <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg>
+                    历史见证人次: <span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span style="margin: 0 5px;">|</span>
+                <span id="busuanzi_container_site_uv" style="display:none">
+                    访客数: <span id="busuanzi_value_site_uv"></span>
+                </span>
+            </div>
+
+            <div class="footer-right">
+                <button class="btn active">中</button>
+                <button class="btn">EN</button>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
