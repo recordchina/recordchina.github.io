@@ -23,23 +23,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
    
     <style>
-        /* 全局 */
+        /* --- 全局重置 --- */
         html, body {
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
+            height: 100%;
         }
-        body { display: flex; flex-direction: column; min-height: 100vh; }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* 电脑端 */
+        /* --- 电脑端布局 --- */
         @media (min-width: 769px) {
             body { overflow: hidden; }
             .header-mobile { display: none; }
             .main {
                 flex: 1;
-                height: 100vh;
+                height: 100%;
                 overflow: hidden;
             }
             .main > .container-fluid,
@@ -69,116 +73,164 @@
             }
         }
 
-        /* 移动端 - 重点优化空白 */
+        /* --- 移动端布局 --- */
         @media (max-width: 768px) {
-            html, body { height: auto; }
+            html, body {
+                height: auto;
+                overflow-y: auto;
+            }
             .header-mobile {
                 display: flex;
                 justify-content: space-between;
-                padding: 8px 12px;
+                padding: 10px 15px;
                 background-color: #575f4f;
-                font-size: 0.9em;
             }
             .main {
+                height: auto;
                 display: block;
                 padding: 0;
             }
             .left-column {
-                padding: 10px 12px;
-                margin-bottom: 8px;
-                border-bottom: 1px solid rgba(241, 232, 221, 0.15);
+                padding: 10px 15px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid rgba(241, 232, 221, 0.2);
             }
             .content {
-                padding: 0 12px 20px;
+                padding: 0 15px 20px;
             }
-            .memory-text { margin-bottom: 15px; padding: 12px; }
-            .memory-text p { font-size: 1em; line-height: 1.5; margin: 4px 0; }
-            .board { margin-bottom: 15px; }
+            .content img {
+                max-height: 250px;
+                margin-bottom: 10px;
+            }
             .site-info-wrapper {
-                margin-top: 10px !important; /* 强制减少顶部空白 */
+                margin-top: 15px; /* 减少顶部空白 */
                 padding: 0 5px;
             }
             .friendly-links-block {
-                padding-top: 12px;
-                margin-bottom: 8px !important; /* 友情链接与计数器紧贴 */
+                margin-bottom: 10px; /* 友情链接与计数器间距更紧 */
+                padding-top: 15px;
             }
-            .friendly-links-block h5 { margin-bottom: 6px; font-size: 1em; }
-            .friendly-links-block ul { gap: 10px; }
-            .friendly-links-block ul li a { font-size: 0.85em; }
             .counter-block {
                 margin: 0;
-                padding: 10px 0;
-                font-size: 0.9em;
-                font-weight: 600;
-                color: #ffeb99;
-                background: rgba(255, 204, 102, 0.12);
+                padding: 12px 0;
                 border-top: 1px solid rgba(241, 232, 221, 0.3);
                 border-bottom: 1px solid rgba(241, 232, 221, 0.3);
             }
-            .site-info-container {
-                margin-top: 10px;
-                padding: 10px;
-                border-radius: 4px;
-            }
-            .info-actions { justify-content: center; }
         }
 
-        /* 其他组件样式保持 */
-        .title h2 { font-size: 1.8em; font-weight: 900; margin: 0 0 8px 0; }
-        .intro p { font-size: 1em; line-height: 1.6em; margin-bottom: 8px; }
+        /* --- 组件样式 --- */
+        .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
+        .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
-        .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 4px 8px; display: block; font-size: 1.3em; font-weight: 500; }
+        .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
         .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
-        .content img { width: 100%; height: auto; max-height: 300px; display: block; margin-bottom: 12px; border: 2px solid #f1e8dd; cursor: pointer; object-fit: cover; }
-        .pagination { margin-top: 12px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
-        .pagination button, .pagination input { background-color: #f1e8dd; color: #575f4f; border: none; padding: 4px 8px; margin: 0 4px; cursor: pointer; font-size: 0.9em; }
+        .content img {
+            width: 100%;
+            height: auto;
+            max-height: 507px;
+            display: block;
+            margin-bottom: 15px;
+            border: 2px solid #f1e8dd;
+            cursor: pointer;
+            object-fit: cover;
+        }
+        .pagination {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pagination button, .pagination input {
+            background-color: #f1e8dd;
+            color: #575f4f;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
         .pagination button:disabled { background-color: #ccc; cursor: not-allowed; }
         .pagination button.active { background-color: #facc29; color: #575f4f; }
-        .pagination input { width: 45px; text-align: center; }
+        .pagination input { width: 50px; text-align: center; }
 
         .memory-text {
             text-align: left;
-            margin-bottom: 15px;
-            padding: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: rgba(241, 232, 221, 0.2);
             border-radius: 5px;
         }
         .memory-text p {
             color: #facc29;
-            font-size: 1em;
+            font-size: 1.2em;
             font-weight: 500;
-            line-height: 1.6;
-            margin: 4px 0;
-            padding-left: 8px;
+            line-height: 1.8;
+            margin: 5px 0;
+            padding-left: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .friendly-links-block { border-top: 1px solid rgba(241, 232, 221, 0.3); text-align: center; width: 100%; }
-        .friendly-links-block h5 { font-size: 1em; color: #facc29; margin-bottom: 6px; font-weight: bold; }
-        .friendly-links-block ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .friendly-links-block ul li a { font-size: 0.85em; color: #f1e8dd; text-decoration: none; opacity: 0.8; transition: all 0.3s; white-space: nowrap; }
+        /* --- 友情链接 --- */
+        .friendly-links-block {
+            border-top: 1px solid rgba(241, 232, 221, 0.3);
+            padding-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .friendly-links-block h5 {
+            font-size: 1.1em;
+            color: #facc29;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .friendly-links-block ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .friendly-links-block ul li a {
+            font-size: 0.9em;
+            color: #f1e8dd;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
+        /* --- 计数器块（手机端紧跟友情链接） --- */
         .counter-block {
             text-align: center;
             width: 100%;
-            padding: 10px 0;
-            font-size: 0.9em;
+            padding: 12px 0;
+            font-size: 0.95em;
             font-weight: 600;
-            color: #ffeb99;
-            background: rgba(255, 204, 102, 0.12);
+            color: #ffeb99; /* 更亮的浅金黄，与友情链接的 #f1e8dd 明显区分 */
+            background: rgba(255, 204, 102, 0.15); /* 轻微背景突出 */
+            border-top: 1px solid rgba(241, 232, 221, 0.3);
         }
-        .counter-block svg { margin-right: 5px; vertical-align: -2px; }
+        .counter-block svg {
+            margin-right: 6px;
+            vertical-align: -2px;
+        }
+        @media (max-width: 768px) {
+            .counter-block { font-size: 0.9em; padding: 15px 0; }
+        }
 
+        /* --- 网站信息容器（关于我们） --- */
         .site-info-container {
             background: rgba(0,0,0,0.2);
-            padding: 10px;
+            padding: 12px;
             border-radius: 5px;
             color: #fff;
+            margin-top: 10px;
         }
         @media (max-width: 768px) {
             .site-info-flex { display: flex; flex-direction: column; align-items: center; }
-            .info-counter { display: none; }
+            .info-counter { display: none; } /* 手机端隐藏原计数器 */
             .info-actions { width: 100%; justify-content: center; }
         }
         @media (min-width: 769px) {
@@ -196,7 +248,7 @@
             <a href="/" style="color: #f1e8dd; text-decoration: none; font-weight: bold;">Record China</a>
         </div>
         <div class="menu">
-            <button class="btn" style="color: #f1e8dd; font-size: 0.9em;">?</button>
+            <button class="btn" style="color: #f1e8dd;">?</button>
         </div>
     </header>
     <main class="main">
@@ -204,22 +256,31 @@
             <div class="row">
                 <div class="col-md-3 left-column">
                     <div class="title">
-                        <h2>记录历史 传播真相</h2>
+                        <div class="inner">
+                            <h2>记录历史 传播真相</h2>
+                        </div>
                     </div>
                     <div class="intro">
-                        <p>这是一个流动的纪念碑，碑身上交错刻下三条时间线：</p>
-                        <p>主线：详细讲述1989年4月至6月发生在中国的一场规模浩大的民主抗争运动。</p>
-                        <p>背景线：八九天安门运动以及改变国际政治格局的苏东剧变，真实记录了当代全球民主自由抗争史。</p>
-                        <p>生命线：被大历史裹挟的个体命运的挣扎，从未因时光流逝而消散。</p>
-                        <p>请点击以下年份浏览具体事件信息：<br>浏览大图时可用键盘左右箭头切换</p>
+                        <div class="inner">
+                            <p>这是一个流动的纪念碑，碑身上交错刻下三条时间线：</p>
+                            <p>主线：详细讲述1989年4月至6月发生在中国的一场规模浩大的民主抗争运动。</p>
+                            <p>背景线：八九天安门运动以及改变国际政治格局的苏东剧变，真实记录了当代全球民主自由抗争史。</p>
+                            <p>生命线：被大历史裹挟的个体命运的挣扎，从未因时光流逝而消散。</p>
+                            <p>请点击以下年份浏览具体事件信息：<br>浏览大图时可用键盘左右箭头切换</p>
+                            <a href="/" class="btn underline"></a>
+                        </div>
                     </div>
                     <div class="cate">
-                        <ul id="year-list"></ul>
+                        <div class="inner">
+                            <ul id="year-list"></ul>
+                        </div>
                     </div>
                     <div class="cate manifesto-link">
-                        <ul>
-                            <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔-台湾</a></li>
-                        </ul>
+                        <div class="inner">
+                            <ul>
+                                <li><a href="qsewr/dasf/erwq/erre/sptw.html">最后的灯塔-台湾</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6 content">
@@ -239,8 +300,8 @@
                         <div class="row"></div>
                         <div class="pagination" id="pagination"></div>
                     </section>
-
                     <div class="site-info-wrapper">
+                       
                         <div class="friendly-links-block">
                             <h5>友情链接</h5>
                             <ul>
@@ -259,13 +320,13 @@
 
                         <div class="counter-block">
                             <span id="busuanzi_container_site_pv" style="display:none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 6px;">
                                   <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                   <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                 </svg>
                                 历史见证人次: <span id="busuanzi_value_site_pv"></span>
                             </span>
-                            <span style="margin: 0 8px;" class="d-none d-md-inline">|</span>
+                            <span style="margin: 0 10px;" class="d-none d-md-inline">|</span>
                             <span id="busuanzi_container_site_uv" style="display:none">
                                 访客数: <span id="busuanzi_value_site_uv"></span>
                             </span>
@@ -275,9 +336,10 @@
                             <div class="site-info-flex">
                                 <div class="info-actions">
                                     <div class="info-left">
-                                        <a href="/about" class="btn underline">关于我们</a>
+                                         <a href="/about" class="btn underline">关于我们</a>
                                     </div>
-                                    <div class="info-right"></div>
+                                    <div class="info-right">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +349,6 @@
             </div>
         </div>
     </main>
-
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -299,20 +360,47 @@
                     <img src="" id="modalImage" style="width: 100%; height: auto;">
                     <div class="memory-text">
                         <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
-                        <!-- ... 其他 p 标签保持原样 ... -->
+                        <p>自由之光，照亮历史 | Light of Freedom, Illuminates History</p>
+                        <p>记忆不灭，历史不泯 | Memory Never Fades, History Never Dies</p>
+                        <p>燃起希望，争取自由 | Ignite Hope, Fight for Freedom</p>
+                        <p>和平永存，自由不熄 | Peace Endures, Freedom Shines</p>
+                        <p>点亮烛光，铭记历史 | Light a Candle, Remember History</p>
+                        <p>传递希望，为自由发声 | Pass the Light of Hope, Speak for Freedom</p>
+                        <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
+                        <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script>
-        // 原有脚本保持不变（图片加载、年份切换、分页、Modal 等）
+        // 图片路径和完整文件名列表（保持原样）
         const basePath = "qsewr/dasf/erwq/reeqr/rwer/ewqr/tttt/";
-        const imageFiles = [ /* ... 原数组保持 ... */ ];
-        const yearMap = { "2976": "1986", "2977": "1988", "2978": "1989" };
+        const imageFiles = [
+            "29760928.png", "29761201.png", "29771201.png", "29780101-1.png", "29780101-2.png",
+            "29780101-3.png", "29780101.png", "29780114.png", "29780213.png", "29780214.png",
+            "29780301.png", "29780401.png", "29780402.png", "29780403.png", "29780415.png",
+            "29780416.png", "2978041602.png", "2978041603.png", "2978041701.png", "29780418.png",
+            "2978041802.png", "2978041901.png", "29780425.png", "29780426.png", "2978042602.png",
+            "29780427.png", "2978042702.png", "2978042703.png", "29780428.png", "2978042901.png",
+            "2978043001.png", "2978050301.png", "29780504.png", "29780507.png", "29780509.png",
+            "29780520.png", "2978052001.png", "29780521.png", "29780522.png", "2978052202.png",
+            "29780523.png", "29780525.png", "29780528.png", "2978052802.png", "29780529.png",
+            "29780531.png", "2978053102.png", "29780602.png", "2978060202.png", "2978060203.png",
+            "2978060301.png", "2978060302.png", "2978060401.png", "2978060402.png", "2978060403.png",
+            "2978060404.png", "2978060405.png", "2978060406.png", "2978060407.png", "2978060408.png",
+            "2978060409.png", "2978060410.png", "2978060411.png", "2978060412.png", "2978060501.png",
+            "2978060502.png", "2978060503.png", "2978060601.png", "2978060602.png", "2978060701.png",
+            "2978060702.png", "29780801.png", "29780802.png", "29780803.png", "29780804.png",
+            "29780805.png", "29780806.png", "2978080602.png"
+        ];
+        const yearMap = {
+            "2976": "1986",
+            "2977": "1988",
+            "2978": "1989"
+        };
         const images = {};
         imageFiles.forEach(file => {
             const yearCode = file.slice(0, 4);
@@ -327,7 +415,6 @@
         let currentPage = 1;
         const imagesPerPage = 2;
         let currentModalIndex = 0;
-
         Object.keys(images).forEach(year => {
             const li = document.createElement('li');
             const a = document.createElement('a');
@@ -341,7 +428,6 @@
             li.appendChild(a);
             yearList.appendChild(li);
         });
-
         function showImages(year, page) {
             const yearImages = images[year] || [];
             const totalImages = yearImages.length;
@@ -355,20 +441,58 @@
                         <img src="${img}" alt="${year} 时间线图片" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModal('${img}', ${startIndex + index})">
                     </div>`).join('')
                 : '<p>该年份暂无图片。</p>';
-
             pagination.innerHTML = '';
             if (totalPages > 1) {
-                // ... 原分页逻辑保持 ...
+                const firstButton = document.createElement('button');
+                firstButton.textContent = '第一页';
+                firstButton.disabled = page === 1;
+                firstButton.onclick = () => showImages(year, 1);
+                pagination.appendChild(firstButton);
+                const prevButton = document.createElement('button');
+                prevButton.textContent = '上一页';
+                prevButton.disabled = page === 1;
+                prevButton.onclick = () => showImages(year, page - 1);
+                pagination.appendChild(prevButton);
+                const startPage = Math.max(1, page - 3);
+                const endPage = Math.min(totalPages, page + 3);
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.className = i === page ? 'active' : '';
+                    pageButton.onclick = () => showImages(year, i);
+                    pagination.appendChild(pageButton);
+                }
+                const nextButton = document.createElement('button');
+                nextButton.textContent = '下一页';
+                nextButton.disabled = page === totalPages;
+                nextButton.onclick = () => showImages(year, page + 1);
+                pagination.appendChild(nextButton);
+                const lastButton = document.createElement('button');
+                lastButton.textContent = '最后一页';
+                lastButton.disabled = page === totalPages;
+                lastButton.onclick = () => showImages(year, totalPages);
+                pagination.appendChild(lastButton);
+                const jumpInput = document.createElement('input');
+                jumpInput.type = 'number';
+                jumpInput.min = 1;
+                jumpInput.max = totalPages;
+                jumpInput.placeholder = '页码';
+                pagination.appendChild(jumpInput);
+                const jumpButton = document.createElement('button');
+                jumpButton.textContent = '跳转';
+                jumpButton.onclick = () => {
+                    const jumpPage = parseInt(jumpInput.value);
+                    if (jumpPage >= 1 && jumpPage <= totalPages) showImages(year, jumpPage);
+                };
+                pagination.appendChild(jumpButton);
             }
             document.querySelectorAll('.cate a').forEach(a => a.classList.remove('active'));
             document.querySelector(`.cate a[href="#${year}"]`).classList.add('active');
         }
-
         function showModal(imageSrc, index) {
             document.getElementById('modalImage').src = imageSrc;
             currentModalIndex = index;
         }
-
         document.addEventListener('keydown', (event) => {
             if (!currentYear || !document.getElementById('imageModal').classList.contains('show')) return;
             const yearImages = images[currentYear];
@@ -381,7 +505,6 @@
                 document.getElementById('modalImage').src = yearImages[currentModalIndex];
             }
         });
-
         if (Object.keys(images).length > 0) {
             currentYear = Object.keys(images)[0];
             showImages(currentYear, 1);
