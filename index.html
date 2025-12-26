@@ -26,40 +26,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* 全局基础 */
+        /* --- 1. 全局重置 --- */
         html, body {
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
+            height: 100%; /* 确保高度充满 */
         }
 
-        /* 手机端：自然高度 */
         body {
-            height: auto;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* 电脑端：锁定高度，左右分栏滚动 */
+        /* --- 2. 电脑端布局 (App 分栏模式) --- */
         @media (min-width: 769px) {
             body {
-                height: 100vh;
-                overflow: hidden;
+                overflow: hidden; /* 禁止整个页面滚动，只让子区域滚动 */
             }
             .header-mobile { display: none; }
+            
             .main {
                 flex: 1;
-                height: 100%;
+                height: 100%; /* 占满屏幕剩余高度 */
                 overflow: hidden;
-                display: flex; 
             }
-            .main > .container-fluid, .main .row {
+            .main > .container-fluid {
+                height: 100%;
+            }
+            .main .row {
                 height: 100%;
             }
             
+            /* 左侧栏：独立滚动 */
             .left-column {
                 height: 100%;
                 overflow-y: auto;
@@ -70,51 +71,89 @@
             }
             .left-column::-webkit-scrollbar { display: none; }
             
-            /* 关键：右侧栏内容过多时，只在盒子内部滚动，不冲破屏幕 */
+            /* 右侧内容区：独立滚动 */
+            /* 关键点：所有内容（包括底部）都在这个容器里，所以不会遮挡 */
             .content {
                 height: 100%;
                 overflow-y: auto;
                 scrollbar-width: none;
-                padding-bottom: 40px; 
-                display: block; 
+                display: flex;
+                flex-direction: column;
+                /* 确保内容少时，底部信息沉底；内容多时，自然延伸 */
+                justify-content: flex-start; 
+                padding-bottom: 20px;
             }
             .content::-webkit-scrollbar { display: none; }
             
-            /* 电脑端左侧显示友情链接 */
-            .friendly-links-pc { display: block; margin-top: 30px; }
-            /* 电脑端隐藏右侧内容里的友情链接（防止重复） */
-            .friendly-links-mobile { display: none; }
+            /* 电脑端底部信息稍微加点间距 */
+            .site-info-wrapper {
+                margin-top: auto; /* 核心：内容少时推到底部 */
+                padding-top: 40px;
+            }
         }
 
-        /* 移动端：自然流布局 */
+        /* --- 3. 移动端布局 (自然流模式) --- */
         @media (max-width: 768px) {
+            html, body {
+                height: auto; /* 手机端高度自动 */
+                overflow-y: auto;
+            }
+            
             .header-mobile {
                 display: flex;
                 justify-content: space-between;
                 padding: 10px 15px;
                 background-color: #575f4f;
             }
-            .main { padding: 0; }
+            
+            .main {
+                height: auto;
+                display: block;
+                padding: 0;
+            }
+            
             .left-column {
                 padding-bottom: 10px;
                 margin-bottom: 10px;
                 border-bottom: 1px solid rgba(241, 232, 221, 0.1);
             }
-            .content { padding-bottom: 20px; }
-            .content img { max-height: 250px; margin-bottom: 10px; }
             
-            /* 手机端隐藏左侧列表，显示右侧列表 */
-            .friendly-links-pc { display: none; }
-            .friendly-links-mobile { display: block; }
+            .content {
+                height: auto;
+                display: block;
+                padding-bottom: 20px;
+            }
+            
+            .content img {
+                max-height: 250px;
+                margin-bottom: 10px;
+            }
+            
+            /* 手机端底部信息不需要 auto margin，直接紧跟 */
+            .site-info-wrapper {
+                margin-top: 20px;
+            }
         }
 
-        /* 样式细节 */
+        /* --- 组件样式 --- */
         .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
         .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
+        
         .cate { margin-top: 5px; }
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
         .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
         .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
+
+        .content img {
+            width: 100%;
+            height: auto;
+            max-height: 507px;
+            display: block;
+            margin-bottom: 15px;
+            border: 2px solid #f1e8dd;
+            cursor: pointer;
+            object-fit: cover;
+        }
 
         .pagination {
             margin-top: 15px;
@@ -158,24 +197,14 @@
             padding-top: 10px;
         }
 
-        /* 友情链接样式 */
+        /* --- 友情链接板块 --- */
         .friendly-links-block {
-            margin-top: 25px;
             border-top: 1px solid rgba(241, 232, 221, 0.3);
-            padding-top: 15px;
+            padding-top: 20px;
             text-align: center;
             width: 100%;
+            margin-bottom: 20px; /* 链接和计数器之间的距离 */
         }
-        /* 手机端加个深色背景区分 */
-        @media (max-width: 768px) {
-            .friendly-links-mobile {
-                background: rgba(0,0,0,0.1);
-                padding-bottom: 10px;
-                border-radius: 5px;
-                margin-bottom: 15px;
-            }
-        }
-        
         .friendly-links-block h5 {
             font-size: 1.1em;
             color: #facc29;
@@ -189,10 +218,10 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
         }
         .friendly-links-block ul li a {
-            font-size: 0.85em;
+            font-size: 0.9em;
             color: #f1e8dd;
             text-decoration: none;
             opacity: 0.8;
@@ -201,46 +230,71 @@
         }
         .friendly-links-block ul li a:hover { color: #ff6b6b; opacity: 1; text-decoration: underline; }
 
-        /* 电脑端左侧链接列表样式调整 */
-        .friendly-links-pc { text-align: left; }
-        .friendly-links-pc ul { justify-content: flex-start; }
-        .friendly-links-pc ul li a { padding: 2px 5px; display: block; }
-        .friendly-links-pc h5 { padding-left: 5px; }
-
-        /* --- 底部信息区域 (计数器 + 关于我们) --- */
-        .site-info-wrapper {
-            /* 紧接在友情链接下面 */
-            width: 100%;
+        /* --- 网站信息板块 (计数器 + 关于我们) --- */
+        .site-info-container {
             background: rgba(0,0,0,0.2);
-            border-radius: 5px;
             padding: 15px;
+            border-radius: 5px;
             color: #fff;
-            /* 确保顺序是竖直排列 */
-            display: flex;
-            flex-direction: column;
-            gap: 10px; 
         }
 
-        /* 计数器行：居中 */
-        .info-counter {
-            text-align: center;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed rgba(255,255,255,0.2);
-            font-size: 0.85em;
-            width: 100%;
+        /* 手机端布局：倒三角 */
+        @media (max-width: 768px) {
+            .site-info-flex {
+                display: flex;
+                flex-direction: column; /* 垂直排列 */
+                align-items: center;
+            }
+            
+            /* 第一行：计数器 */
+            .info-counter {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px dashed rgba(255,255,255,0.2);
+                font-size: 0.85em;
+            }
+            
+            /* 第二行：功能区容器 */
+            .info-actions {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .info-left {
+                text-align: left;
+            }
+            
+            .info-right {
+                /* 如果需要右下角元素，这里预留 */
+                text-align: right;
+            }
         }
 
-        /* 关于我们行：左对齐 */
-        .info-about {
-            text-align: left;
-            width: 100%;
+        /* 电脑端布局：水平排列 */
+        @media (min-width: 769px) {
+            .site-info-flex {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .info-counter {
+                flex-grow: 1;
+                text-align: center;
+                order: 2; /* 放在中间 */
+            }
+            .info-left {
+                order: 1; /* 放在左边 */
+            }
+            .info-right {
+                order: 3; /* 放在右边 */
+            }
         }
-        .info-about a {
-            font-weight: bold;
-            color: #fff;
-            text-decoration: underline;
-            font-size: 0.9em;
-        }
+        
+        .info-left a { font-weight: bold; color: #fff; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -286,22 +340,6 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    <div class="friendly-links-pc friendly-links-block">
-                        <h5>友情链接</h5>
-                        <ul>
-                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
-                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
-                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
-                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
-                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
-                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
-                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
-                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
-                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
-                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
-                        </ul>
-                    </div>
                 </div>
 
                 <div class="col-md-6 content">
@@ -324,45 +362,54 @@
                             </div>
                     </section>
 
-                    <div class="friendly-links-mobile friendly-links-block">
-                        <h5>友情链接</h5>
-                        <ul>
-                            <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
-                            <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
-                            <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
-                            <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
-                            <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
-                            <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
-                            <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
-                            <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
-                            <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
-                            <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
-                        </ul>
-                    </div>
-
                     <div class="site-info-wrapper">
                         
-                        <div class="info-counter">
-                            <span id="busuanzi_container_site_pv" style="display:none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
-                                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                                历史见证人次: <span id="busuanzi_value_site_pv"></span>
-                            </span>
-                            <span style="margin: 0 5px;">|</span>
-                            <span id="busuanzi_container_site_uv" style="display:none">
-                                访客数: <span id="busuanzi_value_site_uv"></span>
-                            </span>
+                        <div class="friendly-links-block">
+                            <h5>友情链接</h5>
+                            <ul>
+                                <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
+                                <li><a href="http://www.tiananmenmother.org/" target="_blank">天安门母亲</a></li>
+                                <li><a href="http://wqw2010.blogspot.com/" target="_blank">维权网</a></li>
+                                <li><a href="http://www.chinesepen.org/" target="_blank">独立中文笔会</a></li>
+                                <li><a href="http://www.2008xianzhang.info/" target="_blank">零八宪章信息网</a></li>
+                                <li><a href="http://biweekly.hrichina.org/home/" target="_blank">中国人权双周刊</a></li>
+                                <li><a href="http://www.msguancha.com/" target="_blank">民生观察</a></li>
+                                <li><a href="https://ban-gfw.com/" target="_blank">拆牆運動</a></li>
+                                <li><a href="https://chinaspring.org/" target="_blank">中國之春</a></li>
+                                <li><a href="https://www.amnesty.org/zh-hans/" target="_blank">国际特赦组织</a></li>
+                            </ul>
                         </div>
 
-                        <div class="info-about">
-                             <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold; padding: 0;">关于我们</a>
+                        <div class="site-info-container">
+                            <div class="site-info-flex">
+                                
+                                <div class="info-counter">
+                                    <span id="busuanzi_container_site_pv" style="display:none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
+                                          <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                          <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                        </svg>
+                                        历史见证人次: <span id="busuanzi_value_site_pv"></span>
+                                    </span>
+                                    <span style="margin: 0 5px;" class="d-none d-md-inline">|</span>
+                                    <span id="busuanzi_container_site_uv" style="display:none">
+                                        访客数: <span id="busuanzi_value_site_uv"></span>
+                                    </span>
+                                </div>
+
+                                <div class="info-actions">
+                                    <div class="info-left">
+                                         <a href="/about" class="btn underline">关于我们</a>
+                                    </div>
+                                    <div class="info-right">
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                     </div>
-
-                </div>
+                    </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
