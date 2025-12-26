@@ -15,7 +15,7 @@ kramdown:
 # Build settings
 permalink: pretty
 exclude: ["less", "node_modules", "Gruntfile.js", "package.json", "README.md"]
-# 这里的 "qsewr" 应该是你特定的文件夹名称，如果不存在该文件夹，建议删除此行
+# 这里的 include 必须指向真实存在的文件或文件夹，如果不确定 qsewr 是什么，建议删除下面这一行
 include: ["qsewr"]
 
 # Plugins
