@@ -15,8 +15,9 @@ kramdown:
 # Build settings
 permalink: pretty
 exclude: ["less", "node_modules", "Gruntfile.js", "package.json", "README.md"]
+# 这里的 "qsewr" 应该是你特定的文件夹名称，如果不存在该文件夹，建议删除此行
 include: ["qsewr"]
 
-text
+# Plugins
 plugins:
   - jekyll-sitemap
