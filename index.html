@@ -28,16 +28,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 核心布局修改 --- */
+        /* --- 核心布局：App 模式 --- */
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #575f4f;
             color: #f1e8dd;
             margin: 0;
-            /* 使用 dvh (dynamic viewport height) 解决手机浏览器地址栏导致的空白问题 */
+            /* 关键：使用 100dvh (Dynamic Viewport Height) 解决手机地址栏导致的留白 */
             height: 100vh; 
             height: 100dvh; 
-            overflow: hidden; 
+            overflow: hidden; /* 禁止 Body 滚动，只让 Main 滚动 */
             display: flex;
             flex-direction: column;
         }
@@ -47,32 +47,54 @@
             flex: 0 0 auto;
             display: flex;
             justify-content: space-between;
-            padding: 10px 15px; /* 稍微减小头部内边距 */
+            padding: 10px 15px;
             background-color: #575f4f;
-            z-index: 10;
+            z-index: 20;
         }
 
-        /* 中间内容区域：自适应高度并产生内部滚动 */
+        /* 中间内容区域 */
         .main {
-            flex: 1 1 auto;
-            overflow-y: auto;
+            flex: 1 1 auto; /* 占据剩余空间 */
+            overflow-y: auto; /* 内部独立滚动 */
             overflow-x: hidden;
-            padding: 10px 0 0 0; /* 顶部留一点空，底部去掉 padding */
             width: 100%;
+            /* 关键：去掉 padding，由内部元素控制 */
+            padding: 0; 
+        }
+
+        /* 关键修复：让容器变成 Flex 列布局 
+           这能确保友情链接永远被“推”到可视区域的最底部
+        */
+        .main > .container-fluid {
+            min-height: 100%;
             display: flex;
             flex-direction: column;
+            padding-top: 10px;
         }
 
-        /* 尾部 Footer：固定在底部 */
+        /* 让第一个 Row (内容区) 自动撑开，占据所有空余高度 */
+        .main > .container-fluid > .row:first-child {
+            flex-grow: 1; 
+        }
+
+        /* 让第二个 Row (友情链接) 紧贴底部，不要缩小 */
+        .main > .container-fluid > .row:last-child {
+            flex-shrink: 0;
+            margin-top: auto; /* 如果内容短，这就把链接推到底部 */
+        }
+
+        /* 尾部 Footer：固定在屏幕最下方 */
         .footer {
-            flex: 0 0 auto;
-            padding: 10px 15px; /* 稍微减小 Footer 内边距 */
+            flex: 0 0 auto; /* 不许缩放 */
+            padding: 8px 15px; /* 更加紧凑 */
             color: #fff;
-            background-color: rgba(0,0,0,0.2);
-            z-index: 10;
+            background-color: rgba(0,0,0,0.25); /* 稍微加深背景，与内容区分 */
+            z-index: 20;
+            /* 顶部加一条微弱的线，增加层次感 */
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* --- 样式细节 --- */
+        /* --- 普通样式 --- */
         
         .title h2 {
             font-size: 2em;
@@ -85,7 +107,7 @@
             flex-direction: column;
             justify-content: flex-start;
             padding-right: 10px;
-            margin-bottom: 10px; /* 减小原来的间距 */
+            margin-bottom: 10px;
         }
 
         .intro p {
@@ -114,11 +136,6 @@
             color: #facc29;
         }
 
-        .content {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
         .content img {
             width: 100%;
             height: auto;
@@ -184,19 +201,21 @@
             padding-top: 10px;
         }
 
-        /* --- 友情链接（底部） --- */
+        /* --- 友情链接（紧凑版） --- */
         .bottom-links {
-            margin-top: 20px;
+            margin-top: 0; /* 去掉顶部额外边距，依靠 flex-grow 自动填充 */
             border-top: 1px solid rgba(241, 232, 221, 0.3);
             padding-top: 15px;
             width: 100%;
             text-align: center;
-            padding-bottom: 20px; /* 默认底部留白 */
+            /* 底部留白极小，因为它下面紧接着就是 Footer */
+            padding-bottom: 10px; 
+            background: rgba(0,0,0,0.1); /* 给一个极淡的背景，让它视觉上像是“底座” */
         }
         .bottom-links h5 {
             font-size: 1.1em;
             color: #facc29;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: bold;
         }
         .bottom-links ul {
@@ -222,46 +241,42 @@
             text-decoration: underline;
         }
 
-        /* --- 移动端强力调整 --- */
+        /* --- 移动端强力优化 --- */
         @media (max-width: 768px) {
-            /* 压缩文字块的内边距 */
+            /* 压缩文字块 */
             .memory-text { padding: 10px; margin-bottom: 10px; }
             .memory-text p { font-size: 1em; padding-left: 5px; line-height: 1.5; margin: 3px 0; }
             
-            .cate ul li a { font-size: 1.2em; }
+            /* 图片高度 */
             .content img { max-height: 300px; }
             
-            /* 手机端 Footer：更加紧凑 */
+            /* Footer 极度紧凑 */
             .footer .container-fluid {
                 flex-direction: column;
-                gap: 5px; /* 极小的间距 */
+                gap: 4px; 
                 text-align: center;
             }
             .footer-center {
-                font-size: 0.75em; /* 字体改小 */
+                font-size: 0.75em;
                 display: block !important; 
+                opacity: 0.9;
             }
             .footer-left a, .footer-right button {
                 font-size: 0.8em;
-                padding: 2px 8px; /* 按钮改小 */
+                padding: 1px 6px;
+                min-height: auto;
             }
             
-            /* 关键修改：友情链接极度紧凑 */
+            /* 友情链接手机版 */
             .bottom-links { 
-                margin-top: 10px;     /* 上方间距减小 */
-                padding-top: 10px;    /* 分割线间距减小 */
-                padding-bottom: 5px;  /* 底部几乎不留白，因为下面就是 Footer */
-            }
-            .bottom-links h5 {
-                margin-bottom: 5px;   /* 标题和链接贴近 */
-                font-size: 1em;
+                padding-top: 10px;
+                padding-bottom: 5px; /* 紧贴 Footer */
             }
             .bottom-links ul { 
-                gap: 8px;             /* 链接排列更紧密 */
-                margin-bottom: 0;
+                gap: 8px; /* 间距更密 */
             }
             .bottom-links ul li a {
-                font-size: 0.8em;     /* 链接字体缩小 */
+                font-size: 0.8em;
             }
         }
     </style>
@@ -334,8 +349,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
-                    <div class="bottom-links">
+                <div class="col-12 p-0"> <div class="bottom-links">
                         <h5>友情链接</h5>
                         <ul>
                             <li><a href="https://chrad.net/" target="_blank">中國人權問責資料庫</a></li>
@@ -387,7 +401,7 @@
                  <a href="/about" class="btn underline" style="color: #ffffff; font-weight: bold;">关于我们</a>
             </div>
             
-            <div class="footer-center" style="color: #f1e8dd; opacity: 0.8;">
+            <div class="footer-center" style="color: #f1e8dd;">
                 <span id="busuanzi_container_site_pv" style="display:none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 4px;">
                       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
