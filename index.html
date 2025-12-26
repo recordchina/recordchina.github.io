@@ -12,8 +12,7 @@
     <meta name="robots" content="index, follow">
     
     <link rel="canonical" href="https://8964.freeddns.org/" />
-<link rel="preconnect" href="//busuanzi.ibruce.info">
-<link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://8964.freeddns.org/" />
     <meta property="og:title" content="1989年6月4日 - 记录历史 传播真相" />
@@ -179,7 +178,7 @@
             <a href="/" style="color: #f1e8dd; text-decoration: none; font-weight: bold;">Record China</a>
         </div>
         <div class="menu">
-            <button class="btn" style="color: #f1e8dd;">☰</button>
+            <button class="btn" style="color: #f1e8dd;">?</button>
         </div>
     </header>
 
@@ -295,6 +294,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <script>
         // 图片路径和完整文件名列表
@@ -460,27 +460,5 @@
             showImages(currentYear, 1);
         }
     </script>
-
-<script>
-
-    var refreshInterval = 1000; 
-
-    setTimeout(function() {
-        sessionStorage.setItem('scrollPosition', window.scrollY);
-        
-        // 执行刷新
-        location.reload();
-    }, refreshInterval);
-
-    // 页面加载完成后，尝试恢复滚动位置（尽量减少刷新带来的跳跃感）
-    window.addEventListener('load', function() {
-        var scrollPosition = sessionStorage.getItem('scrollPosition');
-        if (scrollPosition) {
-            window.scrollTo(0, parseInt(scrollPosition));
-            sessionStorage.removeItem('scrollPosition'); // 清除记录
-        }
-    });
-</script>
-    
 </body>
 </html>
