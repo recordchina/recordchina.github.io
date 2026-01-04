@@ -47,8 +47,16 @@
             margin-right: 8px;
             vertical-align: -3px;
         }
-        .refresh-btn {
-            padding: 12px 30px;
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        .refresh-btn, .loop-btn {
+            padding: 14px 30px;
             font-size: 1.1em;
             font-weight: 600;
             color: #575f4f;
@@ -59,26 +67,20 @@
             transition: all 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .refresh-btn:hover {
+        .refresh-btn:hover, .loop-btn:hover:not(:disabled) {
             background-color: #ffeb99;
             transform: translateY(-2px);
         }
-        .refresh-btn:active {
-            transform: translateY(1px);
+        .loop-btn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+            transform: none;
         }
         @media (max-width: 768px) {
-            .title {
-                font-size: 1.5em;
-                padding: 0 15px;
-            }
-            .counter-block {
-                font-size: 1.1em;
-                margin: 0 15px 20px;
-            }
-            .refresh-btn {
-                font-size: 1em;
-                padding: 10px 25px;
-            }
+            .title { font-size: 1.5em; padding: 0 15px; }
+            .counter-block { font-size: 1.1em; margin: 0 15px 20px; }
+            .btn-group { padding: 0 15px; }
+            .refresh-btn, .loop-btn { font-size: 1em; padding: 12px 25px; }
         }
     </style>
 </head>
@@ -103,12 +105,55 @@
         </span>
     </div>
 
-    <!-- 新增刷新按钮 -->
-    <button class="refresh-btn" onclick="location.reload()">
-        刷新页面 · 更新计数
-    </button>
+    <div class="btn-group">
+        <button class="refresh-btn" onclick="location.reload()">
+            。。。
+        </button>
+
+        <button class="loop-btn" id="loopButton" onclick="startLoopRefresh()">
+             啊啊啊
+        </button>
+    </div>
 
     <!-- 不蒜子统计脚本 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <!-- 自动循环刷新脚本 -->
+    <script>
+        let isLooping = false;
+        let loopCount = 0;
+        const totalLoops = 200;
+        const loopButton = document.getElementById('loopButton');
+
+        function startLoopRefresh() {
+            if (isLooping) return;
+            isLooping = true;
+            loopCount = 0;
+            loopButton.disabled = true;
+            loopButton.textContent = `进行中：0/${totalLoops}`;
+
+            function doRefresh() {
+                loopCount++;
+                loopButton.textContent = `进行中：\( {loopCount}/ \){totalLoops}`;
+
+                if (loopCount >= totalLoops) {
+                    loopButton.textContent = `完成 ${totalLoops} 次！`;
+                    isLooping = false;
+                    setTimeout(() => {
+                        loopButton.textContent = `自动循环刷新 ${totalLoops} 次`;
+                        loopButton.disabled = false;
+                    }, 3000);
+                    return;
+                }
+
+                // 每隔 1500ms 刷新一次（可根据需要调整）
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            }
+
+            doRefresh();
+        }
+    </script>
 </body>
 </html>
