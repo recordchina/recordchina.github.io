@@ -244,9 +244,30 @@
             border-bottom: 1px solid rgba(250, 204, 41, 0.3);
             padding-bottom: 8px;
         }
+        .speech-crime ul {
+            list-style: none;
+            padding: 0 10px 0 0; /* 右边留点空间给滚动条 */
+            margin: 0;
+            height: 180px; /* 调整这里！约3-4行，根据字体大小测试 */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #facc29 rgba(241, 232, 221, 0.1);
+        }
+        .speech-crime ul::-webkit-scrollbar {
+            width: 6px;
+        }
+        .speech-crime ul::-webkit-scrollbar-track {
+            background: rgba(241, 232, 221, 0.1);
+            border-radius: 3px;
+        }
+        .speech-crime ul::-webkit-scrollbar-thumb {
+            background: #facc29;
+            border-radius: 3px;
+        }
         .speech-crime ul li {
             font-size: 1.05em;
             line-height: 1.5;
+            margin: 8px 0;
         }
         .speech-crime ul li strong {
             color: #facc29;
@@ -299,7 +320,7 @@
                             <p style="text-align:center; font-size:0.95em; color:#ffeb99; margin-bottom:15px;">
                                 （数据来源于维权网、民生观察等公开渠道，非完整统计，按最早报道时间大致排序）
                             </p>
-                            <ul id="speech-list" style="list-style:none; padding:0; margin:0;"></ul>
+                            <ul id="speech-list"></ul>
                         </div>
                     </div>
                 </div>
@@ -547,7 +568,6 @@
         const speechList = document.getElementById('speech-list');
         speechCases.forEach(item => {
             const li = document.createElement('li');
-            li.style.margin = '8px 0';
             li.innerHTML = `<strong>${item.date}</strong>　<span style="color:#ff6b6b;">${item.name}</span>　${item.desc}`;
             speechList.appendChild(li);
         });
