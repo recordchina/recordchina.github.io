@@ -238,6 +238,19 @@
             .info-right { order: 3; }
         }
         .info-left a { font-weight: bold; color: #fff; font-size: 0.9em; }
+        /* --- 新增因言获罪栏目样式 --- */
+        .speech-crime h3 {
+            font-weight: bold;
+            border-bottom: 1px solid rgba(250, 204, 41, 0.3);
+            padding-bottom: 8px;
+        }
+        .speech-crime ul li {
+            font-size: 1.05em;
+            line-height: 1.5;
+        }
+        .speech-crime ul li strong {
+            color: #facc29;
+        }
     </style>
 </head>
 <body>
@@ -280,11 +293,13 @@
                             </ul>
                         </div>
                     </div>
-                   <div class="cate about-link">
+                    <div class="cate speech-crime">
                         <div class="inner">
-                            <ul>
-                                <li><a href="/about">关于本人</a></li>
-                            </ul>
+                            <h3 style="color:#facc29; text-align:center; margin:15px 0;">因言获罪 · 2025年部分案例</h3>
+                            <p style="text-align:center; font-size:0.95em; color:#ffeb99; margin-bottom:15px;">
+                                （数据来源于维权网、民生观察等公开渠道，非完整统计，按最早报道时间大致排序）
+                            </p>
+                            <ul id="speech-list" style="list-style:none; padding:0; margin:0;"></ul>
                         </div>
                     </div>
                 </div>
@@ -306,6 +321,7 @@
                         <div class="pagination" id="pagination"></div>
                     </section>
                     <div class="site-info-wrapper">
+                     
                         <div class="friendly-links-block">
                             <h5>友情链接</h5>
                             <ul>
@@ -338,6 +354,7 @@
                             <div class="site-info-flex">
                                 <div class="info-actions">
                                     <div class="info-left">
+                                         <a href="/about" class="btn underline">关于我们</a>
                                     </div>
                                     <div class="info-right">
                                     </div>
@@ -510,6 +527,30 @@
             currentYear = Object.keys(images)[0];
             showImages(currentYear, 1);
         }
+        // 因言获罪案例数据（你可以随时在这里增加/修改条目）
+        const speechCases = [
+            { date: "2025-01-06", name: "陈品霖", desc: "白纸运动纪录片《乌鲁木齐中路》导演，寻衅滋事罪判3年半" },
+            { date: "2025-01前后", name: "余文生", desc: "人权律师，煽动颠覆国家政权罪二审维持3年" },
+            { date: "2025-03", name: "姜卫东", desc: "江苏灌云民主人士，寻衅滋事罪判2年6个月" },
+            { date: "2025-04", name: "杨顺敏", desc: "浙江在职警察，因朋友圈批评政法委书记，寻衅滋事罪判2年6个月" },
+            { date: "2025-04-15", name: "梅世林", desc: "四川成都，高架桥挂横幅要求政改，寻衅滋事，羁押8个月后释放" },
+            { date: "2025-07", name: "彭立发", desc: "四通桥勇士，传秘密判9年（寻衅+纵火，未官方证实）" },
+            { date: "2025-08-08", name: "徐琳", desc: "著名民主人士，寻衅滋事判3年9个月，转监广东英德监狱" },
+            { date: "2025-09-19", name: "张展", desc: "公民记者，二度因言获罪，寻衅滋事判4年" },
+            { date: "2025-10-30", name: "郭兴梅", desc: "重庆维权人士，寻衅滋事判3年（网上言论+境外媒体）" },
+            { date: "2025-11", name: "龙克海", desc: "甘肃民主人士，寻衅滋事判2年6个月，已转监" },
+            { date: "2025-12-26", name: "吴强", desc: "江苏连云港公民，寻衅滋事案开庭（长期举报腐败）" },
+            // 继续添加2025年后续案例...
+        ];
+
+        // 渲染到页面
+        const speechList = document.getElementById('speech-list');
+        speechCases.forEach(item => {
+            const li = document.createElement('li');
+            li.style.margin = '8px 0';
+            li.innerHTML = `<strong>${item.date}</strong>　<span style="color:#ff6b6b;">${item.name}</span>　${item.desc}`;
+            speechList.appendChild(li);
+        });
     </script>
 </body>
 </html>
