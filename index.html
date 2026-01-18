@@ -140,6 +140,7 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+            pointer-events: auto; /* 确保容器可点击 */
         }
         .pagination button, .pagination input {
             background-color: #f1e8dd;
@@ -147,9 +148,14 @@
             border: none;
             padding: 5px 10px;
             margin: 0 5px;
-            cursor: pointer;
+            cursor: pointer !important;
+            pointer-events: auto !important;
         }
-        .pagination button:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.6; }
+        .pagination button:disabled { 
+            background-color: #ccc; 
+            cursor: not-allowed !important; 
+            opacity: 0.6;
+        }
         .pagination button.active { background-color: #facc29; color: #575f4f; }
         .pagination input { width: 50px; text-align: center; }
         .memory-text {
@@ -517,40 +523,28 @@
 
             pagination.innerHTML = '';
             if (totalPages > 1) {
-                const firstButton = document.createElement('button');
-                firstButton.textContent = '第一页';
-                firstButton.classList.add('first-btn');
-                firstButton.disabled = page === 1;
-                pagination.appendChild(firstButton);
+                const createButton = (text, className) => {
+                    const btn = document.createElement('button');
+                    btn.textContent = text;
+                    btn.classList.add(className);
+                    btn.type = 'button'; // 防止默认行为
+                    pagination.appendChild(btn);
+                    return btn;
+                };
 
-                const prevButton = document.createElement('button');
-                prevButton.textContent = '上一页';
-                prevButton.classList.add('prev-btn');
-                prevButton.disabled = page === 1;
-                pagination.appendChild(prevButton);
+                const firstBtn = createButton('第一页', 'first-btn');
+                const prevBtn = createButton('上一页', 'prev-btn');
 
                 const startPageNum = Math.max(1, page - 3);
                 const endPageNum = Math.min(totalPages, page + 3);
                 for (let i = startPageNum; i <= endPageNum; i++) {
-                    const pageButton = document.createElement('button');
-                    pageButton.textContent = i;
-                    pageButton.classList.add('page-btn');
-                    pageButton.dataset.page = i;
-                    if (i === page) pageButton.classList.add('active');
-                    pagination.appendChild(pageButton);
+                    const pageBtn = createButton(i, 'page-btn');
+                    pageBtn.dataset.page = i;
+                    if (i === page) pageBtn.classList.add('active');
                 }
 
-                const nextButton = document.createElement('button');
-                nextButton.textContent = '下一页';
-                nextButton.classList.add('next-btn');
-                nextButton.disabled = page === totalPages;
-                pagination.appendChild(nextButton);
-
-                const lastButton = document.createElement('button');
-                lastButton.textContent = '最后一页';
-                lastButton.classList.add('last-btn');
-                lastButton.disabled = page === totalPages;
-                pagination.appendChild(lastButton);
+                const nextBtn = createButton('下一页', 'next-btn');
+                const lastBtn = createButton('最后一页', 'last-btn');
 
                 const jumpInput = document.createElement('input');
                 jumpInput.type = 'number';
@@ -559,23 +553,19 @@
                 jumpInput.placeholder = '页码';
                 pagination.appendChild(jumpInput);
 
-                const jumpButton = document.createElement('button');
-                jumpButton.textContent = '跳转';
-                jumpButton.classList.add('jump-btn');
-                pagination.appendChild(jumpButton);
+                const jumpBtn = createButton('跳转', 'jump-btn');
             }
 
-            // 正确更新按钮的 disabled 状态（使用 .disabled = boolean）
-            const firstBtn = pagination.querySelector('.first-btn');
-            if (firstBtn) firstBtn.disabled = page === 1;
-            const prevBtn = pagination.querySelector('.prev-btn');
-            if (prevBtn) prevBtn.disabled = page === 1;
-            const nextBtn = pagination.querySelector('.next-btn');
-            if (nextBtn) nextBtn.disabled = page === totalPages;
-            const lastBtn = pagination.querySelector('.last-btn');
-            if (lastBtn) lastBtn.disabled = page === totalPages;
+            // 更新 disabled 和 active 状态
+            const updateBtnState = (selector, disabled) => {
+                const btn = pagination.querySelector(selector);
+                if (btn) btn.disabled = disabled;
+            };
+            updateBtnState('.first-btn', page === 1);
+            updateBtnState('.prev-btn', page === 1);
+            updateBtnState('.next-btn', page === totalPages);
+            updateBtnState('.last-btn', page === totalPages);
 
-            // 更新页码按钮的 active 状态
             pagination.querySelectorAll('.page-btn').forEach(btn => {
                 btn.classList.toggle('active', parseInt(btn.dataset.page) === page);
             });
@@ -585,10 +575,10 @@
             document.querySelector(`.cate a[href="#${year}"]`)?.classList.add('active');
         }
 
-        // 事件委托：统一处理所有分页按钮点击
-        pagination.addEventListener('click', function(e) {
+        // 超级稳健的事件委托：绑定到 document，专针对 .pagination 里的 button
+        document.addEventListener('click', function(e) {
             const target = e.target;
-            if (target.tagName !== 'BUTTON') return;
+            if (!target.matches('.pagination button')) return;
 
             const yearImages = images[currentYear];
             if (!yearImages) return;
@@ -616,6 +606,8 @@
                     } else {
                         return;
                     }
+                } else {
+                    return;
                 }
             }
 
@@ -677,7 +669,6 @@
                 li.innerHTML = `<strong>${item.date}</strong>　<span style="color:#ff6b6b;">${item.name}</span>　${item.desc}`;
                 speechList.appendChild(li);
             });
-            // 复制一份实现无缝循环
             const originalItems = Array.from(speechList.children);
             originalItems.forEach(item => {
                 speechList.appendChild(item.cloneNode(true));
