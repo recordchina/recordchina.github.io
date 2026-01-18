@@ -149,7 +149,7 @@
             margin: 0 5px;
             cursor: pointer;
         }
-        .pagination button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .pagination button:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.6; }
         .pagination button.active { background-color: #facc29; color: #575f4f; }
         .pagination input { width: 50px; text-align: center; }
         .memory-text {
@@ -565,11 +565,17 @@
                 pagination.appendChild(jumpButton);
             }
 
-            // 更新按钮状态（视觉一致）
-            pagination.querySelector('.first-btn')?.setAttribute('disabled', page === 1);
-            pagination.querySelector('.prev-btn')?.setAttribute('disabled', page === 1);
-            pagination.querySelector('.next-btn')?.setAttribute('disabled', page === totalPages);
-            pagination.querySelector('.last-btn')?.setAttribute('disabled', page === totalPages);
+            // 正确更新按钮的 disabled 状态（使用 .disabled = boolean）
+            const firstBtn = pagination.querySelector('.first-btn');
+            if (firstBtn) firstBtn.disabled = page === 1;
+            const prevBtn = pagination.querySelector('.prev-btn');
+            if (prevBtn) prevBtn.disabled = page === 1;
+            const nextBtn = pagination.querySelector('.next-btn');
+            if (nextBtn) nextBtn.disabled = page === totalPages;
+            const lastBtn = pagination.querySelector('.last-btn');
+            if (lastBtn) lastBtn.disabled = page === totalPages;
+
+            // 更新页码按钮的 active 状态
             pagination.querySelectorAll('.page-btn').forEach(btn => {
                 btn.classList.toggle('active', parseInt(btn.dataset.page) === page);
             });
@@ -605,7 +611,7 @@
                 const input = pagination.querySelector('input[type="number"]');
                 if (input) {
                     const val = parseInt(input.value);
-                    if (val >= 1 && val <= totalPages) {
+                    if (val >= 1 && val <= totalPages && !isNaN(val)) {
                         newPage = val;
                     } else {
                         return;
