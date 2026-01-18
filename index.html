@@ -262,7 +262,8 @@
             padding: 0;
             margin: 0;
             animation: scrollUp 60s linear infinite;   /* 60秒一循環，可自行調整快慢 */
-            will-change: transform;
+            /* will-change: transform;  ← 刪除這一行 */
+    animation: scrollUp 30s linear infinite;
         }
 
         .speech-scroller li {
