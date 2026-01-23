@@ -1,97 +1,36 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>最后的灯塔：为何我们必须捍卫台湾 | 銘記8964</title>
+    <title>最後的燈塔：為何我們必須捍衛台灣 | 銘記8964</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     <style>
-        /* --- 全局样式：继承主页风格 --- */
+        /* --- 全局樣式：繼承主頁風格 --- */
         body {
-            background-color: #575f4f; /* 主页深绿背景 */
-            color: #f1e8dd; /* 主页米色文字 */
+            background-color: #575f4f; /* 主頁深綠背景 */
+            color: #f1e8dd; /* 主頁米色文字 */
             font-family: 'Noto Sans TC', sans-serif;
             font-size: 18px;
             line-height: 1.8;
             margin: 0;
             padding: 0;
-            /* 强制覆盖 Google 翻译可能导致的顶部位移 */
-            top: 0 !important;
-            position: static !important;
         }
 
-        /* --- 容器样式 --- */
+        /* 容器：限制閱讀寬度 */
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px 20px 60px;
+            padding: 60px 20px;
         }
 
-        /* --- Google 翻译插件美化 (核心部分) --- */
-        /* 1. 隐藏 Google 顶部巨大的白色横幅 */
-        .goog-te-banner-frame.skiptranslate {
-            display: none !important;
-        } 
-        /* 2. 隐藏鼠标悬停时的提示框 */
-        .goog-tooltip {
-            display: none !important;
-        }
-        .goog-tooltip:hover {
-            display: none !important;
-        }
-        .goog-text-highlight {
-            background-color: transparent !important;
-            border: none !important; 
-            box-shadow: none !important;
-        }
-        
-        /* 3. 自定义下拉菜单容器的位置和样式 */
-        #google_translate_element {
-            text-align: right;
-            padding: 15px 20px 0; /* 放在右上角 */
-        }
-        
-        /* 4. 强制修改 Google 插件内部文字颜色 */
-        .goog-te-gadget {
-            color: #aaa !important; /* "Powered by Google" 的颜色 */
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: 12px !important;
-        }
-        
-        /* 5. 所有的链接去掉下划线，适配暗色背景 */
-        .goog-te-gadget a {
-            color: #facc29 !important;
-            text-decoration: none;
-        }
-
-        /* 6. 那个具体的下拉框样式 */
-        .goog-te-gadget-simple {
-            background-color: rgba(0,0,0,0.2) !important; /* 半透明深色背景 */
-            border: 1px solid rgba(241, 232, 221, 0.3) !important;
-            padding: 6px 10px !important;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        /* 下拉框里的文字颜色 */
-        .goog-te-gadget-simple span {
-            color: #f1e8dd !important; /* 米色文字 */
-            font-weight: bold;
-        }
-        
-        /* 隐藏 Google 图标，让界面更干净 */
-        .goog-te-gadget-icon {
-            display: none !important;
-        }
-
-        /* --- 标题与正文样式 --- */
+        /* 標題樣式 */
         h1 {
             text-align: center;
             font-size: 32px;
-            margin: 40px 0 50px;
+            margin-bottom: 50px;
             font-weight: 900;
-            color: #facc29; /* 主页高亮黄 */
+            color: #facc29; /* 主頁的高亮黃 */
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
@@ -99,30 +38,31 @@
             font-size: 24px;
             margin: 60px 0 25px;
             font-weight: 900;
-            color: #ff6b6b; /* 主页高亮红 */
+            color: #ff6b6b; /* 主頁的高亮紅 */
             border-bottom: 1px dashed rgba(241, 232, 221, 0.3);
             padding-bottom: 10px;
         }
 
+        /* 正文段落 */
         p {
             margin: 20px 0;
             text-align: justify;
             text-indent: 2em;
         }
 
-        /* --- 声明块样式 --- */
+        /* 強調聲明區域 */
         .statement {
             margin: 40px 0;
             padding: 25px;
-            background: rgba(241, 232, 221, 0.1);
-            border-left: 5px solid #facc29;
+            background: rgba(241, 232, 221, 0.1); /* 半透明背景 */
+            border-left: 5px solid #facc29; /* 黃色左邊框 */
             border-radius: 4px;
             font-weight: 500;
-            text-indent: 0;
+            text-indent: 0; /* 聲明取消縮印 */
             color: #fff;
         }
 
-        /* --- 底部导航 --- */
+        /* 底部導航 */
         .navigation {
             text-align: center;
             margin: 80px 0 40px;
@@ -145,69 +85,71 @@
             text-decoration: underline;
         }
 
-        /* --- 手机端适配 --- */
+        /* 手機端適配 */
         @media (max-width: 600px) {
-            .container { padding: 20px; }
+            .container { padding: 30px 20px; }
             h1 { font-size: 26px; }
-            #google_translate_element { text-align: center; } /* 手机上翻译按钮居中 */
+            h2 { font-size: 20px; }
+            body { font-size: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="google_translate_element"></div>
+<div class="container">
+    <h1>最後的燈塔：為何我們必須捍衛台灣</h1>
 
-    <div class="container">
-        <h1>最后的灯塔：为何我们必须捍卫台湾</h1>
+    <h2>（開篇）當維多利亞港的燭光熄滅</h2>
+    <p>我們曾以為，天安門的悲劇雖然在大陸被掩蓋，但它的記憶和精神在香港得以延續。每年六四，維多利亞公園的燭光海洋，是全世界華人心中的一座紀念碑，它象徵著我們對自由的渴望從未熄滅。</p>
+    <p>然而，隨著2020年《香港國安法》的實施，這一切戛然而止。這座曾經自由的城市迅速沉淪，維園的燭光被強行撲滅：紀念活動被定義為「顛覆國家」。香港，這片離大陸最近的民主淨土，已經淪陷。</p>
+    <p>這給了我們一個慘痛的教訓：對威權政權而言，任何形式的自由火種，無論多麼和平，都必欲除之而後快。它們所承諾的「一國兩制」，最終被證明是一個徹頭徹尾的謊言。</p>
 
-        <h2>（开篇）当维多利亚港的烛光熄灭</h2>
-        <p>我们曾以为，天安门的悲剧虽然在大陆被掩盖，但它的记忆和精神在香港得以延续。每年六四，维多利亚公园的烛光海洋，是全世界华人心中的一座纪念碑，它象征着我们对自由的渴望从未熄灭。</p>
-        <p>然而，随着2020年《香港国安法》的实施，这一切戛然而止。这座曾经自由的城市迅速沉沦，维园的烛光被强行扑灭：纪念活动被定义为“颠覆国家”。香港，这片离大陆最近的民主净土，已经沦陷。</p>
-        <p>这给了我们一个惨痛的教训：对威权政权而言，任何形式的自由火种，无论多么和平，都必欲除之而后快。它们所承诺的“一国两制”，最终被证明是一个彻头彻尾的谎言。</p>
+    <h2>台灣：華人世界的光榮與典範</h2>
+    <p>當香港的燈火黯淡，我們的目光自然而然地投向了台灣。</p>
+    <p>台灣的存在本身，就是對中共政權合法性的最大挑戰。它用事實證明了：中華文化與現代民主制度不僅毫不衝突，反而可以完美融合，創造出一個繁榮、開放、文明的社會。</p>
+    <p>在這裡，人民可以通過選票決定自己的領導人；在這裡，新聞媒體可以自由地批評政府；在這裡，個人的創造力和思想可以不受束縛地馳騁；在這裡，科技創新（如台積電）引領全球，公民社會充滿活力。台灣人民所享有的自由、尊嚴和富足，正是我們每一個在威權統治下的大陸人所日夜期盼的。</p>
+    <p>台灣不是一個「叛亂的省份」，而是一個活生生的、成功的民主華人國家。它是我們的驕傲，也是我們民族未來的希望所在。</p>
 
-        <h2>台湾：华人世界的光荣与典范</h2>
-        <p>当香港的灯火黯淡，我们的目光自然而然地投向了台湾。</p>
-        <p>台湾的存在本身，就是对中共政权合法性的最大挑战。它用事实证明了：中华文化与现代民主制度不仅毫不冲突，反而可以完美融合，创造出一个繁荣、开放、文明的社会。</p>
-        <p>在这里，人民可以通过选票决定自己的领导人；在这里，新闻媒体可以自由地批评政府；在这里，个人的创造力和思想可以不受束缚地驰骋；在这里，科技创新（如台积电）引领全球，公民社会充满活力。台湾人民所享有的自由、尊严和富足，正是我们每一个在威权统治下的大陆人所日夜期盼的。</p>
-        <p>台湾不是一个“叛乱的省份”，而是一个活生生的、成功的民主华人国家。它是我们的骄傲，也是我们民族未来的希望所在。</p>
-
-        <h2>二、反对武力统一：守护我们最后的希望</h2>
-        <p>今天，中共正用当年对待香港的谎言和日益增长的武力，威胁着台湾两千三百万人民的自由和生活方式。他们所谓的“和平统一”，不过是“一国两制”谎言的翻版；而他们的“武力犯台”，则是要将我们在香港目睹的悲剧，以百倍、千倍的规模在台湾重演。</p>
-        <p>我们决不能允许这样的事情发生。</p>
-        <p>保卫台湾，不仅仅是保卫一片土地，更是在保卫华人世界里最后一座民主的灯塔。如果台湾被吞并，那将意味着所有华人都将陷入专制的黑暗长夜，我们将彻底失去一个可供仰望的、证明我们民族也能拥抱现代文明的榜样。</p>
-        
-        <div class="statement">
-            因此，我在此郑重声明：<br><br>
-            我坚决反对中华人民共和国以任何形式、任何借口对台湾进行武力侵犯。<br>
-            我坚决支持台湾人民拥有决定自己命运的权利。
-        </div>
-
-        <h2>三、支持台湾独立：一个主权国家的应有之义</h2>
-        <p>一个自由的民族有权选择自己的国号和未来。台湾拥有自己民选的政府、自己的军队、自己的货币和护照，它在事实上就是一个独立的国家。中共用虚构的“历史主张”和民族主义狂热来否认这一事实，是对国际法和基本人权的践踏。</p>
-        <p>为了让这座民主灯塔永不熄灭，为了让华人世界保有一份值得骄傲的希望，我在此明确表态：</p>
-        
-        <div class="statement">
-            我支持台湾作为一个完全独立的、拥有完整主权的国家——中华民国（台湾）屹立于世界民族之林。它不隶属于中华人民共和国，它的未来只应由台湾人民自己决定。
-        </div>
-        
-        <p>我深知，发表这样的声明意味着我将永远被中华人民共和国视为“民族罪人”和“国家公敌”。但与捍卫一个民族的自由和希望相比，我个人所要承担的任何风险，都是渺小而值得的。</p>
-
-        <div class="navigation">
-            <a href="../../../../index.html">← 返回首页</a>
-        </div>
+    <h2>二、反對武力統一：守護我們最後的希望</h2>
+    <p>今天，中共正用當年對待香港的謊言和日益增長的武力，威脅著台灣兩千三百萬人民的自由和生活方式。他們所謂的「和平統一」，不過是「一國兩制」謊言的翻版；而他們的「武力犯台」，則是要將我們在香港目睹的悲劇，以百倍、千倍的規模在台灣重演。</p>
+    <p>我們決不能允許這樣的事情發生。</p>
+    <p>保衛台灣，不僅僅是保衛一片土地，更是在保衛華人世界裡最後一座民主的燈塔。如果台灣被吞併，那將意味著所有華人都將陷入專制的黑暗長夜，我們將徹底失去一個可供仰望的、證明我們民族也能擁抱現代文明的榜樣。</p>
+    
+    <div class="statement">
+        因此，我在此鄭重聲明：<br><br>
+        我堅決反對中華人民共和國以任何形式、任何藉口對台灣進行武力侵犯。<br>
+        我堅決支持台灣人民擁有決定自己命運的權利。
     </div>
 
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'zh-CN',  // 告诉 Google 原文是中文
-                includedLanguages: 'en,de,ja,es,fr,zh-TW', // 允许用户选择这些语言
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <h2>三、支持台灣獨立：一個主權國家的應有之義</h2>
+    <p>一個自由的民族有權選擇自己的國號和未來。台灣擁有自己民選的政府、自己的軍隊、自己的貨幣和護照，它在事實上就是一個獨立的國家。中共用虛構的「歷史主張」和民族主義狂熱來否認這一事實，是對國際法和基本人權的踐踏。</p>
+    <p>為了讓這座民主燈塔永不熄滅，為了讓華人世界保有一份值得驕傲的希望，我在此明確表態：</p>
+    
+    <div class="statement">
+        我支持台灣作為一個完全獨立的、擁有完整主權的國家——中華民國（台灣）屹立於世界民族之林。它不隸屬於中華人民共和國，它的未來只應由台灣人民自己決定。
+    </div>
+    
+    <p>我深知，發表這樣的聲明意味著我將永遠被中華人民共和國視為「民族罪人」和「國家公敵」。但與捍衛一個民族的自由和希望相比，我個人所要承擔的任何風險，都是渺小而值得的。</p>
+
+    <div class="navigation">
+        <a href="../../../../index.html">← 返回首頁</a>
+    </div>
+</div>
+
+<div class="gtranslate_wrapper"></div>
+<script>
+    window.gtranslateSettings = {
+        "default_language": "zh-TW", 
+        "detect_browser_language": true,
+        "wrapper_selector": ".gtranslate_wrapper",
+        "flag_style": "3d",
+        "alt_flags": {"en": "usa"},
+        "languages": ["zh-TW", "zh-CN", "en", "de", "ja"],
+        "switcher_horizontal_position": "right",
+        "switcher_vertical_position": "bottom"
+    }
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 </body>
 </html>
