@@ -135,6 +135,8 @@
             object-fit: cover;
         }
         .pagination {
+            position: relative;
+            z-index: 10;
             margin-top: 15px;
             display: flex;
             align-items: center;
@@ -148,6 +150,8 @@
             padding: 5px 10px;
             margin: 0 5px;
             cursor: pointer;
+            position: relative;
+            z-index: 11;
         }
         .pagination button:disabled { background-color: #ccc; cursor: not-allowed; }
         .pagination button.active { background-color: #facc29; color: #575f4f; }
@@ -236,35 +240,45 @@
             .info-right { order: 3; }
         }
         .info-left a { font-weight: bold; color: #fff; font-size: 0.9em; }
-
-        /* ── 因言獲罪滾動區塊 ── */
+        /* ── 因言獲罪區塊（改為手動滾動條） ── */
         .speech-crimes-section {
             margin: 20px 0 15px;
             padding: 12px 0;
             border-top: 1px solid rgba(241, 232, 221, 0.25);
             border-bottom: 1px solid rgba(241, 232, 221, 0.25);
         }
-
         .speech-crimes-section h5 {
             font-size: 1.18em;
             letter-spacing: 1px;
+            color:#ff6b6b;
+            margin-bottom:8px;
+            text-align:center;
+            font-weight:900;
         }
-
         .speech-scroller-container {
-            height: 180px;          /* 可見區域高度 ≈ 3.5~4行 */
-            overflow: hidden;
-            position: relative;
+            height: 180px;                  /* PC端可見高度 */
+            overflow-y: auto;               /* 手動滾動條 */
+            overflow-x: hidden;
             margin-top: 8px;
+            padding-right: 8px;             /* 留空間給滾動條 */
+            scrollbar-width: thin;          /* Firefox */
+            scrollbar-color: #facc29 #575f4f;
         }
-
+        .speech-scroller-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .speech-scroller-container::-webkit-scrollbar-track {
+            background: #575f4f;
+        }
+        .speech-scroller-container::-webkit-scrollbar-thumb {
+            background: #facc29;
+            border-radius: 4px;
+        }
         .speech-scroller {
             list-style: none;
             padding: 0;
             margin: 0;
-            animation: scrollUp 60s linear infinite;   /* 60秒一循環，可自行調整快慢 */
-            will-change: transform;
         }
-
         .speech-scroller li {
             padding: 8px 10px;
             line-height: 1.45;
@@ -272,34 +286,18 @@
             border-bottom: 1px dashed rgba(255,107,107,0.3);
             color: #f1e8dd;
         }
-
         .speech-scroller li strong {
             color: #ffeb99;
         }
-
         .speech-scroller li span {
             font-weight: 600;
+            color:#ff6b6b;
         }
-
-        /* 滑鼠懸停暫停（可選） */
-        .speech-scroller-container:hover .speech-scroller {
-            animation-play-state: paused;
-        }
-
-        /* 關鍵幀動畫 */
-        @keyframes scrollUp {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-50%);   /* 因為我們複製了一倍內容，所以移到-50%就剛好無縫 */
-            }
-        }
-
-        /* 手機端稍微調整高度 */
+        /* 手機端調整 */
         @media (max-width: 768px) {
             .speech-scroller-container {
                 height: 160px;
+                padding-right: 6px;
             }
             .speech-scroller li {
                 font-size: 0.95em;
@@ -348,12 +346,10 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- ★★★ 插入新的「因言獲罪」滾動區塊 ★★★ -->
+                    <!-- ★★★ 因言獲罪區塊 ★★★ -->
                     <div class="cate speech-crimes-section">
                         <div class="inner">
-                            <h5 style="color:#ff6b6b; margin-bottom:8px; text-align:center; font-weight:900;">
-                                2025年 因言獲罪速報
-                            </h5>
+                            <h5>2025年 因言獲罪速報</h5>
                             <div class="speech-scroller-container">
                                 <ul id="speech-list" class="speech-scroller"></ul>
                             </div>
@@ -379,7 +375,7 @@
                         <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
                         <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
                     </div>
-                
+               
                     <section class="board" id="image-board">
                         <div class="row"></div>
                         <div class="pagination" id="pagination"></div>
@@ -589,45 +585,35 @@
             currentYear = Object.keys(images)[0];
             showImages(currentYear, 1);
         }
-
-        // ==================== 因言獲罪滾動部分 ====================
+        // ==================== 因言獲罪部分（僅渲染一次，不複製） ====================
         const speechCases = [
             { date: "2025-01-06", name: "陈品霖", desc: "白纸运动纪录片导演，寻衅滋事判3年半" },
-            { date: "2025-01",    name: "余文生", desc: "人权律师，煽颠二审维持3年" },
-            { date: "2025-03",    name: "姜卫东", desc: "江苏民主人士，寻衅判2年6个月" },
-            { date: "2025-04",    name: "杨顺敏", desc: "在职警察，朋友圈批评领导判2年6个月" },
+            { date: "2025-01", name: "余文生", desc: "人权律师，煽颠二审维持3年" },
+            { date: "2025-03", name: "姜卫东", desc: "江苏民主人士，寻衅判2年6个月" },
+            { date: "2025-04", name: "杨顺敏", desc: "在职警察，朋友圈批评领导判2年6个月" },
             { date: "2025-04-15", name: "梅世林", desc: "高架桥挂横幅，被羁押" },
-            { date: "2025-04前后",name: "吴强",   desc: "4月9日发帖后两天被扣以寻衅滋事罪刑拘" },
-            { date: "2025-07",    name: "彭立发", desc: "四通桥勇士，传秘密判9年" },
-            { date: "2025-07",    name: "黄琳婷", desc: "长期维权，7月再次被抓，以寻衅滋事罪刑拘" },
-            { date: "2025-07-26", name: "胡洋",   desc: "回国探亲在上海机场被抓，以寻衅滋事罪刑拘，其母称“因言获罪”" },
-            { date: "2025-08-08", name: "徐琳",   desc: "民主人士，判3年9个月，转监英德" },
-            { date: "2025-09-19", name: "张展",   desc: "公民记者，二度因言判4年" },
-            { date: "2025-10",    name: "沈爱斌", desc: "多次因言被判，此次10月31日再次被刑拘" },
+            { date: "2025-04前后",name: "吴强", desc: "4月9日发帖后两天被扣以寻衅滋事罪刑拘" },
+            { date: "2025-07", name: "彭立发", desc: "四通桥勇士，传秘密判9年" },
+            { date: "2025-07", name: "黄琳婷", desc: "长期维权，7月再次被抓，以寻衅滋事罪刑拘" },
+            { date: "2025-07-26", name: "胡洋", desc: "回国探亲在上海机场被抓，以寻衅滋事罪刑拘，其母称“因言获罪”" },
+            { date: "2025-08-08", name: "徐琳", desc: "民主人士，判3年9个月，转监英德" },
+            { date: "2025-09-19", name: "张展", desc: "公民记者，二度因言判4年" },
+            { date: "2025-10", name: "沈爱斌", desc: "多次因言被判，此次10月31日再次被刑拘" },
             { date: "2025-10-30", name: "郭兴梅", desc: "重庆维权人士，寻衅滋事判3年（网上言论+境外媒体）" },
-            { date: "2025-11",    name: "龙克海", desc: "甘肃民主人士，寻衅滋事判2年6个月，已转监" },
-            { date: "2025-12",    name: "杜斌",   desc: "资深记者/纪录片导演，寻衅滋事罪刑事拘留（10月15日）" },
-            { date: "2025",       name: "因言获罪", desc: "還有上百未公開姓名者被以尋衅滋事罪判刑或拘留" },
-            { date: "2025",       name: "常態化",   desc: "因言獲罪依然是常態，絕大多數普通人因被點贊數少、關注少、影響有限的批評就被快速入罪" },
+            { date: "2025-11", name: "龙克海", desc: "甘肃民主人士，寻衅滋事判2年6个月，已转监" },
+            { date: "2025-12", name: "杜斌", desc: "资深记者/纪录片导演，寻衅滋事罪刑事拘留（10月15日）" },
+            { date: "2025", name: "因言获罪", desc: "還有上百未公開姓名者被以尋衅滋事罪判刑或拘留" },
+            { date: "2025", name: "常態化", desc: "因言獲罪依然是常態，絕大多數普通人因被點贊數少、關注少、影響有限的批評就被快速入罪" },
         ];
-
-        // 等 DOM 準備好再執行
         document.addEventListener('DOMContentLoaded', () => {
             const speechList = document.getElementById('speech-list');
             if (!speechList) return;
-
-            // 渲染原始內容
             speechCases.forEach(item => {
                 const li = document.createElement('li');
-                li.innerHTML = `<strong>${item.date}</strong>　<span style="color:#ff6b6b;">${item.name}</span>　${item.desc}`;
+                li.innerHTML = `<strong>${item.date}</strong>　<span>${item.name}</span>　${item.desc}`;
                 speechList.appendChild(li);
             });
-
-            // 複製一份實現無縫循環
-            const originalItems = Array.from(speechList.children);
-            originalItems.forEach(item => {
-                speechList.appendChild(item.cloneNode(true));
-            });
+            // 已移除複製邏輯（不再需要無縫循環）
         });
     </script>
 </body>
