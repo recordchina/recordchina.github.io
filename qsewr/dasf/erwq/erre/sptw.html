@@ -6,22 +6,50 @@
     <title>最后的灯塔：为何我们必须捍卫台湾 | 銘記8964</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
     <style>
-        /* --- 全局样式：继承主页风格 --- */
+        /* --- 全局样式 --- */
         body {
             background-color: #575f4f; /* 主页深绿背景 */
             color: #f1e8dd; /* 主页米色文字 */
-            font-family: 'Noto Sans TC', sans-serif; /* 主页同款字体 */
+            font-family: 'Noto Sans TC', sans-serif;
             font-size: 18px;
             line-height: 1.8;
             margin: 0;
             padding: 0;
         }
 
-        /* 容器：限制阅读宽度，增加沉浸感 */
+        /* --- 语言切换栏 (新增) --- */
+        .language-bar {
+            text-align: right;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.2); /* 稍微深一点的背景区分 */
+            font-size: 14px;
+        }
+
+        .language-bar span {
+            color: #aaa;
+            margin-right: 10px;
+        }
+
+        .language-bar a {
+            color: #facc29; /* 黄色链接 */
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 1px dotted transparent;
+            transition: all 0.3s;
+        }
+
+        .language-bar a:hover {
+            color: #ff6b6b; /* 悬停变红 */
+            border-bottom: 1px dotted #ff6b6b;
+        }
+
+        /* 容器 */
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 40px 20px 60px; /* 顶部padding减小，因为有语言栏了 */
         }
 
         /* 标题样式 */
@@ -30,7 +58,7 @@
             font-size: 32px;
             margin-bottom: 50px;
             font-weight: 900;
-            color: #facc29; /* 主页的高亮黄 */
+            color: #facc29;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
@@ -38,7 +66,7 @@
             font-size: 24px;
             margin: 60px 0 25px;
             font-weight: 900;
-            color: #ff6b6b; /* 主页的高亮红 */
+            color: #ff6b6b;
             border-bottom: 1px dashed rgba(241, 232, 221, 0.3);
             padding-bottom: 10px;
         }
@@ -50,15 +78,15 @@
             text-indent: 2em;
         }
 
-        /* 强调声明区域：特殊的视觉处理 */
+        /* 强调声明区域 */
         .statement {
             margin: 40px 0;
             padding: 25px;
-            background: rgba(241, 232, 221, 0.1); /* 半透明背景 */
-            border-left: 5px solid #facc29; /* 黄色左边框 */
+            background: rgba(241, 232, 221, 0.1);
+            border-left: 5px solid #facc29;
             border-radius: 4px;
             font-weight: 500;
-            text-indent: 0; /* 声明取消缩进 */
+            text-indent: 0;
             color: #fff;
         }
 
@@ -74,27 +102,33 @@
             display: inline-block;
             margin: 0 15px;
             text-decoration: none;
-            color: #facc29; /* 链接用黄色 */
+            color: #facc29;
             font-weight: bold;
             font-size: 16px;
             transition: color 0.3s;
         }
 
         .navigation a:hover {
-            color: #ff6b6b; /* 悬停变红 */
+            color: #ff6b6b;
             text-decoration: underline;
         }
 
-        /* 手机端适配微调 */
+        /* 手机适配 */
         @media (max-width: 600px) {
-            .container { padding: 30px 20px; }
+            .container { padding: 20px; }
             h1 { font-size: 26px; }
-            h2 { font-size: 20px; }
-            body { font-size: 16px; }
+            .language-bar { text-align: center; } /* 手机上语言栏居中 */
         }
     </style>
 </head>
 <body>
+
+    <div class="language-bar">
+        <span>Auto Translate:</span>
+        <a onclick="translatePage('en')">English</a>
+        <a onclick="translatePage('de')">Deutsch</a>
+        <a onclick="translatePage('ja')">日本語</a>
+    </div>
 
 <div class="container">
     <h1>最后的灯塔：为何我们必须捍卫台湾</h1>
@@ -135,6 +169,22 @@
         <a href="../../../../index.html">← 返回首页</a>
     </div>
 </div>
+
+<script>
+    function translatePage(targetLang) {
+        // 1. 获取当前页面的完整 URL
+        var currentUrl = window.location.href;
+        
+        // 2. 构造 Google Translate 的 URL
+        // sl=zh-CN (源语言: 简体中文)
+        // tl=targetLang (目标语言)
+        // u=currentUrl (要翻译的网页地址)
+        var translateUrl = "https://translate.google.com/translate?sl=zh-CN&tl=" + targetLang + "&u=" + encodeURIComponent(currentUrl);
+        
+        // 3. 在新标签页打开
+        window.open(translateUrl, '_blank');
+    }
+</script>
 
 </body>
 </html>
