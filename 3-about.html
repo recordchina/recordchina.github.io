@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="六四记忆">
     <title>关于我们 - 六四记忆</title>
-    <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
-    <!-- 自定义样式 -->
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
@@ -17,7 +14,7 @@
             color: #ffffff; /* 默认文字颜色为白色 */
             margin: 0;
             padding: 0;
-            height: 100vh;
+            min-height: 100vh; /* 确保高度填满屏幕 */
             display: flex;
             flex-direction: column; /* 列布局支持底部链接 */
             justify-content: space-between; /* 内容与底部分开 */
@@ -26,7 +23,8 @@
             background-size: cover;
             background-position: center;
             width: 100%;
-            padding: 40px 0; /* 上下内边距 */
+            /* 顶部增加 Padding，防止文字被右上角的翻译旗帜遮挡 */
+            padding: 80px 0 40px; 
         }
         .container {
             max-width: 800px; /* 限制内容宽度 */
@@ -66,39 +64,38 @@
     </style>
 </head>
 <body>
-    <!-- Page Header -->
     <header class="intro-header">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading" id="tag-heading">
                         <h1>六四记忆</h1>
-<p>
-    <b>关于本人：一个普通人的坚守与突围</b><br><br>
-    我不是天生的异见者，我也曾只是一个只想安稳度日的中国普通人。<br>
-    过去那些年，我曾长期奔波于维权一线。从地方政府的冷漠推诿，到国有垄断企业的傲慢霸凌，我为了争取哪怕一丁点基本的公道，与这个庞大的体制进行了漫长的周旋。<br>
-    在那段日子里，我深知身为草根百姓的窒息感——在墙内，你只能祈祷自己永远是被命运眷顾的幸存者。因为一旦厄运降临，大多数人受限于精力与恐惧，只能被迫失语，忍气吞声。
-</p>
+                        <p>
+                            <b>关于本人：一个普通人的坚守与突围</b><br><br>
+                            我不是天生的异见者，我也曾只是一个只想安稳度日的中国普通人。<br>
+                            过去那些年，我曾长期奔波于维权一线。从地方政府的冷漠推诿，到国有垄断企业的傲慢霸凌，我为了争取哪怕一丁点基本的公道，与这个庞大的体制进行了漫长的周旋。<br>
+                            在那段日子里，我深知身为草根百姓的窒息感——在墙内，你只能祈祷自己永远是被命运眷顾的幸存者。因为一旦厄运降临，大多数人受限于精力与恐惧，只能被迫失语，忍气吞声。
+                        </p>
 
-<p style="color: red; font-weight: bold;">
-    在那个世界里，真相成了禁忌，发声成了罪证。<br>
-    仅仅因为发表政治异见，或是转发一条实时新闻，我们面临的往往就是账号的封杀、功能的限制，是互联网上的“数字死刑”。<br>
-    但我不愿就此沉默。
-</p>
+                        <p style="color: red; font-weight: bold;">
+                            在那个世界里，真相成了禁忌，发声成了罪证。<br>
+                            仅仅因为发表政治异见，或是转发一条实时新闻，我们面临的往往就是账号的封杀、功能的限制，是互联网上的“数字死刑”。<br>
+                            但我不愿就此沉默。
+                        </p>
 
-<p>
-    我始终坚信：<b>能唤醒一个灵魂，就是一场胜利；能传播一份真相，就是刺破黑暗的一束光。</b><br>
-    民主与自由从来不是从天而降的恩赐，而是每一个觉醒者用呐喊堆砌出的长城。<br>
-    不要小看你的一份关注。当觉醒的人越来越多，罪恶的生存空间就会越来越小。
-</p>
+                        <p>
+                            我始终坚信：<b>能唤醒一个灵魂，就是一场胜利；能传播一份真相，就是刺破黑暗的一束光。</b><br>
+                            民主与自由从来不是从天而降的恩赐，而是每一个觉醒者用呐喊堆砌出的长城。<br>
+                            不要小看你的一份关注。当觉醒的人越来越多，罪恶的生存空间就会越来越小。
+                        </p>
 
-<p style="color: red; font-weight: bold;">
-    围观就是力量，发声就是武器。<br>
-    只要你愿意加入，愿意为不公义之事投去一道注视的目光，你就是在与我们并肩作战，你就是抵制这股强权洪流的中流砥柱。<br>
-    因此，在这个流亡之地建立的网站，不仅是我个人的避风港，更是我们共同的阵地。<br>
-    我将继续用微薄之力，守护六四的记忆，支持台湾的自由。<br>
-    让我们一起，让烛光照亮前行之路，让这片土地不再只有黑暗。
-</p>
+                        <p style="color: red; font-weight: bold;">
+                            围观就是力量，发声就是武器。<br>
+                            只要你愿意加入，愿意为不公义之事投去一道注视的目光，你就是在与我们并肩作战，你就是抵制这股强权洪流的中流砥柱。<br>
+                            因此，在这个流亡之地建立的网站，不仅是我个人的避风港，更是我们共同的阵地。<br>
+                            我将继续用微薄之力，守护六四的记忆，支持台湾的自由。<br>
+                            让我们一起，让烛光照亮前行之路，让这片土地不再只有黑暗。
+                        </p>
                         <span class="subheading">六四记忆 台湾独立</span>
                     </div>
                 </div>
@@ -106,9 +103,24 @@
         </div>
     </header>
 
-    <!-- 返回主页链接 -->
     <div class="footer-link">
         <a href="/index.html">返回主页</a>
     </div>
+
+    <div class="gtranslate_wrapper"></div>
+    <script>
+        window.gtranslateSettings = {
+            "default_language": "zh-CN", /* 这里改为 zh-CN，适配当前页面的简体中文内容 */
+            "detect_browser_language": true,
+            "wrapper_selector": ".gtranslate_wrapper",
+            "flag_style": "3d",
+            "alt_flags": {"en": "usa"},
+            "languages": ["zh-TW", "zh-CN", "en", "de", "ja"],
+            "switcher_horizontal_position": "right",
+            "switcher_vertical_position": "top" /* 右上角 */
+        }
+    </script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
 </body>
 </html>
