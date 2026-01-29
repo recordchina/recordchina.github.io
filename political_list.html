@@ -13,25 +13,35 @@
             font-family: 'Noto Sans TC', sans-serif; 
             padding: 20px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h2 { color: #facc29; }
-        a { color: #ffeb99; text-decoration: underline; }
-        a:hover { color: #ff6b6b; }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px;
-            background: rgba(241, 232, 221, 0.1);
+        .container { max-width: 1400px; margin: 0 auto; }
+        h2 { color: #facc29; margin-bottom: 1.5rem; }
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 2rem;
         }
-        th, td { 
-            border: 1px solid rgba(241, 232, 221, 0.3); 
-            padding: 10px; 
-            text-align: left; 
+        table {
+            width: 100%;
+            min-width: 1000px; /* 防止列太挤 */
+            border-collapse: collapse;
+            background: rgba(241, 232, 221, 0.08);
         }
-        th { 
-            background-color: rgba(250, 204, 41, 0.2); 
-            color: #facc29; 
+        th, td {
+            border: 1px solid rgba(241, 232, 221, 0.25);
+            padding: 12px 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: rgba(250, 204, 41, 0.25);
+            color: #facc29;
             font-weight: bold;
+            white-space: nowrap;
+        }
+        td {
+            font-size: 0.95rem;
+        }
+        .id-masked {
+            color: #ffeb99;
         }
         .counter-block {
             text-align: center;
@@ -48,36 +58,77 @@
             margin-right: 8px;
             vertical-align: -3px;
         }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #f1e8dd;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .back-link:hover {
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>涉政人员落查名单</h2>
-        <p>以下为示例名单（实际应包含2万人数据）。由于数据量巨大，这里仅展示前几行作为预览。您可下载完整 Excel 文件查看全部名单。</p>
         
-        <p><strong>重要提示：</strong> 点击下载也会被计入本站总访问量（历史见证人次 / 访客数）。</p>
+        <p>以下为部分示例数据（实际名单约2万人）。身份证信息已做脱敏处理，仅供参考。</p>
         
-        <a href="political_list.xlsx" download>下载完整 Excel 名单（约2万人）</a>
+        <p><strong>下载完整版：</strong> 点击下方按钮获取包含全部字段的 Excel 文件（地区、序号、姓名、身份证、境外平台、账号、居住地）。</p>
+        
+        <a href="political_list.xlsx" download class="btn btn-warning mb-4">
+            下载完整 Excel 名单（约2万人）
+        </a>
 
-        <!-- 示例表格（可保留或删除，根据需要） -->
-        <table>
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>姓名</th>
-                    <th>日期</th>
-                    <th>描述</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>示例姓名1</td><td>2025-01-01</td><td>因言获罪 / 寻衅滋事</td></tr>
-                <tr><td>2</td><td>示例姓名2</td><td>2025-02-15</td><td>网络言论被刑拘</td></tr>
-                <tr><td>3</td><td>示例姓名3</td><td>2025-03-20</td><td>维权人士判刑3年</td></tr>
-                <!-- 实际使用时可只保留很少行，或用 JS 动态加载前几十行 -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>地区</th>
+                        <th>序号</th>
+                        <th>人员姓名</th>
+                        <th>身份证信息（或其他有效证件）</th>
+                        <th>境外平台</th>
+                        <th>境外平台账号</th>
+                        <th>居住地</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>1</td>
+                        <td>金雪麟</td>
+                        <td class="id-masked">11010119******14039</td>
+                        <td>微信</td>
+                        <td>ID:4019190398（微信）</td>
+                        <td>美国</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>张洵</td>
+                        <td class="id-masked">11010219******22370</td>
+                        <td>推特</td>
+                        <td>ericxunzhang</td>
+                        <td>美国</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>3</td>
+                        <td>岳昕</td>
+                        <td class="id-masked">11010219******08526</td>
+                        <td>推特</td>
+                        <td>jasicworkers</td>
+                        <td></td>
+                    </tr>
+                    <!-- 可在此继续添加更多示例行，或留空仅作表头展示 -->
+                </tbody>
+            </table>
+        </div>
 
-        <!-- 全站计数器（与主页面完全一致） -->
+        <!-- 全站计数器 -->
         <div class="counter-block">
             <span id="busuanzi_container_site_pv">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -92,12 +143,12 @@
             </span>
         </div>
 
-        <p style="text-align: center; margin-top: 40px; opacity: 0.8;">
-            <a href="/" style="color: #f1e8dd; text-decoration: none;">← 返回主页面 銘記8964</a>
+        <p style="text-align: center;">
+            <a href="/" class="back-link">← 返回主页面 銘記8964</a>
         </p>
     </div>
 
-    <!-- busuanzi 脚本（站点级统计） -->
+    <!-- busuanzi 全站统计脚本 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
