@@ -3,195 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们与文明的距离：为何我支持台湾独立 | 銘記8964</title>
+    <title>为何支持台湾独立 | 銘記8964</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* --- 全局样式：继承你原有的深绿风格 --- */
         body {
-            background-color: #575f4f; /* 原始深绿背景 */
-            color: #f1e8dd; /* 原始米色文字 */
+            background-color: #575f4f; /* 深绿背景 */
+            color: #f1e8dd; /* 米色文字 */
             font-family: 'Noto Sans TC', sans-serif;
-            font-size: 18px;
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
+            font-size: 16px; /* 缩小基础字号 */
+            line-height: 1.5; /* 紧凑行高 */
+            margin: 0; padding: 0;
+            overflow-x: hidden;
         }
-
-        /* 容器：限制阅读宽度 */
         .container {
-            max-width: 800px;
+            max-width: 900px; /* 加宽容器，让文字横向铺开 */
             margin: 0 auto;
-            /* 顶部留出空间 */
-            padding: 80px 20px 60px; 
+            padding: 30px 20px 10px; /* 极小的内边距 */
         }
-
-        /* 标题样式 */
         h1 {
             text-align: center;
-            font-size: 32px;
-            margin-bottom: 40px;
+            font-size: 24px; /* 标题改小 */
+            margin-bottom: 15px;
             font-weight: 900;
-            color: #facc29; /* 高亮黄 */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #facc29;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
-
         h2 {
-            font-size: 22px;
-            margin: 50px 0 20px;
-            font-weight: 900;
-            color: #ff8e8e; /* 稍微调亮一点的红，在深绿底上更清晰 */
+            font-size: 18px; /* 二级标题改小 */
+            margin: 20px 0 10px;
+            font-weight: bold;
+            color: #ff8e8e;
             border-bottom: 1px dashed rgba(241, 232, 221, 0.3);
-            padding-bottom: 10px;
+            padding-bottom: 5px;
         }
+        p { margin: 5px 0; text-align: justify; }
 
-        /* 正文段落 */
-        p {
-            margin: 20px 0;
-            text-align: justify;
-        }
-
-        /* --- 新增：对比卡片样式 (用于显示那个接地气的对比列表) --- */
+        /* --- 紧凑版对比框 (双栏) --- */
         .comparison-box {
-            background-color: rgba(0, 0, 0, 0.2); /* 半透明黑底，突出内容 */
-            border-radius: 8px;
-            padding: 25px;
-            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
             border: 1px solid rgba(241, 232, 221, 0.1);
         }
-
-        .comparison-item {
-            margin-bottom: 25px;
-            border-left: 4px solid #facc29; /*哪怕不读字，黄色线条也很显眼 */
-            padding-left: 15px;
+        .comp-item {
+            margin-bottom: 10px;
+            border-left: 3px solid #facc29;
+            padding-left: 10px;
         }
-        
-        .comparison-item:last-child {
-            margin-bottom: 0;
-        }
+        .tw-text { color: #facc29; font-weight: bold; font-size: 15px; }
+        .cn-text { color: #f1e8dd; opacity: 0.9; font-size: 14px; }
 
-        .tw-point {
-            display: block;
-            color: #facc29; /* 台湾部分用黄色高亮 */
-            font-weight: bold;
-            font-size: 1.05em;
-            margin-bottom: 5px;
-        }
-
-        .cn-point {
-            display: block;
-            color: #f1e8dd; /* 大陆部分用默认色，形成反差 */
-            opacity: 0.9;
-        }
-
-        /* --- 强调声明区域 (保留你原来的设计) --- */
+        /* --- 极简声明框 --- */
         .statement {
-            margin: 40px 0;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.3); /* 加深背景 */
-            border: 2px solid #ff6b6b; /* 改为红色边框，表示严重性 */
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff6b6b;
             border-radius: 4px;
-            font-weight: 500;
-            color: #fff;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            font-size: 15px;
         }
-
-        /* 底部导航 */
-        .navigation {
-            text-align: center;
-            margin: 80px 0 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(241, 232, 221, 0.3);
-        }
-
-        .navigation a {
-            display: inline-block;
-            margin: 0 15px;
-            text-decoration: none;
-            color: #facc29;
-            font-weight: bold;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        .navigation a:hover {
-            color: #ff6b6b;
-            text-decoration: underline;
-        }
-
-        /* 手机端适配 */
-        @media (max-width: 600px) {
-            .container { padding: 40px 20px; }
-            h1 { font-size: 26px; }
-            h2 { font-size: 20px; }
-            body { font-size: 16px; }
-        }
+        .statement p { margin-bottom: 5px; }
+        
+        .footer-link { text-align: center; margin-top: 20px; font-size: 14px; }
+        .footer-link a { color: #facc29; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>我们与文明的距离：<br>为何我支持台湾独立</h1>
+    <h1>文明的落差：为何我支持台湾独立</h1>
 
-    <h2>（开篇）当维多利亚港的烛光熄灭</h2>
-    <p>曾经，我们以为香港是自由的最后堡垒。但2020年的一部《国安法》，让维园的烛光熄灭，让“一国两制”彻底沦为谎言。香港的陷落用血淋淋的事实告诉我们：<b>威权与自由无法共存。</b></p>
-    <p>当香港不再自由，我们必须把目光投向华人世界最后的民主灯塔——<b>台湾</b>。</p>
-
-    <h2>我看不到“统一”的理由，只看到文明的落差</h2>
-    <p>中共告诉我们要“统一”台湾，但作为生活在大陆的普通人，我只看到了两个世界天渊之别的差距。我们支持台湾，不是因为那些宏大的政治口号，正是因为那些我们渴望却不可得的权利：</p>
+    <p>
+        香港的陷落证明“一国两制”是彻头彻尾的谎言。当维园烛光熄灭，台湾成为华人世界最后的民主灯塔。
+        我们支持台湾，不仅是出于政治立场，更是因为两个世界之间那种<b>令窒息的文明落差</b>：
+    </p>
 
     <div class="comparison-box">
-        
-        <div class="comparison-item">
-            <span class="tw-point">🌐 关于互联网：</span>
-            <span class="cn-point">台湾拥有自由的互联网，与世界同步；<br>而我们只有 <b>GFW（防火长城）</b>。我们查资料像做贼，翻墙像特务，活在一个巨大的数字监狱里。</span>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="comp-item">
+                    <div class="tw-text">🌐 互联网</div>
+                    <div class="cn-text">台：自由连接世界。<br>中：只有GFW高墙，翻墙如做贼。</div>
+                </div>
+                <div class="comp-item">
+                    <div class="tw-text">🗣️ 言论自由</div>
+                    <div class="cn-text">台：可游行、骂总统。<br>中：删贴、封号、请喝茶、因言获罪。</div>
+                </div>
+                <div class="comp-item">
+                    <div class="tw-text">💰 官员财产</div>
+                    <div class="cn-text">台：阳光法案公开透明。<br>中：最高机密，只有隐形的红色家族。</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="comp-item">
+                    <div class="tw-text">🗳️ 选举权利</div>
+                    <div class="cn-text">台：一人一票选总统。<br>中：连小区<b>物业</b>都选不了，更别提国家主席。</div>
+                </div>
+                <div class="comp-item">
+                    <div class="tw-text">🗽 民主实质</div>
+                    <div class="cn-text">台：在议会辩论与选票里。<br>中：只在墙上的标语和新闻联播里。</div>
+                </div>
+                <div class="comp-item">
+                    <div class="cn-text" style="color:#ff8e8e; font-style:italic; border-top:1px solid #666; padding-top:5px; margin-top:5px;">
+                        "所谓的统一，就是要把2300万自由人，拉进我们这个无法说话的监狱里。"
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="comparison-item">
-            <span class="tw-point">🗣️ 关于说话的权利：</span>
-            <span class="cn-point">台湾人可以在网上批评总统，甚至上街游行；<br>而我们面临的是<b>删贴、封号、炸群</b>。多说一句真话，轻则“数字死亡”，重则被警察叫去<b>“喝茶”</b>。</span>
-        </div>
-
-        <div class="comparison-item">
-            <span class="tw-point">💰 关于官员监督：</span>
-            <span class="cn-point">台湾官员财产公开，受阳光法案监督；<br>而我们的官员，连家属国籍都是国家机密，更何谈财产公开？我们只能看到“红色家族”天文数字般的隐形财富。</span>
-        </div>
-
-        <div class="comparison-item">
-            <span class="tw-point">🗳️ 关于选票：</span>
-            <span class="cn-point">台湾人一人一票，选出自己的总统，决定国家的未来；<br>而我们连小区的<b>物业公司</b>往往都无法自由选择，连人大代表都没见过，更不要谈选举国家领导人。</span>
-        </div>
-
-        <div class="comparison-item">
-            <span class="tw-point">🗽 关于民主：</span>
-            <span class="cn-point">台湾的民主在每一次计票、每一次议会质询里，是鲜活真实的；<br>而我们的“民主”，只存在于<b>贴在墙上的标语</b>里，存在于新闻联播的口号里。</span>
-        </div>
-
     </div>
 
-    <p style="margin-top: 30px; font-weight: bold; color: #facc29;">
-        这种巨大的落差让我明白：所谓的“统一”，就是要把2300万自由人，拉进我们这个无法选择物业、无法自由说话、无法连接世界的监狱里。这不仅是侵略，更是对文明的犯罪。
-    </p>
-
-    <h2>郑重声明 (Solemn Declaration)</h2>
-    <p>为了捍卫这份华人世界最后的希望，我在此郑重声明：</p>
-    
     <div class="statement">
-        <p style="margin: 0 0 15px 0;">
-            1. <b>我坚决反对武统：</b>任何以“民族大义”为借口的武力侵犯，本质上都是野蛮对文明的绑架。
-        </p>
-        <p style="margin: 0 0 15px 0;">
-            2. <b>我支持台湾独立：</b>台湾在事实上已经是一个拥有完整主权、军队和民选政府的国家。中华民国（台湾）不隶属于中华人民共和国。
-        </p>
-        <p style="margin: 0;">
-            3. <b>捍卫自决权：</b>台湾的未来，只能由享有自由意志的台湾人民自己决定，而不是由彼岸的独裁者决定。
+        <h2 style="margin-top:0; border:none; color:#ff6b6b; font-size:16px;">⚠️ 郑重法律声明 (Solemn Declaration)</h2>
+        <p>1. <b>反对武统：</b>任何以民族大义为名的侵略，都是野蛮对文明的犯罪。</p>
+        <p>2. <b>支持台独：</b>台湾已是拥有独立主权、军队的民主国家，<b>不隶属于中华人民共和国</b>。</p>
+        <p>3. <b>捍卫自决：</b>台湾的未来只能由台湾人民决定，而非独裁者。</p>
+        <p style="font-size: 13px; color: #bbb; margin-top: 10px;">
+            * 本人刘洪军深知此言论触犯中共《反分裂国家法》，但我宁做清醒的罪人，不做沉默的奴隶。
         </p>
     </div>
 
-    <p style="font-size: 0.9em; opacity: 0.8;">
-        * 我深知发表此言论已触犯中共《反分裂国家法》，但我宁愿做一个清醒的“罪人”，也不愿做一个沉默的奴隶。
-    </p>
-
-    <div class="navigation">
+    <div class="footer-link">
         <a href="/index.html">← 返回首页</a>
     </div>
 </div>
@@ -200,7 +133,6 @@
 <script>
     window.gtranslateSettings = {
         "default_language": "zh-TW", 
-        "detect_browser_language": true,
         "wrapper_selector": ".gtranslate_wrapper",
         "flag_style": "3d",
         "alt_flags": {"en": "usa"},
