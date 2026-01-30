@@ -10,56 +10,60 @@
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: #000000; /* 黑色背景 */
-            color: #ffffff; /* 默认文字颜色为白色 */
+            background-color: #000000;
+            color: #ffffff;
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* 确保高度填满屏幕 */
+            min-height: 100vh;
             display: flex;
-            flex-direction: column; /* 列布局支持底部链接 */
-            justify-content: space-between; /* 内容与底部分开 */
+            flex-direction: column;
+            justify-content: space-between;
         }
         .intro-header {
-            background-size: cover;
-            background-position: center;
             width: 100%;
-            /* 顶部增加 Padding，防止文字被右上角的翻译旗帜遮挡 */
-            padding: 80px 0 40px; 
+            /* 减少上下 Padding 以节省空间 */
+            padding: 40px 0 20px; 
         }
         .container {
-            max-width: 800px; /* 限制内容宽度 */
+            max-width: 1000px; /*稍微加宽容器，让左右两列文字不那么挤 */
         }
         .site-heading h1 {
-            font-size: 2.5em;
+            font-size: 2.2em; /* 稍微调小标题字号以节省空间 */
             font-weight: 900;
-            margin-bottom: 20px;
-            color: #ffffff; /* 标题白色 */
-        }
-        .site-heading p {
-            font-size: 1.1em;
-            line-height: 1.5;
             margin-bottom: 15px;
+            color: #ffffff;
+            text-align: center;
         }
+        
+        /* 文本段落样式优化 */
+        .text-column {
+            text-align: justify; /* 两端对齐，看起来更像报纸文章 */
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
         .site-heading .subheading {
             display: block;
             font-size: 1em;
-            margin-top: 20px;
-            color: #ffffff; /* 子标题白色 */
+            margin-top: 15px;
+            color: #ffffff;
+            text-align: center;
         }
         .footer-link {
-            position: fixed; /* 固定在页面底部 */
-            bottom: 10px; /* 距离底部 10px */
-            left: 10px; /* 距离左侧 10px，确保在左下角 */
-            z-index: 1000; /* 确保在内容之上 */
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1000;
         }
         .footer-link a {
-            color: #ffffff; /* 白色文字 */
-            font-weight: bold; /* 粗体 */
-            text-decoration: underline; /* 下划线 */
+            color: #ffffff;
+            font-weight: bold;
+            text-decoration: underline;
             font-size: 1em;
         }
         .footer-link a:hover {
-            color: #facc29; /* 悬停时变为黄色，与 index.html 高亮色一致 */
+            color: #facc29;
         }
     </style>
 </head>
@@ -67,63 +71,58 @@
     <header class="intro-header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="col-lg-10 offset-lg-1 col-md-12">
                     <div class="site-heading" id="tag-heading">
                         <h1>銘記8964:六四记忆</h1>
 
-                        <div style="border: 4px solid #cc0000; padding: 25px; margin: 30px 0; background-color: #f0f0f0; border-radius: 4px; color: #000000; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);">
-                            
-                            <h3 style="margin-top: 0; color: #cc0000; font-weight: 900; border-bottom: 2px solid #cc0000; padding-bottom: 10px; margin-bottom: 15px;">
-                                ⚠️ 网站运营者身份确认 (Identity Verification)
-                            </h3>
-                            
-                            <p style="font-size: 18px; line-height: 1.6; color: #000000; margin-bottom: 15px;">
-                                我是本站的唯一建立者与维护者：<br>
-                                <span style="font-size: 28px; font-weight: 900; color: #000000; background-color: #ffff00; padding: 4px 8px; border: 2px solid #000;">刘洪军 (Liu Hongjun)</span>
-                            </p>
-                        
-                            <p style="font-size: 18px; color: #000000;">
-                                我的推特账号 (Twitter Account)：<br>
-                                <a href="https://twitter.com/vcjavacgi2" target="_blank" style="font-size: 24px; font-weight: bold; color: #1da1f2; text-decoration: underline;">@vcjavacgi2</a>
-                            </p>
-                        
-                            <div style="background-color: #000; color: #fff; padding: 15px; margin-top: 20px; border-radius: 4px;">
-                                <p style="font-weight: bold; font-size: 16px; margin: 0; text-align: center;">
-                                    【 严 正 声 明 / Legal Declaration 】
+                        <div style="border: 3px solid #cc0000; padding: 15px 20px; margin: 15px 0 25px 0; background-color: #f0f0f0; border-radius: 4px; color: #000000; text-align: left;">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h4 style="margin: 0 0 10px 0; color: #cc0000; font-weight: 900;">
+                                        ⚠️ 网站运营者身份确认 (Identity Verification)
+                                    </h4>
+                                    <p style="font-size: 16px; line-height: 1.4; color: #000000; margin-bottom: 5px;">
+                                        我是本站建立者：
+                                        <span style="font-size: 20px; font-weight: 900; background-color: #ffff00; padding: 2px 5px; border: 1px solid #000;">刘洪军 (Liu Hongjun)</span>
+                                    </p>
+                                    <p style="font-size: 16px; margin: 0;">
+                                        推特 (Twitter)：<a href="https://twitter.com/vcjavacgi2" target="_blank" style="font-weight: bold; color: #1da1f2;">@vcjavacgi2</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-4" style="border-left: 2px solid #ccc; padding-left: 15px;">
+                                    <p style="font-size: 13px; margin: 0; line-height: 1.4; font-weight: bold;">
+                                        【严正声明 / Legal Declaration】<br>
+                                        <span style="color: #cc0000;">本人对本站所有反共、支持台独及六四真相内容负全部法律责任。由此产生的政治迫害风险，由本人刘洪军一人承担。</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 text-column">
+                                <p>
+                                    <b>关于本站及本人：一个普通人的坚守与突围</b><br>
+                                    我不是天生的异见者，我也曾只是一个只想安稳度日的中国普通人。过去那些年，我曾长期奔波于维权一线。从地方政府的冷漠推诿，到国有垄断企业的傲慢霸凌，我为了争取哪怕一丁点基本的公道，与这个庞大的体制进行了漫长的周旋。
                                 </p>
-                                <hr style="border-top: 1px solid #666; margin: 10px 0;">
-                                <p style="font-size: 15px; margin: 0; line-height: 1.5;">
-                                    本人在此实名声明：本网站发布的所有关于“六四天安门事件”、“支持台湾独立”及“揭露中共红色家族”的内容，均代表我个人的政治立场。
-                                    <br><br>
-                                    <span style="color: #ffff00; font-weight: bold; text-decoration: underline;">本人对所有内容负全部责任，由此产生的一切法律后果与政治迫害风险，均由 刘洪军 (Liu Hongjun) 一人承担。</span>
+                                <p style="color: #ff4d4d; font-weight: bold;">
+                                    在那个世界里，真相成了禁忌，发声成了罪证。<br>
+                                    在那段日子里，我深知身为草根百姓的窒息感——在墙内，你只能祈祷自己永远是被命运眷顾的幸存者。因为一旦厄运降临，大多数人受限于精力与恐惧，只能被迫失语，忍气吞声。仅仅因为发表政治异见，或是转发一条实时新闻，我们面临的往往就是账号的封杀、功能的限制，是互联网上的“数字死刑”。但我不愿就此沉默。
+                                </p>
+                            </div>
+
+                            <div class="col-md-6 text-column">
+                                <p>
+                                    我始终坚信：<b>能唤醒一个灵魂，就是一场胜利；能传播一份真相，就是刺破黑暗的一束光。</b><br>
+                                    民主与自由从来不是从天而降的恩赐，而是每一个觉醒者用呐喊堆砌出的长城。不要小看你的一份关注。当觉醒的人越来越多，罪恶的生存空间就会越来越小。
+                                </p>
+                                <p style="color: #ff4d4d; font-weight: bold;">
+                                    围观就是力量，发声就是武器。<br>
+                                    只要你愿意加入，愿意为不公义之事投去一道注视的目光，你就是在与我们并肩作战，你就是抵制这股强权洪流的中流砥柱。因此，在这个流亡之地建立的网站，不仅是我个人的避风港，更是我们共同的阵地。
+                                </p>
+                                <p>
+                                    我将继续用微薄之力，守护六四的真相及历史记忆，支持台湾的独立和民主自由。让我们一起，让烛光照亮前行之路，让这片土地不再只有黑暗。
                                 </p>
                             </div>
                         </div>
-                        <p>
-                            <b>关于本站及本人：一个普通人的坚守与突围</b><br><br>
-                            我不是天生的异见者，我也曾只是一个只想安稳度日的中国普通人。<br>
-                            过去那些年，我曾长期奔波于维权一线。从地方政府的冷漠推诿，到国有垄断企业的傲慢霸凌，我为了争取哪怕一丁点基本的公道，与这个庞大的体制进行了漫长的周旋。<br>
-                            在那段日子里，我深知身为草根百姓的窒息感——在墙内，你只能祈祷自己永远是被命运眷顾的幸存者。因为一旦厄运降临，大多数人受限于精力与恐惧，只能被迫失语，忍气吞声。
-                        </p>
-
-                        <p style="color: #ff4d4d; font-weight: bold;"> 在那个世界里，真相成了禁忌，发声成了罪证。<br>
-                            仅仅因为发表政治异见，或是转发一条实时新闻，我们面临的往往就是账号的封杀、功能的限制，是互联网上的“数字死刑”。<br>
-                            但我不愿就此沉默。
-                        </p>
-
-                        <p>
-                            我始终坚信：<b>能唤醒一个灵魂，就是一场胜利；能传播一份真相，就是刺破黑暗的一束光。</b><br>
-                            民主与自由从来不是从天而降的恩赐，而是每一个觉醒者用呐喊堆砌出的长城。<br>
-                            不要小看你的一份关注。当觉醒的人越来越多，罪恶的生存空间就会越来越小。
-                        </p>
-
-                        <p style="color: #ff4d4d; font-weight: bold;">
-                            围观就是力量，发声就是武器。<br>
-                            只要你愿意加入，愿意为不公义之事投去一道注视的目光，你就是在与我们并肩作战，你就是抵制这股强权洪流的中流砥柱。<br>
-                            因此，在这个流亡之地建立的网站，不仅是我个人的避风港，更是我们共同的阵地。<br>
-                            我将继续用微薄之力，守护六四的真相及历史记忆，支持台湾的独立和民主自由。<br>
-                            让我们一起，让烛光照亮前行之路，让这片土地不再只有黑暗。
-                        </p>
                         <span class="subheading">八九六四记忆 支持台湾独立</span>
                     </div>
                 </div>
@@ -138,14 +137,14 @@
     <div class="gtranslate_wrapper"></div>
     <script>
         window.gtranslateSettings = {
-            "default_language": "zh-CN", /* 这里改为 zh-CN，适配当前页面的简体中文内容 */
+            "default_language": "zh-CN",
             "detect_browser_language": true,
             "wrapper_selector": ".gtranslate_wrapper",
             "flag_style": "3d",
             "alt_flags": {"en": "usa"},
             "languages": ["zh-TW", "zh-CN", "en", "de", "ja"],
             "switcher_horizontal_position": "right",
-            "switcher_vertical_position": "top" /* 右上角 */
+            "switcher_vertical_position": "top"
         }
     </script>
     <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
