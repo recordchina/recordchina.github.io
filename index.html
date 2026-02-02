@@ -45,6 +45,8 @@
             }
             .main > .container-fluid,
             .main .row { height: 100%; }
+            
+            /* 左侧栏样式 */
             .left-column {
                 height: 100%;
                 overflow-y: auto;
@@ -54,6 +56,8 @@
                 justify-content: center;
             }
             .left-column::-webkit-scrollbar { display: none; }
+
+            /* 中间内容区域 */
             .content {
                 height: 100%;
                 overflow-y: auto;
@@ -62,8 +66,25 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 padding-bottom: 20px;
+                /* ★★★ 关键修改：增加左侧内边距，实现“内容往右偏移一些” ★★★ */
+                padding-left: 40px; 
+                padding-right: 40px;
             }
             .content::-webkit-scrollbar { display: none; }
+
+            /* ★★★ 新增：右侧栏样式 (用于放置因言获罪列表) ★★★ */
+            .right-column {
+                height: 100%;
+                overflow-y: auto;
+                scrollbar-width: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: center; /* 垂直居中，与左侧保持一致 */
+                border-left: 1px solid rgba(241, 232, 221, 0.1); /* 增加淡淡的分割线 */
+                padding-left: 20px;
+            }
+            .right-column::-webkit-scrollbar { display: none; }
+
             .site-info-wrapper {
                 margin-top: auto;
                 padding-top: 40px;
@@ -98,6 +119,11 @@
                 max-height: 300px;
                 margin-bottom: 10px;
             }
+            /* 移动端右侧栏样式调整 */
+            .right-column {
+                padding: 20px 12px;
+                border-top: 1px solid rgba(241, 232, 221, 0.2);
+            }
             .site-info-wrapper {
                 margin-top: 15px;
                 padding: 0 5px;
@@ -120,7 +146,18 @@
         }
         /* --- 组件样式 --- */
         .title h2 { font-size: 2em; font-weight: 900; margin: 0 0 10px 0; }
-        .intro p { font-size: 1.1em; line-height: 1.65em; margin-bottom: 10px; }
+        /* 增加 Intro 文本的样式，让激进文案更易读 */
+        .intro p { 
+            font-size: 1.1em; 
+            line-height: 1.8em; 
+            margin-bottom: 15px; 
+            text-align: justify;
+        }
+        .intro strong {
+            color: #facc29; /* 强调文字用黄色 */
+            font-weight: 900;
+        }
+        
         .cate ul { list-style: none; padding: 0; margin: 0; text-align: center; }
         .cate ul li a { color: #ff6b6b; text-decoration: none; padding: 5px 10px; display: block; font-size: 1.5em; font-weight: 500; }
         .cate ul li a:hover, .cate ul li a.active { color: #facc29; }
@@ -244,6 +281,7 @@
         .speech-crimes-section {
             margin: 20px 0 15px;
             padding: 12px 0;
+            /* 在右侧栏时取消上下边框，或者保留看效果 */
             border-top: 1px solid rgba(241, 232, 221, 0.25);
             border-bottom: 1px solid rgba(241, 232, 221, 0.25);
         }
@@ -256,7 +294,7 @@
             font-weight:900;
         }
         .speech-scroller-container {
-            height: 180px;
+            height: 400px; /* ★★★ 调整高度：因为移到了独立的右侧栏，可以展示更多内容，由180改大 ★★★ */
             overflow-y: auto;
             overflow-x: hidden;
             margin-top: 8px;
@@ -269,16 +307,16 @@
         .speech-scroller-container::-webkit-scrollbar-thumb { background: #facc29; border-radius: 4px; }
         .speech-scroller { list-style: none; padding: 0; margin: 0; }
         .speech-scroller li {
-            padding: 8px 10px;
-            line-height: 1.45;
-            font-size: 0.97em;
+            padding: 10px 0; /* 增加一点间距 */
+            line-height: 1.5;
+            font-size: 0.95em;
             border-bottom: 1px dashed rgba(255,107,107,0.3);
             color: #f1e8dd;
         }
-        .speech-scroller li strong { color: #ffeb99; }
-        .speech-scroller li span { font-weight: 600; color:#ff6b6b; }
+        .speech-scroller li strong { color: #ffeb99; display: block; margin-bottom: 2px; } /* 日期单独一行 */
+        .speech-scroller li span { font-weight: 600; color:#ff6b6b; margin-right: 5px; }
         @media (max-width: 768px) {
-            .speech-scroller-container { height: 160px; padding-right: 6px; }
+            .speech-scroller-container { height: 200px; padding-right: 6px; }
             .speech-scroller li { font-size: 0.95em; padding: 7px 8px; }
         }
     </style>
@@ -303,11 +341,11 @@
                     </div>
                     <div class="intro">
                         <div class="inner">
-                            <p>这是一个流动的纪念碑，碑身上交错刻下三条时间线：</p>
-                            <p>主线：详细讲述1989年4月至6月发生在中国的一场规模浩大的民主抗争运动。</p>
-                            <p>背景线：八九天安门运动以及改变国际政治格局的苏东剧变，真实记录了当代全球民主自由抗争史。</p>
-                            <p>生命线：被大历史裹挟的个体命运的挣扎，从未因时光流逝而消散。</p>
-                            <p>请点击以下年份浏览具体事件信息：<br>浏览大图时可用键盘左右箭头切换</p>
+                            <p>这是一座用血肉铸就的流动纪念碑，碑身上交错刻下三条带血的控诉：</p>
+                            <p><strong>血腥真相：</strong> 揭露1989年6月4日，中共政权动用正规野战军，悍然将机关枪口和坦克履带对准手无寸铁的爱国学生与市民，制造了惨绝人寰的<strong>“六四大屠杀”</strong>。哪怕坦克碾碎了骨头，也碾不碎自由的灵魂。</p>
+                            <p><strong>历史罪证：</strong> 记录从“八九民运”到苏东剧变的全球民主浪潮，见证中共如何逆历史潮流而动，至今仍无耻地将这场伟大的民主爱国运动污蔑为“反革命暴乱”，以此掩盖其反人类罪行。</p>
+                            <p><strong>正义审判：</strong> 个体的挣扎从未因暴政的恐吓而消散。我们不仅要纪念，更要强烈呼吁平反六四，要求将在这个血淋淋的犯罪中沾满鲜血的刽子手送上历史的审判台，对中共政权进行一场迟来的大审判。</p>
+                            <p><strong>铭记六四屠杀，捍卫台湾独立，这是向极权宣战的最后阵地。</strong></p>
                             <a href="/" class="btn underline"></a>
                         </div>
                     </div>
@@ -323,7 +361,7 @@
                             </ul>
                         </div>
                     </div>
-                     <div class="cate political-list-link">
+                      <div class="cate political-list-link">
                         <div class="inner">
                             <ul>
                                 <li><a href="political_list.html">免费翻墙软件 & 红色家族曝光</a></li>
@@ -337,15 +375,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="cate speech-crimes-section">
-                        <div class="inner">
-                            <h5>2025年 因言獲罪速報</h5>
-                            <div class="speech-scroller-container">
-                                <ul id="speech-list" class="speech-scroller"></ul>
-                            </div>
-                        </div>
-                    </div>                   
-                </div>
+                    </div>
+
                 <div class="col-12 col-md-6 content">
                     <div class="memory-text">
                         <p>光之记忆，历史永存 | Memory in Light, History Endures</p>
@@ -358,7 +389,7 @@
                         <p>转发历史，唤醒自由 | Share History, Awaken Freedom</p>
                         <p>记录记忆，守护自由 | Record Memory, Defend Freedom</p>
                     </div>
-               
+                
                     <section class="board" id="image-board">
                         <div class="row"></div>
                         <div class="pagination" id="pagination"></div>
@@ -404,7 +435,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 d-md-block d-none"></div>
+
+                <div class="col-md-3 right-column d-md-block d-none">
+                    <div class="cate speech-crimes-section">
+                        <div class="inner">
+                            <h5>2025年 因言獲罪速報</h5>
+                            <div class="speech-scroller-container">
+                                <ul id="speech-list" class="speech-scroller"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -568,7 +609,7 @@
             currentYear = Object.keys(images)[0];
             showImages(currentYear, 1);
         }
-        // ==================== 因言獲罪部分（僅渲染一次，不複製） ====================
+        // ==================== 因言獲罪部分 (ID匹配，自动生成列表) ====================
         const speechCases = [
             { date: "2025-01-06", name: "陈品霖", desc: "白纸运动纪录片导演，寻衅滋事判3年半" },
             { date: "2025-01", name: "余文生", desc: "人权律师，煽颠二审维持3年" },
@@ -596,13 +637,13 @@
                 li.innerHTML = `<strong>${item.date}</strong>　<span>${item.name}</span>　${item.desc}`;
                 speechList.appendChild(li);
             });
-            // 已移除複製邏輯（不再需要無縫循環）
         });
     </script>
+
     <div class="gtranslate_wrapper"></div>
     <script>
         window.gtranslateSettings = {
-            "default_language": "zh-TW",
+            "default_language": "zh-TW", 
             "detect_browser_language": true,
             "wrapper_selector": ".gtranslate_wrapper",
             "flag_style": "3d",
@@ -613,5 +654,6 @@
         }
     </script>
     <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
 </body>
 </html>
