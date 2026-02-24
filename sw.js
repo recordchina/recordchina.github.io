@@ -1,148 +1,222 @@
-/* ===========================================================
- * sw.js
- * ===========================================================
- * Copyright 
- * Licensed under Apache 2.0 
- * Register service worker.
- * ========================================================== */
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="六四遇害者名单，当代不应忘却的勇士，8964纪念">
+    <title>当代不应忘却的勇士 - 六四遇害者纪念</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .intro-header {
+            width: 100%;
+            padding: 20px 0 10px;
+        }
+        .container {
+            max-width: 1400px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .site-heading h1 {
+            font-size: 2.2em;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-align: center;
+        }
+        .text-column {
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 0px;
+        }
+        .text-column p {
+            margin-bottom: 15px;
+        }
+        .site-heading .subheading {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ff4d4d;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .footer-link {
+            position: fixed;
+            bottom: 5px;
+            left: 10px;
+            z-index: 1000;
+        }
+        .footer-link a {
+            color: #ffffff;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 0.9em;
+        }
+        .footer-link a:hover {
+            color: #facc29;
+        }
+        /* 表格专属深色风格 */
+        .table {
+            color: #ffffff;
+            background-color: #111111;
+            border: 1px solid #cc0000;
+        }
+        .table th {
+            background-color: #222222;
+            color: #ff4d4d;
+            font-weight: bold;
+            border-bottom: 2px solid #cc0000;
+        }
+        .table td {
+            border-top: 1px solid #333333;
+            vertical-align: middle;
+        }
+        .table tbody tr:nth-child(odd) {
+            background-color: #1a1a1a;
+        }
+        .table a {
+            color: #facc29;
+            text-decoration: underline;
+        }
+        .table a:hover {
+            color: #ffeb3b;
+        }
+        .intro-text {
+            background-color: #0d0d0d;
+            border-left: 4px solid #cc0000;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="site-heading">
+                        <h1>銘記8964: 当代不应忘却的勇士</h1>
+                        <span class="subheading">六四遇害者纪念（120-139号）</span>
 
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
-const HOSTNAME_WHITELIST = [
-  self.location.hostname,
-  "huangxuan.me",
-  "yanshuo.io",
-  "cdnjs.cloudflare.com"
-]
+                        <div style="border: 3px solid #cc0000; padding: 15px; margin: 20px 0; background-color: #1a1a1a; border-radius: 4px; color: #ffcccc;">
+                            <p style="margin:0; font-weight:bold; color:#ff4d4d;">
+                                ⚠️ 信息来源：X账号 @heken34704030 《当代不应忘却的勇士》系列
+                            </p>
+                            <p style="margin:8px 0 0;">
+                                仅收录1989年六四遇害者部分。数据以原帖为准，照片与详细故事请点击链接查看。致敬所有为自由献身的勇士，永不遗忘！
+                            </p>
+                        </div>
 
+                        <div class="intro-text">
+                            1989年6月3日晚至6月4日凌晨，北京街头血流成河。坦克、机枪、火焰喷射器……中共军队对和平请愿的学生与市民进行了惨无人道的屠杀。以下名单，是那些被子弹、坦克碾压、毒气夺去生命的普通人——他们中有学生、工人、研究员、工程师……他们本该拥有未来，却永远停在了那个夏天。
+                        </div>
 
-// The Util Function to hack URLs of intercepted requests
-const getFixedUrl = (req) => {
-  var now = Date.now();
-  url = new URL(req.url)
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>遇难年龄</th>
+                                        <th>籍贯</th>
+                                        <th>学校/职业</th>
+                                        <th>遇难时间</th>
+                                        <th>遇难地点</th>
+                                        <th>死因简述</th>
+                                        <th>原帖链接</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>120</td><td>张向红</td><td>女</td><td>20</td><td>北京</td><td>中国人民大学国际政治系87级学生</td><td>1989.6.3晚～6.4凌晨</td><td>前门大街附近</td><td>与家人冲散，躲树丛被流弹击中左胸主动脉死亡</td><td><a href="https://x.com/heken34704030/status/2019213502305694103" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>121</td><td>龚纪芳</td><td>女</td><td>19</td><td>内蒙古包头</td><td>北京商学院企业管理专业一年级</td><td>1989.6.4清晨</td><td>西长安街六部口</td><td>坦克追击+炸子+毒气，肺部糜烂死亡</td><td><a href="https://x.com/heken34704030/status/2019568528718983528" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>122</td><td>周德平</td><td>男</td><td>24</td><td>湖北天门多祥镇</td><td>清华大学无线电电子学系硕士研究生</td><td>1989.6.3晚</td><td>长安街一带</td><td>自行车遭扫射，子弹下巴贯穿头部死亡</td><td><a href="https://x.com/heken34704030/status/2019935459733041452" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>123</td><td>段昌隆</td><td>男</td><td>24</td><td>北京</td><td>清华大学化学工程系84级毕业生</td><td>1989.6.3晚～6.4凌晨</td><td>西长安街民族宫附近</td><td>军官手枪近距离击中心脏大动脉死亡</td><td><a href="https://x.com/heken34704030/status/2020295900934123807" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>124</td><td>严文</td><td>男</td><td>22</td><td>北京</td><td>北京大学数学系</td><td>1989.6.3晚</td><td>木樨地</td><td>中弹股动脉死亡，母亲谭汉凤（天安门母亲）</td><td><a href="https://x.com/heken34704030/status/202066..." target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>125</td><td>李浩成</td><td>男</td><td>20</td><td>天津武清</td><td>天津师范大学中文系87级学生</td><td>1989.6.4凌晨</td><td>天安门广场东南角</td><td>拍摄照片时连中两弹，肝部致命死亡</td><td><a href="https://x.com/heken34704030/status/2021059662892892665" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>126</td><td>陆春林</td><td>男</td><td>27</td><td>江苏吴江横扇镇</td><td>中国人民大学哲学系86级硕士研究生</td><td>1989.6.3夜</td><td>木樨地一带</td><td>被枪杀，临终托路人送证件回学校</td><td><a href="https://x.com/heken34704030/status/2021390905618596040" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>127</td><td>孙辉</td><td>男</td><td>19</td><td>宁夏石嘴山市</td><td>北京大学化学系88级学生</td><td>1989.6.4晨</td><td>复兴门立交桥附近</td><td>骑车找同学，子弹左腋窝穿心脏死亡</td><td><a href="https://x.com/heken34704030/status/2021752212784132521" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>128</td><td>邝敏</td><td>男</td><td>27</td><td>北京</td><td>北京工业大学毕业生，北京叉车总厂工程师</td><td>1989.6.3晚～6.4凌晨</td><td>木樨地桥西</td><td>中弹穿透肝部（疑膨胀弹），抢救无效死亡</td><td><a href="https://x.com/heken34704030/status/2022114098419499018" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>129</td><td>杜光学</td><td>男</td><td>24</td><td>北京</td><td>北京人民卫生出版社印刷厂工人</td><td>1989.6.3晚</td><td>新华门附近</td><td>太阳穴中弹，当场死亡</td><td><a href="https://x.com/heken34704030/status/2022478442781118737" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>130</td><td>罗维</td><td>男</td><td>30</td><td>北京</td><td>北京半导体材料厂助理工程师</td><td>1989.6.3晚～6.6</td><td>木樨地工会大厦前</td><td>中两枪（含达姆弹），伤肝肾胃，肾衰竭死亡</td><td><a href="https://x.com/heken34704030/status/2022842614912065892" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>133</td><td>郝致京</td><td>男</td><td>30</td><td>安徽马鞍山</td><td>中国科学技术大学近代物理系、中科院助理研究员</td><td>1989.6.3晚</td><td>木樨地附近</td><td>拍照时左胸中弹，抢救20分钟死亡</td><td><a href="https://x.com/heken34704030/status/2023927404021117101" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>134</td><td>袁力</td><td>男</td><td>29</td><td>北京</td><td>北方交通大学硕士、电子工业部自动化研究所工程师</td><td>1989.6.3晚</td><td>木樨地</td><td>咽部中弹穿后背，海军总医院死亡</td><td><a href="https://x.com/heken34704030/status/2024288283153617399" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>137</td><td>钟庆</td><td>男</td><td>21</td><td>广西陆川</td><td>清华大学精密仪器系86级本科生</td><td>1989.6.3夜</td><td>木樨地</td><td>头部中弹打掉半个脸，复兴医院死亡</td><td><a href="https://x.com/heken34704030/status/2025427432740978733" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>138</td><td>刘弘</td><td>男</td><td>24</td><td>-</td><td>清华大学环境工程系88级研究生</td><td>1989.6.4凌晨</td><td>前门附近</td><td>腹部中弹肠子流出，抢救无效死亡</td><td><a href="https://x.com/heken34704030/status/2025753067422154853" target="_blank">查看原帖</a></td>
+                                    </tr>
+                                    <!-- 如果有更多条目（如131、132、136、139），可在此继续添加 -->
+                                </tbody>
+                            </table>
+                        </div>
 
-  // 1. fixed http URL
-  // Just keep syncing with location.protocol 
-  // fetch(httpURL) belongs to active mixed content. 
-  // And fetch(httpRequest) is not supported yet.
-  url.protocol = self.location.protocol
+                        <span class="subheading">推翻中共暴政 铭记六四屠杀 永不遗忘</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  // 2. add query for caching-busting.
-  // Github Pages served with Cache-Control: max-age=600
-  // max-age on mutable content is error-prone, with SW life of bugs can even extend.
-  // Until cache mode of Fetch API landed, we have to workaround cache-busting with query string.
-  // Cache-Control-Bug: https://bugs.chromium.org/p/chromium/issues/detail?id=453190
-  url.search += (url.search ? '&' : '?') + 'cache-bust=' + now;
-  return url.href
-}
+    <div class="footer-link">
+        <a href="/index.html">返回主页</a>
+    </div>
 
-// The Util Function to detect and polyfill req.mode="navigate"
-// request.mode of 'navigate' is unfortunately not supported in Chrome
-// versions older than 49, so we need to include a less precise fallback,
-// which checks for a GET request with an Accept: text/html header.
-const isNavigationReq = (req) => (req.mode === 'navigate' || (req.method === 'GET' && req.headers.get('accept').includes('text/html')))
-
-// The Util Function to detect if a req is end with extension
-// Accordin to Fetch API spec <https://fetch.spec.whatwg.org/#concept-request-destination>
-// Any HTML's navigation has consistently mode="navigate" type="" and destination="document" 
-// including requesting an img (or any static resources) from URL Bar directly.
-// So It ends up with that regExp is still the king of URL routing ;)
-// P.S. An url.pathname has no '.' can not indicate it ends with extension (e.g. /api/version/1.2/)
-const endWithExtension = (req) => Boolean(new URL(req.url).pathname.match(/\.\w+$/))
-
-// Redirect in SW manually fixed github pages arbitray 404s on things?blah 
-// what we want:
-//    repo?blah -> !(gh 404) -> sw 302 -> repo/?blah 
-//    .ext?blah -> !(sw 302 -> .ext/?blah -> gh 404) -> .ext?blah 
-// If It's a navigation req and it's url.pathname isn't end with '/' or '.ext'
-// it should be a dir/repo request and need to be fixed (a.k.a be redirected)
-// Tracking https://twitter.com/Huxpro/status/798816417097224193
-const shouldRedirect = (req) => (isNavigationReq(req) && new URL(req.url).pathname.substr(-1) !== "/" && !endWithExtension(req))
-
-// The Util Function to get redirect URL
-// `${url}/` would mis-add "/" in the end of query, so we use URL object.
-// P.P.S. Always trust url.pathname instead of the whole url string.
-const getRedirectUrl = (req) => {
-  url = new URL(req.url)
-  url.pathname += "/"
-  return url.href
-}
-
-/**
- *  @Lifecycle Install
- *  Precache anything static to this version of your app.
- *  e.g. App Shell, 404, JS/CSS dependencies...
- *
- *  waitUntil() : installing ====> installed
- *  skipWaiting() : waiting(installed) ====> activating
- */
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(PRECACHE).then(cache => {
-      return cache.add('offline.html')
-      .then(self.skipWaiting())
-      .catch(err => console.log(err))
-    })
-  )
-});
-
-
-/**
- *  @Lifecycle Activate
- *  New one activated when old isnt being used.
- *
- *  waitUntil(): activating ====> activated
- */
-self.addEventListener('activate',  event => {
-  console.log('service worker activated.')
-  event.waitUntil(self.clients.claim());
-});
-
-
-/**
- *  @Functional Fetch
- *  All network requests are being intercepted here.
- * 
- *  void respondWith(Promise<Response> r);
- */
-self.addEventListener('fetch', event => {
-  // logs for debugging
-  console.log(`fetch ${event.request.url}`)
-  //console.log(` - type: ${event.request.type}; destination: ${event.request.destination}`)
-  //console.log(` - mode: ${event.request.mode}, accept: ${event.request.headers.get('accept')}`)
-
-  // Skip some of cross-origin requests, like those for Google Analytics.
-  if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
-    
-    // Redirect in SW manually fixed github pages 404s on repo?blah 
-    if(shouldRedirect(event.request)){
-      event.respondWith(Response.redirect(getRedirectUrl(event.request)))
-      return;
-    }
-
-    // Stale-while-revalidate 
-    // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
-    // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-    const cached = caches.match(event.request);
-    const fixedUrl = getFixedUrl(event.request);
-    const fetched = fetch(fixedUrl, {cache: "no-store"});
-    const fetchedCopy = fetched.then(resp => resp.clone());
-
-    // Call respondWith() with whatever we get first.
-    // If the fetch fails (e.g disconnected), wait for the cache.
-    // If there’s nothing in cache, wait for the fetch. 
-    // If neither yields a response, return offline pages.
-    event.respondWith(
-      Promise.race([fetched.catch(_ => cached), cached])
-        .then(resp => resp || fetched)
-        .catch(_ => caches.match('offline.html'))
-    );
-
-    // Update the cache with the version we fetched (only for ok status)
-    event.waitUntil(
-      Promise.all([fetchedCopy, caches.open(RUNTIME)])
-        .then(([response, cache]) => response.ok && cache.put(event.request, response))
-        .catch(_ => {/* eat any errors */})
-    );
-  }
-});
+    <div class="gtranslate_wrapper"></div>
+    <script>
+        window.gtranslateSettings = {
+            "default_language": "zh-CN",
+            "detect_browser_language": true,
+            "wrapper_selector": ".gtranslate_wrapper",
+            "flag_style": "3d",
+            "alt_flags": {"en": "usa"},
+            "languages": ["zh-TW", "zh-CN", "en", "de", "ja"],
+            "switcher_horizontal_position": "right",
+            "switcher_vertical_position": "top"
+        }
+    </script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+</body>
+</html>
