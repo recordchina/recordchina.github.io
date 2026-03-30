@@ -1,1 +1,1 @@
-vercount-domain-verify= 8964docs.org , pr60hwqjozr75td1xsq4lm0i
+vercount-domain-verify=8964docs.org,pr60hwqjozr75td1xsq4lm0i
